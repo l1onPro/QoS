@@ -23,6 +23,10 @@ namespace QoS
         public MainWindow()
         {
             InitializeComponent();
+
+
+
+            //asdfsdf 
         }
     }
 }
