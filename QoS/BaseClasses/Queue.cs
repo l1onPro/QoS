@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using System.Threading;
 
 namespace QoS.BaseClasses
 {
@@ -11,6 +11,7 @@ namespace QoS.BaseClasses
     {
         private int maxn;
         private Queue<Packet> packets;
+        private static Mutex mtx = new Mutex();
 
         public Queue(int maxn)
         {
@@ -19,20 +20,27 @@ namespace QoS.BaseClasses
 
         public bool addPacket(Packet p)
         {
+            mtx.WaitOne();
+            bool f;
             if (packets.Count < maxn)
             {
                 packets.Enqueue(p);
-                return true;
+                f = true;
             }
             else
             {
-                return false;
+                f = false;
             }
+            mtx.ReleaseMutex();
+            return f;
         }
 
         public Packet getPacket()
         {
-            return packets.Dequeue();
+            mtx.WaitOne();
+            Packet p = packets.Dequeue();
+            mtx.ReleaseMutex();
+            return p;
             
         }
 
