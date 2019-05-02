@@ -48,5 +48,13 @@ namespace QoS.BaseClasses
         {
             return packets.Count;
         }
+
+        public void WritePackets()
+        {
+            foreach(Packet p in packets)
+            {
+                Console.WriteLine(p.ToString());
+            }
+        }
     }
 }

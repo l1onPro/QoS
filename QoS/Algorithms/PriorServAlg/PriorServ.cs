@@ -74,5 +74,14 @@ namespace QoS.Algorithms
             }
             return priorityQueues[i].GetPacket();
         }
+
+        public void PrintQueues()
+        {
+            foreach (BaseClasses.Queue q in priorityQueues)
+            {
+                q.WritePackets();
+            }
+            Console.WriteLine()
+        }
     }
 }

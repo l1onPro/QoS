@@ -39,5 +39,10 @@ namespace QoS.Algorithms
         {
             return queue.GetPacket();
         }
+
+        public void PrintQueues()
+        {
+            queue.WritePackets();
+        }
     }
 }
