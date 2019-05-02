@@ -18,7 +18,7 @@ namespace QoS.Algorithms
 
         public bool AddPacket(QoS.BaseClasses.Packet p)
         {
-            return queue.addPacket(p);
+            return queue.AddPacket(p);
         }
 
         public void ProcessingPacket()
@@ -32,12 +32,12 @@ namespace QoS.Algorithms
 
         public bool IsEmpty()
         {
-            return (queue.getCount() < 1);
+            return (queue.GetCount() < 1);
         }
 
         public BaseClasses.Packet GetPacket()
         {
-            return queue.getPacket();
+            return queue.GetPacket();
         }
     }
 }

@@ -18,7 +18,7 @@ namespace QoS.BaseClasses
             this.maxn = maxn;
         }
 
-        public bool addPacket(Packet p)
+        public bool AddPacket(Packet p)
         {
             mtx.WaitOne();
             bool f;
@@ -35,7 +35,7 @@ namespace QoS.BaseClasses
             return f;
         }
 
-        public Packet getPacket()
+        public Packet GetPacket()
         {
             mtx.WaitOne();
             Packet p = packets.Dequeue();
@@ -44,7 +44,7 @@ namespace QoS.BaseClasses
             
         }
 
-        public int getCount()
+        public int GetCount()
         {
             return packets.Count;
         }

@@ -26,13 +26,13 @@ namespace QoS.Algorithms
             switch(p.pryority)
             {
                 case BaseClasses.Priority.Low:
-                    return priorityQueues[3].addPacket(p);
+                    return priorityQueues[3].AddPacket(p);
                 case BaseClasses.Priority.Medium:
-                    return priorityQueues[2].addPacket(p);
+                    return priorityQueues[2].AddPacket(p);
                 case BaseClasses.Priority.High:
-                    return priorityQueues[1].addPacket(p);
+                    return priorityQueues[1].AddPacket(p);
                 case BaseClasses.Priority.Suprime:
-                    return priorityQueues[0].addPacket(p);
+                    return priorityQueues[0].AddPacket(p);
                 default:
                     return false;
             }
@@ -53,7 +53,7 @@ namespace QoS.Algorithms
             int count = 0;
             foreach (BaseClasses.Queue queue in priorityQueues)
             {
-                count += queue.getCount();
+                count += queue.GetCount();
             }
             return count < 1;
         }
@@ -63,16 +63,16 @@ namespace QoS.Algorithms
             int i = 0;
             while (i < 3)
             {
-                if (priorityQueues[i].getCount() > 0)
+                if (priorityQueues[i].GetCount() > 0)
                 {
-                    return priorityQueues[i].getPacket();
+                    return priorityQueues[i].GetPacket();
                 }
                 else
                 {
                     ++i;
                 }
             }
-            return priorityQueues[i].getPacket();
+            return priorityQueues[i].GetPacket();
         }
     }
 }
