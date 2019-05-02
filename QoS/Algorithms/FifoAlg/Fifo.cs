@@ -4,15 +4,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace QoS.Algoritms.FifoAlg
+namespace QoS.Algorithms
 {
     class Fifo : IAlgorithm
     {
         private BaseClasses.Queue queue;
-
+        const int max = 40;
+        
         public Fifo()
         {
-            queue = new BaseClasses.Queue(100);
+            queue = new BaseClasses.Queue(max);
         }
 
         public bool AddPacket(QoS.BaseClasses.Packet p)
@@ -22,12 +23,17 @@ namespace QoS.Algoritms.FifoAlg
 
         public void ProcessingPacket()
         {
-            if (queue.getCount() > 0)
+            if (!IsEmpty())
             {
                 QoS.BaseClasses.Packet p = GetPacket();
 
             }
         }    
+
+        public bool IsEmpty()
+        {
+            return (queue.getCount() < 1);
+        }
 
         public BaseClasses.Packet GetPacket()
         {
