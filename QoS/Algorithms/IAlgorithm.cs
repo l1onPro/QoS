@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace QoS.FifoAlg
+namespace QoS.Algoritms
 {
-    interface Fifo
+    interface IAlgorithm
     {
 
     }
