@@ -4,10 +4,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace QoS.Algoritms
+namespace QoS.Algorithms
 {
     interface IAlgorithm
     {
+        bool AddPacket(BaseClasses.Packet p);
 
+        void ProcessingPacket();
+
+        BaseClasses.Packet GetPacket();
+
+        bool IsEmpty();
+
+        void PrintQueues();
     }
 }

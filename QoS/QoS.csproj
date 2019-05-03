@@ -55,6 +55,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Algorithms\PriorServAlg\PriorServ.cs" />
+    <Compile Include="Algorithms\Tests\AlgorithmsTest.cs" />
     <Compile Include="BaseClasses\Packet.cs" />
     <Compile Include="Algorithms\IAlgorithm.cs" />
     <Compile Include="BaseClasses\Queue.cs" />
