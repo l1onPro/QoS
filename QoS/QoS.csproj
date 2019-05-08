@@ -57,6 +57,9 @@
     </ApplicationDefinition>
     <Compile Include="Algorithms\PriorServAlg\PriorServ.cs" />
     <Compile Include="Algorithms\Tests\AlgorithmsTest.cs" />
+    <Compile Include="AppPackage\GenPackage.cs" />
+    <Compile Include="AppPackage\Priority.cs" />
+    <Compile Include="AppPackage\TypePakage.cs" />
     <Compile Include="BaseClasses\Packet.cs" />
     <Compile Include="Algorithms\IAlgorithm.cs" />
     <Compile Include="BaseClasses\Queue.cs" />
@@ -75,6 +78,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AppPackage\Package.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

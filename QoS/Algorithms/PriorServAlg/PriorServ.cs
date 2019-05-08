@@ -81,7 +81,7 @@ namespace QoS.Algorithms
             {
                 q.WritePackets();
             }
-            Console.WriteLine()
+            Console.WriteLine();
         }
     }
 }
