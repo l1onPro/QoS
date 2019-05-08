@@ -55,7 +55,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Algorithms\PriorServAlg\PriorServ.cs" />
+    <Compile Include="Algorithms\PriorServ.cs" />
     <Compile Include="Algorithms\Tests\AlgorithmsTest.cs" />
     <Compile Include="AppPackage\GenPackage.cs" />
     <Compile Include="AppPackage\GenTypePackage.cs" />
@@ -64,6 +64,7 @@
     <Compile Include="BaseClasses\Packet.cs" />
     <Compile Include="Algorithms\IAlgorithm.cs" />
     <Compile Include="BaseClasses\Queue.cs" />
+    <Compile Include="RouterApp\Router.cs" />
     <Compile Include="Test.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -73,7 +74,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Algorithms\FifoAlg\Fifo.cs" />
+    <Compile Include="Algorithms\Fifo.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
