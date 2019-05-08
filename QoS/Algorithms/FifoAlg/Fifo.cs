@@ -15,7 +15,7 @@ namespace QoS.Algorithms
         {
             queue = new BaseClasses.Queue(max);
         }
-
+        
         public bool AddPacket(QoS.BaseClasses.Packet p)
         {
             return queue.AddPacket(p);

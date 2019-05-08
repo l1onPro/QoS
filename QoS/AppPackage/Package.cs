@@ -11,8 +11,8 @@ namespace QoS.AppPackage
         int id;
         static int nextID = 1;
 
-        Priority PriorityPackage { get; set; }
-        
+        Priority PriorityPackage { get; set; }       
+
         int minSize;
         int MinSize
         {
@@ -39,5 +39,10 @@ namespace QoS.AppPackage
         }
 
         private static int NexID() { return nextID++; }
+
+        public override string ToString()
+        {
+            return "Package id: " + id + "\rminSize: " + minSize + "\rmaxSize: " + maxSize + "\rlength: " + Length + "\n\n";   
+        }
     }
 }

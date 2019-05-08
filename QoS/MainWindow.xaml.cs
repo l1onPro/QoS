@@ -20,13 +20,19 @@ namespace QoS
     /// </summary>
     public partial class MainWindow : Window
     {
+        Test test = new Test();
+
         public MainWindow()
         {
             InitializeComponent();
 
+            Testtxt.VerticalScrollBarVisibility = ScrollBarVisibility.Auto;
+        }
+              
 
-
-            //asdfsdf 
+        private void Testtxt_MouseMove(object sender, MouseEventArgs e)
+        {
+            Testtxt.Text = test.getResult();
         }
     }
 }

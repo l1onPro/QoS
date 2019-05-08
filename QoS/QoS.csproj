@@ -58,11 +58,13 @@
     <Compile Include="Algorithms\PriorServAlg\PriorServ.cs" />
     <Compile Include="Algorithms\Tests\AlgorithmsTest.cs" />
     <Compile Include="AppPackage\GenPackage.cs" />
+    <Compile Include="AppPackage\GenTypePackage.cs" />
     <Compile Include="AppPackage\Priority.cs" />
     <Compile Include="AppPackage\TypePakage.cs" />
     <Compile Include="BaseClasses\Packet.cs" />
     <Compile Include="Algorithms\IAlgorithm.cs" />
     <Compile Include="BaseClasses\Queue.cs" />
+    <Compile Include="Test.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

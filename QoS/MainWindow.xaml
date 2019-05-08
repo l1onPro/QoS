@@ -7,6 +7,7 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        
+        <TextBox x:Name="Testtxt" HorizontalAlignment="Left" Height="266" Margin="116,29,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="495" MouseMove="Testtxt_MouseMove" Text="Обновяется результат при движении мышки"/>
+
     </Grid>
 </Window>
