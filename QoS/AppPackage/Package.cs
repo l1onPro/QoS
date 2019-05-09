@@ -14,21 +14,20 @@ namespace QoS.AppPackage
         public Priority priorityPackage { get; set; }
         
         int minSize;
-        int MinSize
+        public int MinSize
         {
             get { return minSize; }
             set { if (value >= 0) minSize = value; else throw new ArgumentException(); }
         }
 
-        int maxSize;
+        public int maxSize;
         int MaxSize
         {
             get { return maxSize; }
             set { if (value >= 0) maxSize = value; else throw new ArgumentException(); }
         }
 
-        public int Length { get; } 
-        
+        public int Length { get; }         
 
         public Package(Priority priority, int min, int max, int length)
         {
