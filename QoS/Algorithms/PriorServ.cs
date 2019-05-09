@@ -9,40 +9,41 @@ namespace QoS.Algorithms
     class PriorServ : IAlgorithm
     {
         const int max = 40;
-        BaseClasses.Queue[] priorityQueues;
+        Queues.Queuering[] priorityQueues;
         const int count = 4; 
 
         public PriorServ()
         {
-            priorityQueues = new BaseClasses.Queue[count];
+            priorityQueues = new Queues.Queuering[count];
             for (int i = 0; i < count; ++i)
             {
-                priorityQueues[i] = new BaseClasses.Queue(max / 4);
+                priorityQueues[i] = new Queues.Queuering(max / 4);
             }
         }
 
-        public bool AddPacket(BaseClasses.Packet p)
+        public bool AddPacket(AppPackage.Package p)
         {
-            switch(p.pryority)
+            switch(p.priorityPackage)
             {
-                case BaseClasses.Priority.Low:
-                    return priorityQueues[3].AddPacket(p);
-                case BaseClasses.Priority.Medium:
-                    return priorityQueues[2].AddPacket(p);
-                case BaseClasses.Priority.High:
-                    return priorityQueues[1].AddPacket(p);
-                case BaseClasses.Priority.Suprime:
-                    return priorityQueues[0].AddPacket(p);
+                case AppPackage.Priority.Low:
+                    return priorityQueues[3].AddPackege(p);
+                case AppPackage.Priority.Medium:
+                    return priorityQueues[2].AddPackege(p);
+                case AppPackage.Priority.High:
+                    return priorityQueues[1].AddPackege(p);
+                case AppPackage.Priority.Suprime:
+                    return priorityQueues[0].AddPackege(p);
                 default:
                     return false;
             }
+            
         }
 
-        public void ProcessingPacket()
+        public void ProcessingPackege()
         {
             if (!IsEmpty())
             {
-                BaseClasses.Packet p = GetPacket();
+                AppPackage.Package p = GetPackege();
                 
             }
 
@@ -51,35 +52,35 @@ namespace QoS.Algorithms
         public bool IsEmpty()
         {
             int count = 0;
-            foreach (BaseClasses.Queue queue in priorityQueues)
+            foreach (Queues.Queuering queue in priorityQueues)
             {
                 count += queue.GetCount();
             }
             return count < 1;
         }
 
-        public BaseClasses.Packet GetPacket()
+        public AppPackage.Package GetPackege()
         {
             int i = 0;
             while (i < 3)
             {
                 if (priorityQueues[i].GetCount() > 0)
                 {
-                    return priorityQueues[i].GetPacket();
+                    return priorityQueues[i].GetPackege();
                 }
                 else
                 {
                     ++i;
                 }
             }
-            return priorityQueues[i].GetPacket();
+            return priorityQueues[i].GetPackege();
         }
 
         public void PrintQueues()
         {
-            foreach (BaseClasses.Queue q in priorityQueues)
+            foreach (Queues.Queuering q in priorityQueues)
             {
-                q.WritePackets();
+                q.WritePackeges();
             }
             Console.WriteLine();
         }

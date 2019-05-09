@@ -5,20 +5,20 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
 
-namespace QoS.BaseClasses
+namespace QoS.Queues
 {
-    class Queue
+    class Queuering
     {
         private int maxn;
-        private Queue<Packet> packets;
+        private Queue<AppPackage.Package> packets;
         private static Mutex mtx = new Mutex();
 
-        public Queue(int maxn)
+        public Queuering(int maxn)
         {
             this.maxn = maxn;
         }
 
-        public bool AddPacket(Packet p)
+        public bool AddPackege(AppPackage.Package p)
         {
             mtx.WaitOne();
             bool f;
@@ -35,13 +35,21 @@ namespace QoS.BaseClasses
             return f;
         }
 
-        public Packet GetPacket()
+        public AppPackage.Package GetPackege()
         {
             mtx.WaitOne();
-            Packet p = packets.Dequeue();
+            AppPackage.Package p = packets.Dequeue();
             mtx.ReleaseMutex();
             return p;
             
+        }
+
+        public AppPackage.Package FirstPackage()
+        {
+            mtx.WaitOne();
+            AppPackage.Package p = packets.Peek();
+            mtx.ReleaseMutex();
+            return p; 
         }
 
         public int GetCount()
@@ -49,9 +57,9 @@ namespace QoS.BaseClasses
             return packets.Count;
         }
 
-        public void WritePackets()
+        public void WritePackeges()
         {
-            foreach(Packet p in packets)
+            foreach(AppPackage.Package p in packets)
             {
                 Console.WriteLine(p.ToString());
             }
