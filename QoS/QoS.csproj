@@ -61,9 +61,8 @@
     <Compile Include="AppPackage\GenTypePackage.cs" />
     <Compile Include="AppPackage\Priority.cs" />
     <Compile Include="AppPackage\TypePakage.cs" />
-    <Compile Include="BaseClasses\Packet.cs" />
     <Compile Include="Algorithms\IAlgorithm.cs" />
-    <Compile Include="BaseClasses\Queue.cs" />
+    <Compile Include="Queues\Queuering.cs" />
     <Compile Include="RouterApp\Router.cs" />
     <Compile Include="Test.cs" />
     <Page Include="MainWindow.xaml">

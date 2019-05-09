@@ -8,24 +8,24 @@ namespace QoS.Algorithms
 {
     class Fifo : IAlgorithm
     {
-        private BaseClasses.Queue queue;
+        private Queues.Queuering queue;
         const int max = 40;
         
         public Fifo()
         {
-            queue = new BaseClasses.Queue(max);
+            queue = new Queues.Queuering(max);
         }
         
-        public bool AddPacket(QoS.BaseClasses.Packet p)
+        public bool AddPacket(QoS.AppPackage.Package p)
         {
-            return queue.AddPacket(p);
+            return queue.AddPackege(p);
         }
 
-        public void ProcessingPacket()
+        public void ProcessingPackege()
         {
             if (!IsEmpty())
             {
-                QoS.BaseClasses.Packet p = GetPacket();
+                QoS.AppPackage.Package p = GetPackege();
 
             }
         }    
@@ -35,14 +35,14 @@ namespace QoS.Algorithms
             return (queue.GetCount() < 1);
         }
 
-        public BaseClasses.Packet GetPacket()
+        public AppPackage.Package GetPackege()
         {
-            return queue.GetPacket();
+            return queue.GetPackege();
         }
 
         public void PrintQueues()
         {
-            queue.WritePackets();
+            queue.WritePackeges();
         }
     }
 }

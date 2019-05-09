@@ -8,11 +8,11 @@ namespace QoS.Algorithms
 {
     interface IAlgorithm
     {
-        bool AddPacket(BaseClasses.Packet p);
+        bool AddPacket(AppPackage.Package p);
 
-        void ProcessingPacket();
+        void ProcessingPackege();
 
-        BaseClasses.Packet GetPacket();
+        AppPackage.Package GetPackege();
 
         bool IsEmpty();
 

@@ -11,8 +11,8 @@ namespace QoS.AppPackage
         int id;
         static int nextID = 1;
 
-        Priority PriorityPackage { get; set; }       
-
+        public Priority priorityPackage { get; set; }
+        
         int minSize;
         int MinSize
         {
@@ -27,7 +27,7 @@ namespace QoS.AppPackage
             set { if (value >= 0) maxSize = value; else throw new ArgumentException(); }
         }
 
-        int Length { get; } 
+        public int Length { get; } 
         
 
         public Package(Priority priority, int min, int max, int length)
