@@ -6,29 +6,31 @@ using System.Threading.Tasks;
 
 namespace QoS.Algorithms
 {
-    class PriorServ : IAlgorithm
+    class PBDWRR : IAlgorithm
     {
         const int max = 40;
-        Queues.Queuering[] priorityQueues;
+        FIFO[] pQueues;
+        DWRR[] dwQueues;
         const int count = 4; 
 
-        public PriorServ()
+        public PBDWRR()
         {
-            priorityQueues = new Queues.Queuering[count];
+            pQueues = new FIFO[2];
             for (int i = 0; i < count; ++i)
             {
-                priorityQueues[i] = new Queues.Queuering(max / 4);
+                pQueues[i] = new FIFO();
             }
+            dwQueues = new DWRR[3];
         }
 
-        public bool AddPacket(AppPackage.Package p)
+        public bool AddPackege(AppPackage.Package p)
         {
             switch(p.priorityPackage)
             {
-                case AppPackage.Priority.Low:
-                    return priorityQueues[3].AddPackege(p);
+                case AppPackage.Priority.
+                    return pQueues[0].AddPackege(p);
                 case AppPackage.Priority.Medium:
-                    return priorityQueues[2].AddPackege(p);
+                    return pQueues[1].AddPackege(p);
                 case AppPackage.Priority.High:
                     return priorityQueues[1].AddPackege(p);
                 case AppPackage.Priority.Suprime:

@@ -6,17 +6,17 @@ using System.Threading.Tasks;
 
 namespace QoS.Algorithms
 {
-    class Fifo : IAlgorithm
+    class FIFO : IAlgorithm
     {
         private Queues.Queuering queue;
         const int max = 40;
         
-        public Fifo()
+        public FIFO()
         {
             queue = new Queues.Queuering(max);
         }
         
-        public bool AddPacket(QoS.AppPackage.Package p)
+        public bool AddPackege(QoS.AppPackage.Package p)
         {
             return queue.AddPackege(p);
         }
