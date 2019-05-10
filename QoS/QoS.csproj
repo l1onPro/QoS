@@ -55,7 +55,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Algorithms\PriorServ.cs" />
+    <Compile Include="Algorithms\DWRR.cs" />
+    <Compile Include="Algorithms\PBDWRR.cs" />
     <Compile Include="Algorithms\Tests\AlgorithmsTest.cs" />
     <Compile Include="AppPackage\DSCPName.cs" />
     <Compile Include="AppPackage\GenPackage.cs" />
