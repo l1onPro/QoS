@@ -10,9 +10,11 @@ namespace QoS.AppPackage
     {
         int id;
         static int nextID = 1;
-        public AllMarker Marker { get; set; }        
-        public Priority priorityPackage { get; set; }
+        public DSCPName Name{ get; set; }
         public ModelPackage model { get; set; }
+
+        public Priority priorityPackage { get; set; }
+       
 
         int length;
         public int Length

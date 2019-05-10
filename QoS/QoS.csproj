@@ -57,9 +57,10 @@
     </ApplicationDefinition>
     <Compile Include="Algorithms\PriorServ.cs" />
     <Compile Include="Algorithms\Tests\AlgorithmsTest.cs" />
-    <Compile Include="AppPackage\AllMarker.cs" />
+    <Compile Include="AppPackage\DSCPName.cs" />
     <Compile Include="AppPackage\GenPackage.cs" />
     <Compile Include="AppPackage\GenTypePackage.cs" />
+    <Compile Include="AppPackage\GradColor.cs" />
     <Compile Include="AppPackage\ModelPackage.cs" />
     <Compile Include="AppPackage\Priority.cs" />
     <Compile Include="AppPackage\TypePakage.cs" />

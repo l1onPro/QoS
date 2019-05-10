@@ -8,8 +8,19 @@ namespace QoS.AppPackage
 {
     enum ModelPackage
     {
-        Best_Effort,    //никакой гарантии качества. Все равны.
-        IntServ,        //гарантия качества для каждого потока. Резервирование ресурсов от источника до получателя.
-        DiffServ        //нет никакого резервирования. Каждый узел сам определяет, как обеспечить нужное качество.
+        /// <summary>
+        /// Default Forwarding
+        /// </summary>
+        DF,
+
+        /// <summary>
+        /// Assured Forwarding
+        /// </summary>
+        AF,
+
+        /// <summary>
+        /// Expedited Forwarding
+        /// </summary>
+        EF           
     }
 }

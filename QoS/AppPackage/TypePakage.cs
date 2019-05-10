@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace QoS.AppPackage
 {
     /// <summary>
-    /// Тип рандомного типа у пакета
+    /// Тип рандомного пакета
     /// </summary>
     enum TypePakage
     {
