@@ -8,8 +8,8 @@ namespace QoS.AppPackage
 {
     enum GradColor
     {
-        Yellow,
         red,
+        yellow,
         green
     }
 }
