@@ -10,30 +10,24 @@ namespace QoS.AppPackage
     {
         int id;
         static int nextID = 1;
-
-        public AllMarker Marker { get; set; }
-        
+        public AllMarker Marker { get; set; }        
         public Priority priorityPackage { get; set; }
         public ModelPackage model { get; set; }
 
-        int size;
-        public int Size
+        int length;
+        public int Length
         {
-            get { return size; }
-            set { if (value >= 0) size = value; else throw new ArgumentException(); }
-        }
-        
-        public int Length { get; }         
-
+            get { return length; }
+            set { if (value >= 0) length = value; else throw new ArgumentException(); }
+        }        
+       
         /// <summary>
         /// Создание пакета
         /// </summary>
-        /// <param name="size">Размер в битах</param>
-        /// <param name="length">длина</param>
-        public Package(int size, int length)
+        /// <param name="length">Килло байт</param>
+        public Package(int length)
         {
-            this.id = NexID();
-            Size = size;
+            this.id = NexID();            
             Length = length;
         }
 
@@ -41,7 +35,7 @@ namespace QoS.AppPackage
 
         public override string ToString()
         {
-            return "Package id: " + id + "\rSize: " + Size + "\rlength: " + Length + "\n";   
+            return "id: " + id + " length: " + Length + "к/б\n";   
         }
     }
 }

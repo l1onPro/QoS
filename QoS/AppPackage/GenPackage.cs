@@ -25,7 +25,8 @@ namespace QoS.AppPackage
         {
             allPackages = new List<Package>();
             random = new Random();
-            genType = new GenTypePackage();            
+            genType = new GenTypePackage();
+            StartTimer();
         }     
         
         /// <summary>
@@ -76,11 +77,11 @@ namespace QoS.AppPackage
         }
 
         private void genNew(ModelPackage model)
-        {
-            Package newPackage = new Package(500, 40);
+        {            
+            Package newPackage = new Package(random.Next(5, 100));
             newPackage.model = model;
             allPackages.Add(newPackage);
-            result += "Add new Package: " + newPackage.ToString();
+            result += "New package: " + newPackage.ToString();
         }
 
         private void Move(object sender, EventArgs e)
