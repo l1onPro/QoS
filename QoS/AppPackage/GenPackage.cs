@@ -7,9 +7,15 @@ using System.Windows.Threading;
 
 namespace QoS.AppPackage
 {
+    /// <summary>
+    /// генерератор пакетов
+    /// </summary>
     class GenPackage
-    {
-        List<Package> allPackages;
+    {        
+        /// <summary>
+        /// получение всех сгенерированных пакетов
+        /// </summary>
+        List<Package> allPackages { get; set; }
         GenTypePackage genType;
         DispatcherTimer timerGen;
         Random random;
@@ -19,11 +25,13 @@ namespace QoS.AppPackage
         {
             allPackages = new List<Package>();
             random = new Random();
-            genType = new GenTypePackage();
-            StartTimer();
-        }
+            genType = new GenTypePackage();            
+        }     
         
-        private void StartTimer()
+        /// <summary>
+        /// Запуск генератора
+        /// </summary>
+        public void StartTimer()
         {
             timerGen = new DispatcherTimer();
             timerGen.Interval = new TimeSpan(0,0,0,0,20);
@@ -31,7 +39,10 @@ namespace QoS.AppPackage
             timerGen.Start();
         }
 
-        private void StopTimer()
+        /// <summary>
+        /// остановка генератора
+        /// </summary>
+        public void StopTimer()
         {
             timerGen.Stop();
         }
@@ -42,26 +53,32 @@ namespace QoS.AppPackage
             return random.NextDouble() <= 0.5;
         }
 
-        private Priority SetPriorityPackage(TypePakage type)
+        /// <summary>
+        /// разделение пакетов на модели
+        /// </summary>
+        /// <param name="type">Тип пакета</param>
+        /// <returns></returns>
+        private ModelPackage SetModelPackage(TypePakage type)
         {
             switch (type)
             {
                 case TypePakage.Voice:
-                    return Priority.Suprime;                    
+                    return ModelPackage.DiffServ;                 
                 case TypePakage.Critically_important:
-                    return Priority.High;
+                    return ModelPackage.IntServ;
                 case TypePakage.Transactions:
-                    return Priority.Medium;
+                    return ModelPackage.IntServ;
                 case TypePakage.Non_guaranteed_Delivery:
-                    return Priority.Low;
+                    return ModelPackage.Best_Effort;
                 default:
                     throw new Exception();
             }
         }
 
-        private void genNew(Priority priority)
+        private void genNew(ModelPackage model)
         {
-            Package newPackage = new Package(priority, 500, 1500, 40);
+            Package newPackage = new Package(500, 1500, 40);
+            newPackage.model = model;
             allPackages.Add(newPackage);
             result += "Add new Package: " + newPackage.ToString();
         }
@@ -71,7 +88,7 @@ namespace QoS.AppPackage
             if (GenerationNext())
             {
                 TypePakage newType = genType.NextType();
-                Priority priority = SetPriorityPackage(newType);
+                ModelPackage priority = SetModelPackage(newType);
                 genNew(priority);
             }
         }

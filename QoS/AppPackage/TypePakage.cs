@@ -6,11 +6,29 @@ using System.Threading.Tasks;
 
 namespace QoS.AppPackage
 {
+    /// <summary>
+    /// Тип рандомного типа у пакета
+    /// </summary>
     enum TypePakage
     {
+        /// <summary>
+        /// голос
+        /// </summary>
         Voice,
-        Critically_important,
+
+        /// <summary>
+        /// критически важный 
+        /// </summary>
+        Critically_important,   
+        
+        /// <summary>
+        /// Транзакции
+        /// </summary>
         Transactions,
+
+        /// <summary>
+        /// Не гарантированная доставка
+        /// </summary>
         Non_guaranteed_Delivery
     }
 }

@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace QoS.AppPackage
 {
+    /// <summary>
+    /// Генератор рандомного пакета
+    /// </summary>
     class GenTypePackage
     {
         Random random;       

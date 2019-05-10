@@ -12,28 +12,26 @@ namespace QoS.AppPackage
         static int nextID = 1;
 
         public Priority priorityPackage { get; set; }
+        public ModelPackage model { get; set; }
+
+        int size;
+        public int Size
+        {
+            get { return size; }
+            set { if (value >= 0) size = value; else throw new ArgumentException(); }
+        }
         
-        int minSize;
-        public int MinSize
-        {
-            get { return minSize; }
-            set { if (value >= 0) minSize = value; else throw new ArgumentException(); }
-        }
-
-        public int maxSize;
-        int MaxSize
-        {
-            get { return maxSize; }
-            set { if (value >= 0) maxSize = value; else throw new ArgumentException(); }
-        }
-
         public int Length { get; }         
 
-        public Package(Priority priority, int min, int max, int length)
+        /// <summary>
+        /// Создание пакета
+        /// </summary>
+        /// <param name="size">Размер в битах</param>
+        /// <param name="length">длина</param>
+        public Package(int size, int length)
         {
             this.id = NexID();
-            MinSize = min;
-            MaxSize = max;
+            Size = size;
             Length = length;
         }
 
@@ -41,7 +39,7 @@ namespace QoS.AppPackage
 
         public override string ToString()
         {
-            return "Package id: " + id + "\rminSize: " + minSize + "\rmaxSize: " + maxSize + "\rlength: " + Length + "\n\n";   
+            return "Package id: " + id + "\rSize: " + Size + "\rlength: " + Length + "\n";   
         }
     }
 }

@@ -59,9 +59,11 @@
     <Compile Include="Algorithms\Tests\AlgorithmsTest.cs" />
     <Compile Include="AppPackage\GenPackage.cs" />
     <Compile Include="AppPackage\GenTypePackage.cs" />
+    <Compile Include="AppPackage\ModelPackage.cs" />
     <Compile Include="AppPackage\Priority.cs" />
     <Compile Include="AppPackage\TypePakage.cs" />
     <Compile Include="Algorithms\IAlgorithm.cs" />
+    <Compile Include="Class of Service\Classification.cs" />
     <Compile Include="Queues\Queuering.cs" />
     <Compile Include="RouterApp\Router.cs" />
     <Compile Include="Test.cs" />
