@@ -11,11 +11,12 @@ namespace QoS.Queues
     {
         private int maxn;
         private Queue<AppPackage.Package> packets;
-        private static Mutex mtx = new Mutex();
+        private Mutex mtx = new Mutex();
 
         public Queuering(int maxn)
         {
             this.maxn = maxn;
+            packets = new Queue<AppPackage.Package>();
         }
 
         public bool AddPackege(AppPackage.Package p)
