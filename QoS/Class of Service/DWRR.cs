@@ -27,7 +27,7 @@ namespace QoS.Algorithms
 
         public bool AddPackege(AppPackage.Package p)
         {
-            return true;
+            ;
         }
     }
 }
