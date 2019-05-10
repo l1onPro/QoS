@@ -10,8 +10,7 @@ namespace QoS.AppPackage
     {
         int id;
         static int nextID = 1;
-        public DSCPName Name{ get; set; }
-        public ModelPackage model { get; set; }
+        public DSCPName CoS { get; set; }       
 
         public Priority priorityPackage { get; set; }
        
@@ -27,9 +26,10 @@ namespace QoS.AppPackage
         /// Создание пакета
         /// </summary>
         /// <param name="length">Килло байт</param>
-        public Package(int length)
+        public Package(DSCPName coS, int length)
         {
-            this.id = NexID();            
+            this.id = NexID();
+            CoS = coS;
             Length = length;
         }
 
@@ -37,7 +37,7 @@ namespace QoS.AppPackage
 
         public override string ToString()
         {
-            return "id: " + id + " length: " + Length + "к/б\n";   
+            return "id: " + id + " length: " + Length + "к/б CoS: " + CoS + "\n";   
         }
     }
 }

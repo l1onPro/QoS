@@ -9,26 +9,15 @@ namespace QoS.AppPackage
     /// <summary>
     /// Тип рандомного пакета
     /// </summary>
-    enum TypePakage
+    enum ServiceClassName
     {
-        /// <summary>
-        /// голос
-        /// </summary>
-        Voice,
-
-        /// <summary>
-        /// критически важный 
-        /// </summary>
-        Critically_important,   
-        
-        /// <summary>
-        /// Транзакции
-        /// </summary>
-        Transactions,
-
-        /// <summary>
-        /// Не гарантированная доставка
-        /// </summary>
-        Non_guaranteed_Delivery
+        Network_Control_1,
+        Network_Control_2,
+        Telephony,
+        Multemedia_Conferencing,
+        Multemedia_Streaming,
+        LowLatency_Data,
+        HightThroughput_Data,
+        Standart
     }
 }
