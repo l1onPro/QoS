@@ -77,7 +77,7 @@ namespace QoS.AppPackage
 
         private void genNew(ModelPackage model)
         {
-            Package newPackage = new Package(500, 1500, 40);
+            Package newPackage = new Package(500, 40);
             newPackage.model = model;
             allPackages.Add(newPackage);
             result += "Add new Package: " + newPackage.ToString();
