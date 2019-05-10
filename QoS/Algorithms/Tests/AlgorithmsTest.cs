@@ -8,13 +8,13 @@ namespace QoS.Algorithms
 {
     class AlgorithmsTest
     {
-        private Fifo fifo;
-        private PriorServ priorServ;
+        private FIFO fifo;
+        private PBDWRR priorServ;
 
         public AlgorithmsTest()
         {
-            fifo = new Fifo();
-            priorServ = new PriorServ();
+            fifo = new FIFO();
+            priorServ = new PBDWRR();
         }
 
         public void Testing()

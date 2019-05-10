@@ -8,7 +8,7 @@ namespace QoS.Algorithms
 {
     interface IAlgorithm
     {
-        bool AddPacket(AppPackage.Package p);
+        bool AddPackege(AppPackage.Package p);
 
         void ProcessingPackege();
 
