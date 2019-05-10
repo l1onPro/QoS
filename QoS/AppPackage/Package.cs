@@ -10,10 +10,9 @@ namespace QoS.AppPackage
     {
         int id;
         static int nextID = 1;
-        public DSCPName CoS { get; set; }       
-
+        public DSCPName CoS { get; set; }    
         public Priority priorityPackage { get; set; }
-       
+        public int TimeWait { get; set; }
 
         int length;
         public int Length
