@@ -6,11 +6,15 @@ using System.Threading.Tasks;
 
 namespace QoS.AppPackage
 {
-    enum AllMarker
+    enum DSCPName
     {
-        Ethernet,
-        IP,
-        ATM,
-        MPLS
+        CS0,
+        AF1,
+        AF2,
+        AF3,
+        AF4,
+        EF,
+        CS6,
+        CS7
     }
 }

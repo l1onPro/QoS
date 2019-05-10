@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace QoS.AppPackage
 {
     /// <summary>
-    /// Генератор рандомного пакета
+    /// Генератор рандомного пакета из сервиса
     /// </summary>
     class GenTypePackage
     {
@@ -15,24 +15,32 @@ namespace QoS.AppPackage
 
         public GenTypePackage()
         {            
-            random = new Random(4);
+            random = new Random();
         }
 
-        public TypePakage NextType()
+        public ServiceClassName NextType()
         {
-            int k = random.Next(4);
+            int k = random.Next(8);
             switch (k)
             {
                 case 0:
-                    return TypePakage.Voice;
+                    return ServiceClassName.Standart;
                 case 1:
-                    return TypePakage.Critically_important;
+                    return ServiceClassName.HightThroughput_Data;
                 case 2:
-                    return TypePakage.Transactions;
+                    return ServiceClassName.LowLatency_Data;
                 case 3:
-                    return TypePakage.Non_guaranteed_Delivery;
+                    return ServiceClassName.Multemedia_Streaming;
+                case 4:
+                    return ServiceClassName.Multemedia_Conferencing;
+                case 5:
+                    return ServiceClassName.Telephony;
+                case 6:
+                    return ServiceClassName.Network_Control_1;
+                case 7:
+                    return ServiceClassName.Network_Control_2;
                 default:
-                    throw new Exception();                    
+                    throw new Exception();
             }
         }
     }

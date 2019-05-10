@@ -59,27 +59,40 @@ namespace QoS.AppPackage
         /// </summary>
         /// <param name="type">Тип пакета</param>
         /// <returns></returns>
-        private ModelPackage SetModelPackage(TypePakage type)
+        private DSCPName SetPHBForPackage(ServiceClassName type)
         {
             switch (type)
             {
-                case TypePakage.Voice:
-                    return ModelPackage.DiffServ;                 
-                case TypePakage.Critically_important:
-                    return ModelPackage.IntServ;
-                case TypePakage.Transactions:
-                    return ModelPackage.IntServ;
-                case TypePakage.Non_guaranteed_Delivery:
-                    return ModelPackage.Best_Effort;
+                case ServiceClassName.Network_Control_2:
+                    return DSCPName.CS7;
+                case ServiceClassName.Network_Control_1:
+                    return DSCPName.CS6;
+                case ServiceClassName.Telephony:
+                    return DSCPName.EF;
+                case ServiceClassName.Multemedia_Conferencing:
+                    return DSCPName.AF4;
+                case ServiceClassName.Multemedia_Streaming:
+                    return DSCPName.AF3;
+                case ServiceClassName.LowLatency_Data:
+                    return DSCPName.AF2;
+                case ServiceClassName.HightThroughput_Data:
+                    return DSCPName.AF1;
+                case ServiceClassName.Standart:
+                    return DSCPName.CS0;                    
                 default:
                     throw new Exception();
-            }
+            }            
         }
 
-        private void genNew(ModelPackage model)
-        {            
-            Package newPackage = new Package(random.Next(5, 100));
-            newPackage.model = model;
+        private void addNew()
+        {
+            //создается новый рандомный пакет
+            ServiceClassName newPackege = genType.NextType();
+            //Задается маркером
+            DSCPName CoS = SetPHBForPackage(newPackege);
+            //Создается пакет
+            Package newPackage = new Package(CoS, random.Next(5, 100));
+            //добавляется ко всем
             allPackages.Add(newPackage);
             result += "New package: " + newPackage.ToString();
         }
@@ -87,10 +100,8 @@ namespace QoS.AppPackage
         private void Move(object sender, EventArgs e)
         {
             if (GenerationNext())
-            {
-                TypePakage newType = genType.NextType();
-                ModelPackage priority = SetModelPackage(newType);
-                genNew(priority);
+            {                               
+                addNew();
             }
         }
     }
