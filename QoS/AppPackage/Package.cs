@@ -13,7 +13,7 @@ namespace QoS.AppPackage
         public DSCPName CoS { get; set; }    
         public Priority priorityPackage { get; set; }
         public int TimeWait { get; set; }
-
+        public GradColor color { get; set; }
         int length;
         public int Length
         {

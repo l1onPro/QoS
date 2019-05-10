@@ -8,6 +8,6 @@ namespace QoS.Class_of_Service
 {
     class Classification
     {
-
+        
     }
 }
