@@ -11,15 +11,26 @@ namespace QoS.AppPackage
     /// генерератор пакетов
     /// </summary>
     class GenPackage
-    {        
+    {
         /// <summary>
         /// получение всех сгенерированных пакетов
         /// </summary>
-        List<Package> allPackages { get; set; }
+        List<Package> allPackages;
         GenTypePackage genType;
         DispatcherTimer timerGen;
         Random random;
         public string result = "";
+
+        /// <summary>
+        /// после того, как получили пакеты, список обнуляется
+        /// </summary>
+        /// <returns></returns>
+        public List<Package> getAllPackage()
+        {
+            List<Package> getList = allPackages;
+            allPackages.Clear();
+            return allPackages;
+        }
 
         public GenPackage()
         {
