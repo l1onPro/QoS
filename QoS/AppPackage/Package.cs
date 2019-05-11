@@ -9,6 +9,8 @@ namespace QoS.AppPackage
     class Package
     {
         int id;
+        public int ID { get { return id; } }
+
         static int nextID = 1;
         public DSCPName CoS { get; set; }    
         public Priority priorityPackage { get; set; }

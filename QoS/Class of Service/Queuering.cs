@@ -23,9 +23,12 @@ namespace QoS.Queues
             packets = new Queue<AppPackage.Package>();
         }
 
+        /// <summary>
+        /// Weighted Random Early Detection
+        /// </summary>
         private void WRED()
         {
-            int maxWaitTiem = 40;
+            
 
         }
 
@@ -34,7 +37,7 @@ namespace QoS.Queues
         /// </summary>
         /// <param name="Occupancy">Заполненность</param>
         /// <returns></returns>
-        private bool Garbage_collector(int Occupancy)
+        private bool Garbage_collector_For_RED(int Occupancy)
         {
             if (Occupancy <= 80) return false;                                              //не отбрасывает пакеты
             if (Occupancy > 80 && Occupancy <= 82) return random.NextDouble() < 0.1;        //
@@ -55,14 +58,14 @@ namespace QoS.Queues
         /// <summary>
         /// Random Early Detection
         /// </summary>
-        private void RED()
+        private bool RED()
         {
             //проверка очереди на сколько заполнена 
             //maxN - 100%
             //Count - ?%
             int cur = packets.Count * 100 / maxn;
             //отправка на проверку отсечения
-            Garbage_collector(cur);
+            return Garbage_collector_For_RED(cur);
         }
 
         private bool TailDrop()
@@ -72,7 +75,18 @@ namespace QoS.Queues
 
         private void HeadDrop()
         {
+            int maxWaitTiem = 40;       //максимальное время застоя
+            var ordered = packets.OrderBy(e => e.ID);
+
+            Queue<Package> newPackets = new Queue<Package>();
+
             //пройтись по всей очереди и посмотреть застаявшиеся пакеты, если такие есть, удалить
+            foreach (var kv in ordered)
+            {
+                if (kv.TimeWait < maxWaitTiem) newPackets.Enqueue(kv);
+            }
+
+            packets = newPackets;           
         }
 
         public bool AddPackege(Package p)
@@ -84,6 +98,8 @@ namespace QoS.Queues
             good = TailDrop();
 
             if (good) packets.Enqueue(p);
+
+            HeadDrop();
 
             mtx.ReleaseMutex();
             return good;
