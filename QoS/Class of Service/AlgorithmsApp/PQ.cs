@@ -10,29 +10,69 @@ namespace QoS.Class_of_Service.AlgorithmsApp
     class PQ : IAlgorithm
     {
         private List<Queuering> listQueue;
-
+        private bool expansion;
         /// <summary>
-        /// Priority Queuing (приоритетная очередь)
+        /// Priority Queuing (приоритетная очередь).
+        /// 8 очередей
         /// </summary>
-        /// <param name="n">для 4 очередей</param>
-        public PQ()
-        {
-            listQueue = new List<Queuering>(4);
-        }
-
+        /// <param name="expansion">1 (true) - Улучшенная очередь</param>
         public PQ(bool expansion)
         {
-            listQueue = new List<Queuering>(8);
+            if (expansion) 
+                listQueue = new List<Queuering>(8);
+            else
+                listQueue = new List<Queuering>(4);
+
+            this.expansion = expansion;
         }
 
         public void Add(Package newPackage)
         {
-            throw new NotImplementedException();
+            switch (newPackage.CoS)
+            {
+                case DSCPName.CS0:
+                    if (expansion) listQueue[7].AddPackege(newPackage);
+                    else listQueue[3].AddPackege(newPackage);
+                    break;
+                case DSCPName.AF1:
+                    if (expansion) listQueue[6].AddPackege(newPackage);
+                    else listQueue[2].AddPackege(newPackage);
+                    break;
+                case DSCPName.AF2:
+                    if (expansion) listQueue[5].AddPackege(newPackage);
+                    else listQueue[2].AddPackege(newPackage);
+                    break;
+                case DSCPName.AF3:
+                    if (expansion) listQueue[4].AddPackege(newPackage);
+                    else listQueue[2].AddPackege(newPackage);
+                    break;
+                case DSCPName.AF4:
+                    if (expansion) listQueue[3].AddPackege(newPackage);
+                    else listQueue[2].AddPackege(newPackage);
+                    break;
+                case DSCPName.EF:
+                    if (expansion) listQueue[2].AddPackege(newPackage);
+                    else listQueue[1].AddPackege(newPackage);
+                    break;
+                case DSCPName.CS6:
+                    if (expansion) listQueue[1].AddPackege(newPackage);
+                    else listQueue[0].AddPackege(newPackage);
+                    break;
+                case DSCPName.CS7:
+                    listQueue[0].AddPackege(newPackage);
+                    break;
+                default:
+                    break;
+            }
         }    
 
         public Package GetPackage()
         {
-            throw new NotImplementedException();
+            foreach (Queuering queue in listQueue)
+            {
+                if (queue.Count != 0) return queue.GetPackege();
+            }
+            return null;
         }
 
         public bool NotNULL()

@@ -60,17 +60,17 @@ namespace QoS.Class_of_Service
                     return true;                                                                //все отбрасывается при выше 50%                      
                 case GradColor.green:
                     if (occupancy <= 50) return false;
-                    if (occupancy > 50 && occupancy <= 55) return random.NextDouble() < 0.005;     //отбрасывается 0.5%
-                    if (occupancy > 55 && occupancy <= 60) return random.NextDouble() < 0.010;     //отбрасывается 1.0%
-                    if (occupancy > 60 && occupancy <= 65) return random.NextDouble() < 0.015;     //отбрасывается 1.5%
-                    if (occupancy > 65 && occupancy <= 70) return random.NextDouble() < 0.020;     //отбрасывается 2.0%
-                    if (occupancy > 70 && occupancy <= 75) return random.NextDouble() < 0.025;     //отбрасывается 2.5%
-                    if (occupancy > 75 && occupancy <= 80) return random.NextDouble() < 0.030;     //отбрасывается 3.0%
-                    if (occupancy > 80 && occupancy <= 85) return random.NextDouble() < 0.035;     //отбрасывается 3.5%
-                    if (occupancy > 85 && occupancy <= 90) return random.NextDouble() < 0.040;     //отбрасывается 4.0%
-                    if (occupancy > 90 && occupancy <= 95) return random.NextDouble() < 0.045;     //отбрасывается 4.5%
-                    if (occupancy > 95 && occupancy < 100) return random.NextDouble() < 0.05;      //отбрасывается 5%
-                    return true;                                                                   //все отбрасывается
+                    if (occupancy > 50 && occupancy <= 55) return random.NextDouble() < 0.005;  //отбрасывается 0.5%
+                    if (occupancy > 55 && occupancy <= 60) return random.NextDouble() < 0.010;  //отбрасывается 1.0%
+                    if (occupancy > 60 && occupancy <= 65) return random.NextDouble() < 0.015;  //отбрасывается 1.5%
+                    if (occupancy > 65 && occupancy <= 70) return random.NextDouble() < 0.020;  //отбрасывается 2.0%
+                    if (occupancy > 70 && occupancy <= 75) return random.NextDouble() < 0.025;  //отбрасывается 2.5%
+                    if (occupancy > 75 && occupancy <= 80) return random.NextDouble() < 0.030;  //отбрасывается 3.0%
+                    if (occupancy > 80 && occupancy <= 85) return random.NextDouble() < 0.035;  //отбрасывается 3.5%
+                    if (occupancy > 85 && occupancy <= 90) return random.NextDouble() < 0.040;  //отбрасывается 4.0%
+                    if (occupancy > 90 && occupancy <= 95) return random.NextDouble() < 0.045;  //отбрасывается 4.5%
+                    if (occupancy > 95 && occupancy < 100) return random.NextDouble() < 0.05;   //отбрасывается 5%
+                    return true;                                                                //все отбрасывается
                 default:
                     throw new Exception();
             }
