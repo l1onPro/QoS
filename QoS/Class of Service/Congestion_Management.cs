@@ -1,4 +1,5 @@
-﻿using System;
+﻿using QoS.Class_of_Service.AlgorithmsApp;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,10 +8,10 @@ using System.Threading.Tasks;
 namespace QoS.Class_of_Service
 {
     /// <summary>
-    /// выбор алгоритма, работае напрямую с генератором пакетов
+    /// Управление перегрузками
     /// </summary>
-    class Classification
+    class Congestion_Management
     {
-        
+        IAlgorithm algorithm;
     }
 }

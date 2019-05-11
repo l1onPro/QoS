@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace QoS.Algorithms
+namespace QoS.Class_of_Service.AlgorithmsApp
 {
     interface IAlgorithm
     {

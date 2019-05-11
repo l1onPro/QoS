@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace QoS.Algorithms
+namespace QoS.Algorithms.AlgorithmsApp
 {
-    class PBDWRR : IAlgorithm
+    class PBDWRR : Class_of_Service
     {
         const int max = 40;
         FIFO[] pQueues;
