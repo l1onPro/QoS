@@ -151,12 +151,14 @@ namespace QoS.Queues
             return packets.Count;
         }
 
-        public void ToString()
+        public override string ToString()
         {
+            string txt = "";
             foreach(AppPackage.Package p in packets)
             {
-                Console.WriteLine(p.ToString());
+                txt += p.ToString();
             }
+            return txt;
         }
     }
 }
