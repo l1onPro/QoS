@@ -4,19 +4,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace QoS.Algorithms
+namespace QoS.Class_of_Service
 {
-    class FIFO : IAlgorithm
+    class FIFO : IQueuering
     {
-        private Queues.Queuering queue;
+        private Queuering queue;
         const int max = 40;
         
         public FIFO()
         {
-            queue = new Queues.Queuering(max);
+            queue = new Queuering(max);
         }
         
-        public bool AddPackege(QoS.AppPackage.Package p)
+        public bool AddPackege(AppPackage.Package p)
         {
             return queue.AddPackege(p);
         }
@@ -44,5 +44,6 @@ namespace QoS.Algorithms
         {
             queue.WritePackeges();
         }
+
     }
 }

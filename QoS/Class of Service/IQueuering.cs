@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace QoS.Algorithms
+namespace QoS.Class_of_Service
 {
-    interface IAlgorithm
+    interface IQueuering
     {
         bool AddPackege(AppPackage.Package p);
 
@@ -17,5 +17,7 @@ namespace QoS.Algorithms
         bool IsEmpty();
 
         void PrintQueues();
+
+
     }
 }

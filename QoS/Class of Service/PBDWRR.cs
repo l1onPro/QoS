@@ -4,13 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace QoS.Algorithms
+namespace QoS.Class_of_Service
 {
-    class PBDWRR : IAlgorithm
+    class PBDWRR : IQueuering
     {
         const int max = 40;
         FIFO[] pQueues;
-        DWRR[] dwQueues;
+        DWRRQueue[] dwQueues;
         const int count = 4; 
 
         public PBDWRR()
@@ -20,21 +20,21 @@ namespace QoS.Algorithms
             {
                 pQueues[i] = new FIFO();
             }
-            dwQueues = new DWRR[3];
+            dwQueues = new DWRRQueue[3];
         }
 
         public bool AddPackege(AppPackage.Package p)
         {
             switch(p.priorityPackage)
             {
-                case AppPackage.Priority.
+                case AppPackage.Priority.Low:
                     return pQueues[0].AddPackege(p);
                 case AppPackage.Priority.Medium:
                     return pQueues[1].AddPackege(p);
                 case AppPackage.Priority.High:
-                    return priorityQueues[1].AddPackege(p);
+                    return pQueues[1].AddPackege(p);
                 case AppPackage.Priority.Suprime:
-                    return priorityQueues[0].AddPackege(p);
+                    return pQueues[0].AddPackege(p);
                 default:
                     return false;
             }
@@ -53,38 +53,22 @@ namespace QoS.Algorithms
 
         public bool IsEmpty()
         {
-            int count = 0;
-            foreach (Queues.Queuering queue in priorityQueues)
+            bool flag = true;
+            foreach (FIFO queue in pQueues)
             {
-                count += queue.GetCount();
+                flag = flag & !queue.IsEmpty();
             }
-            return count < 1;
+            return flag;
         }
 
         public AppPackage.Package GetPackege()
         {
-            int i = 0;
-            while (i < 3)
-            {
-                if (priorityQueues[i].GetCount() > 0)
-                {
-                    return priorityQueues[i].GetPackege();
-                }
-                else
-                {
-                    ++i;
-                }
-            }
-            return priorityQueues[i].GetPackege();
+            return pQueues[0].GetPackege();
         }
 
         public void PrintQueues()
         {
-            foreach (Queues.Queuering q in priorityQueues)
-            {
-                q.WritePackeges();
-            }
-            Console.WriteLine();
+            
         }
     }
 }

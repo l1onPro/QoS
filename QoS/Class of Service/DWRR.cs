@@ -4,30 +4,30 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace QoS.Algorithms
+namespace QoS.Class_of_Service
 {
-    class DWRR : IAlgorithm
+    class DWRRQueue //: IQueuering
     {
         int[] cash;
-        Queues.Queuering[] queues;
+        Queuering[] queues;
         int count;
         int step;
         int maxLen = 40;
 
-        public DWRR(int cnt)
+        public DWRRQueue(int cnt)
         {
             count = cnt;
             cash = new int[cnt];
-            queues = new Queues.Queuering[cnt];
+            queues = new Queuering[cnt];
             for (int i = 0; i < count; ++i)
             {
-                queues[i] = new Queues.Queuering(maxLen);
+                queues[i] = new Queuering(maxLen);
             }
         }
 
         public bool AddPackege(AppPackage.Package p)
         {
-            ;
+            return true;
         }
     }
 }

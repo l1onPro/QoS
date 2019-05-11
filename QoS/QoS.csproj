@@ -64,7 +64,7 @@
     <Compile Include="AppPackage\GradColor.cs" />
     <Compile Include="AppPackage\Priority.cs" />
     <Compile Include="AppPackage\TypePakage.cs" />
-    <Compile Include="Class of Service\IAlgorithm.cs" />
+    <Compile Include="Class of Service\IQueuering.cs" />
     <Compile Include="Class of Service\Classification.cs" />
     <Compile Include="Class of Service\Queuering.cs" />
     <Compile Include="RouterApp\Router.cs" />

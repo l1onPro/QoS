@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
 
-namespace QoS.Queues
+namespace QoS.Class_of_Service
 {
     class Queuering
     {
@@ -18,7 +18,12 @@ namespace QoS.Queues
             this.maxn = maxn;
             packets = new Queue<AppPackage.Package>();
         }
-
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="p"></param>
+        /// <returns></returns>
         public bool AddPackege(AppPackage.Package p)
         {
             mtx.WaitOne();
