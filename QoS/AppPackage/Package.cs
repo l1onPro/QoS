@@ -12,7 +12,8 @@ namespace QoS.AppPackage
         public int ID { get { return id; } }
 
         static int nextID = 1;
-        public DSCPName CoS { get; set; }    
+        public DSCPName CoS { get; set; }   
+
         public Priority priorityPackage { get; set; }
         public int TimeWait { get; set; }
         public GradColor color { get; set; }

@@ -88,7 +88,7 @@ namespace QoS.RouterApp
             if (GenerationNext())
             {
                 package = genPackage.New();
-                CheckTypePackage();
+                CheckTypePackage();                
                 gen = true;
             }
         }
