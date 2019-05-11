@@ -29,7 +29,6 @@ namespace QoS.Queues
         private void WRED()
         {
             
-
         }
 
         /// <summary>
@@ -104,12 +103,14 @@ namespace QoS.Queues
         public bool AddPackege(Package p)
         {
             mtx.WaitOne();
-            bool good;      
-            
-            //в зависимости от очереди будет применяться свой отбрсыватель
-            good = TailDrop();
 
-            if (good) packets.Enqueue(p);
+            bool good = false;
+            //в зависимости от очереди будет применяться свой отбрсыватель
+            if (!TailDrop())
+            {
+                packets.Enqueue(p);
+                good = true;
+            }
 
             HeadDrop();
 
