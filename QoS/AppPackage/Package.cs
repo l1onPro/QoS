@@ -22,7 +22,9 @@ namespace QoS.AppPackage
             get { return length; }
             set { if (value >= 0) length = value; else throw new ArgumentException(); }
         }        
-       
+        
+        public int IP_Precedence { get; set; }
+
         /// <summary>
         /// Создание пакета
         /// </summary>
@@ -32,6 +34,8 @@ namespace QoS.AppPackage
             this.id = NexID();
             CoS = coS;
             Length = length;
+
+            SetIPPrecedence();
         }
 
         private static int NexID() { return nextID++; }
@@ -39,6 +43,39 @@ namespace QoS.AppPackage
         public override string ToString()
         {
             return "id: " + id + " length: " + Length + "к/б CoS: " + CoS + "\n";   
+        }
+
+        private void SetIPPrecedence()
+        {
+            switch (CoS)
+            {
+                case DSCPName.CS0:
+                    IP_Precedence = 0;
+                    break;
+                case DSCPName.AF1:
+                    IP_Precedence = 1;
+                    break;
+                case DSCPName.AF2:
+                    IP_Precedence = 2;
+                    break;
+                case DSCPName.AF3:
+                    IP_Precedence = 3;
+                    break;
+                case DSCPName.AF4:
+                    IP_Precedence = 4;
+                    break;
+                case DSCPName.EF:
+                    IP_Precedence = 5;
+                    break;
+                case DSCPName.CS6:
+                    IP_Precedence = 6;
+                    break;
+                case DSCPName.CS7:
+                    IP_Precedence = 7;
+                    break;
+                default:
+                    throw new Exception();
+            }
         }
     }
 }

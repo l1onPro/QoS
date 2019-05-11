@@ -56,6 +56,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Class of Service\AlgorithmsApp\PQ.cs" />
+    <Compile Include="Class of Service\AlgorithmsApp\WFQ.cs" />
     <Compile Include="RouterApp\Congestion_Management.cs" />
     <Compile Include="Class of Service\AlgorithmsApp\DWRR.cs" />
     <Compile Include="Class of Service\AlgorithmsApp\PBDWRR.cs" />

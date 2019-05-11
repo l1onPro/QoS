@@ -78,6 +78,8 @@ namespace QoS.RouterApp
                 || package.CoS == DSCPName.AF3
                 || package.CoS == DSCPName.AF4)
                 package.color = GetColor();
+            else
+                package.color = GradColor.green;
         }
 
         private void Move(object sender, EventArgs e)

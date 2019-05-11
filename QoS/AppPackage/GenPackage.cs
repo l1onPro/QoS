@@ -50,7 +50,7 @@ namespace QoS.AppPackage
                 default:
                     throw new Exception();
             }            
-        }
+        }       
 
         public Package New()
         {
