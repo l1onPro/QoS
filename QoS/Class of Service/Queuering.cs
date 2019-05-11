@@ -68,11 +68,18 @@ namespace QoS.Queues
             return Garbage_collector_For_RED(cur);
         }
 
+        /// <summary>
+        /// Отбрасывает прибывший пакет, если нет места. Если True - отбрасывает
+        /// </summary>
+        /// <returns></returns>
         private bool TailDrop()
         {
-            return packets.Count < maxn ? true : false;            
+            return packets.Count >= maxn;            
         }
 
+        /// <summary>
+        /// Отбрасывает пакеты, которые находятся долго
+        /// </summary>
         private void HeadDrop()
         {
             int maxWaitTiem = 40;       //максимальное время застоя
@@ -89,6 +96,11 @@ namespace QoS.Queues
             packets = newPackets;           
         }
 
+        /// <summary>
+        /// добавляет пакет
+        /// </summary>
+        /// <param name="p"></param>
+        /// <returns></returns>
         public bool AddPackege(Package p)
         {
             mtx.WaitOne();
@@ -105,6 +117,10 @@ namespace QoS.Queues
             return good;
         }
      
+        /// <summary>
+        /// Удаляет пакет их начала очереди и удаляет его
+        /// </summary>
+        /// <returns></returns>
         public AppPackage.Package GetPackege()
         {
             mtx.WaitOne();
@@ -113,6 +129,10 @@ namespace QoS.Queues
             return p;            
         }
 
+        /// <summary>
+        /// возвращает объект, находящийся в начале очереди, но не удаляет его
+        /// </summary>
+        /// <returns></returns>
         public AppPackage.Package FirstPackage()
         {
             mtx.WaitOne();
@@ -121,12 +141,16 @@ namespace QoS.Queues
             return p; 
         }
 
+        /// <summary>
+        /// Текущее состоянии очереди
+        /// </summary>
+        /// <returns></returns>
         public int GetCount()
         {
             return packets.Count;
         }
 
-        public void WritePackeges()
+        public void ToString()
         {
             foreach(AppPackage.Package p in packets)
             {
