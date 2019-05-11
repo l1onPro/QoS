@@ -21,5 +21,11 @@ namespace QoS.Class_of_Service.AlgorithmsApp
         /// </summary>
         /// <returns></returns>
         Package GetPackage();
+
+        /// <summary>
+        /// Есть ли пакеты в очередях
+        /// </summary>
+        /// <returns></returns>
+        bool NotNULL();
     }
 }

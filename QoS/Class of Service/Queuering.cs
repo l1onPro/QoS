@@ -11,15 +11,16 @@ namespace QoS.Class_of_Service
 {
     class Queuering
     {        
-        private int maxn;
-      
+        private int maxLength;
+        private int curLength;
+
         private Queue<Package> packets;
         //private Mutex mtx = new Mutex();        
         Random random = new Random();
 
         public Queuering()
         {
-            this.maxn = Setting.MaxSize;
+            this.maxLength = Setting.MaxSize;
             packets = new Queue<Package>();
         }
 
@@ -28,10 +29,10 @@ namespace QoS.Class_of_Service
         /// </summary>
         /// <returns></returns>
         private int CheckBuffer()
-        {         
-            //maxN - 100%
-            //Count - ?%
-            return packets.Count * 100 / maxn;
+        {
+            //maxLength - 100%
+            //curLength - ?%
+            return curLength * 100 / maxLength;
         }
 
         /// <summary>
@@ -45,11 +46,17 @@ namespace QoS.Class_of_Service
             {
                 case GradColor.red:
                     if (occupancy <= 20) return false;                                          //ничего не отрбрасывается
-                    if (occupancy > 20 && occupancy < 40) return random.NextDouble() < 0.2;     //отбрасывается 20%
+                    if (occupancy > 20 && occupancy <= 25) return random.NextDouble() < 0.05;   //отбрасывается 5%
+                    if (occupancy > 25 && occupancy <= 30) return random.NextDouble() < 0.10;   //отбрасывается 10%
+                    if (occupancy > 30 && occupancy <= 35) return random.NextDouble() < 0.15;   //отбрасывается 15%
+                    if (occupancy > 35 && occupancy <= 40) return random.NextDouble() < 0.20;   //отбрасывается 20%
                     return true;                                                                //все отбрасывается при выше 40%                    
                 case GradColor.yellow:
                     if (occupancy <= 30) return false;                                          //ничего не отрбрасывается
-                    if (occupancy > 30 && occupancy <= 50) return random.NextDouble() < 0.1;    //отбрасывается 10%
+                    if (occupancy > 30 && occupancy <= 35) return random.NextDouble() < 0.025;  //отбрасывается 2,5%
+                    if (occupancy > 35 && occupancy <= 40) return random.NextDouble() < 0.05;   //отбрасывается 5,0%
+                    if (occupancy > 40 && occupancy <= 45) return random.NextDouble() < 0.075;  //отбрасывается 7,5%
+                    if (occupancy > 45 && occupancy <= 50) return random.NextDouble() < 0.1;    //отбрасывается 10%                   
                     return true;                                                                //все отбрасывается при выше 50%                      
                 case GradColor.green:
                     if (occupancy <= 50) return false;
@@ -106,28 +113,20 @@ namespace QoS.Class_of_Service
         /// Отбрасывает прибывший пакет, если нет места. Если True - отбрасывает
         /// </summary>
         /// <returns></returns>
-        private bool TailDrop()
+        private bool TailDrop(int length)
         {
-            return packets.Count >= maxn;            
+            return (maxLength - curLength) >= length;           
         }
 
         /// <summary>
-        /// Отбрасывает пакеты, которые находятся долго
+        /// Отбрасывает первый в очереди пакет, который находится долго
         /// </summary>
         private void HeadDrop()
         {
-            int maxWaitTiem = 40;       //максимальное время застоя
-            var ordered = packets.OrderBy(e => e.ID);
-
-            Queue<Package> newPackets = new Queue<Package>();
-
-            //пройтись по всей очереди и посмотреть застаявшиеся пакеты, если такие есть, удалить
-            foreach (var kv in ordered)
-            {
-                if (kv.TimeWait < maxWaitTiem) newPackets.Enqueue(kv);
-            }
-
-            packets = newPackets;           
+            //максимальное время застоя
+            int maxWaitTiem = 40;       
+            if (FirstPackage().TimeWait > maxWaitTiem)
+                packets.Dequeue();
         }
 
         /// <summary>
@@ -140,7 +139,7 @@ namespace QoS.Class_of_Service
             //mtx.WaitOne();
             
             //в зависимости от очереди будет применяться свой отбрсыватель
-            if (!TailDrop())
+            if (!TailDrop(p.Length))
             {
                 packets.Enqueue(p);
                 return true;
@@ -178,9 +177,9 @@ namespace QoS.Class_of_Service
         /// Текущее состоянии очереди
         /// </summary>
         /// <returns></returns>
-        public int GetCount()
+        public int Count
         {
-            return packets.Count;
+            get { return packets.Count; }           
         }
 
         public override string ToString()

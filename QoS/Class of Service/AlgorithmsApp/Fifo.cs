@@ -18,16 +18,14 @@ namespace QoS.Class_of_Service.AlgorithmsApp
         /// First In, First Out.
         /// Пакеты уходят из очереди ровно в том порядке, в котором они туда попали
         /// </summary>
-        /// <param name="allPackage">Приходящие пакеты</param>
         public FIFO()
-        {
-            //работа алгоритма
+        {            
             queue = new Queuering(); 
         }  
       
         public bool NotNULL()
         {            
-            return queue.GetCount() != 0;
+            return queue.Count != 0;
         }
 
         public void Add(Package newPackage)
