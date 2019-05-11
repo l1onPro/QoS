@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace QoS.Class_of_Service
 {
+    /// <summary>
+    /// выбор алгоритма, работае напрямую с генератором пакетов
+    /// </summary>
     class Classification
     {
         

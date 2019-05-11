@@ -10,12 +10,9 @@ using System.Windows.Threading;
 namespace QoS.Queues
 {
     class Queuering
-    {
-        /// <summary>
-        /// Что это такое?
-        /// </summary>
+    {        
         private int maxn;
-
+      
         private Queue<Package> packets;
         private Mutex mtx = new Mutex();        
         Random random = new Random();
@@ -28,6 +25,7 @@ namespace QoS.Queues
 
         private void WRED()
         {
+            int maxWaitTiem = 40;
 
         }
 
@@ -60,9 +58,11 @@ namespace QoS.Queues
         private void RED()
         {
             //проверка очереди на сколько заполнена 
-
+            //maxN - 100%
+            //Count - ?%
+            int cur = packets.Count * 100 / maxn;
             //отправка на проверку отсечения
-            Garbage_collector(23);
+            Garbage_collector(cur);
         }
 
         private bool TailDrop()
