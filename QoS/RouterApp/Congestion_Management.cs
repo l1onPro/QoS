@@ -7,19 +7,23 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Threading;
 
-namespace QoS.Class_of_Service
+namespace QoS.RouterApp
 {
     /// <summary>
     /// Управление перегрузками
     /// </summary>
     class Congestion_Management
-    {      
+    {
+        /// <summary>
+        /// Алготимы диспетчера
+        /// </summary>
+        IAlgorithm algorithm;
+
+        DispatcherTimer timer;
 
         public Congestion_Management()
         {
 
-        }
-
-        
+        }        
     }
 }

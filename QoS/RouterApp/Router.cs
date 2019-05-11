@@ -11,17 +11,7 @@ using System.Windows.Threading;
 namespace QoS.RouterApp
 {
     class Router
-    {       
-        /// <summary>
-        /// Алготимы диспетчера
-        /// </summary>
-        IAlgorithm algorithm;
-
-        /// <summary>
-        /// Пакеты, которые пришли для обработки
-        /// </summary>
-        List<Package> allPackages;
-
+    {     
         DispatcherTimer timer;
         public Router()
         {
