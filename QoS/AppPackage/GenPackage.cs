@@ -11,59 +11,16 @@ namespace QoS.AppPackage
     /// генерератор пакетов
     /// </summary>
     class GenPackage
-    {
-        /// <summary>
-        /// получение всех сгенерированных пакетов
-        /// </summary>
-        List<Package> allPackages;
-        GenTypePackage genType;
-        DispatcherTimer timerGen;
+    {        
+        GenTypePackage genType;       
         Random random;
         public string result = "";
-
-        /// <summary>
-        /// после того, как получили пакеты, список обнуляется
-        /// </summary>
-        /// <returns></returns>
-        public List<Package> getAllPackage()
-        {
-            List<Package> getList = allPackages;
-            allPackages.Clear();
-            return allPackages;
-        }
-
+      
         public GenPackage()
-        {
-            allPackages = new List<Package>();
+        {            
             random = new Random();
-            genType = new GenTypePackage();
-            StartTimer();
-        }     
-        
-        /// <summary>
-        /// Запуск генератора
-        /// </summary>
-        public void StartTimer()
-        {
-            timerGen = new DispatcherTimer();
-            timerGen.Interval = new TimeSpan(0,0,0,0,20);
-            timerGen.Tick += new EventHandler(Move);
-            timerGen.Start();
-        }
-
-        /// <summary>
-        /// остановка генератора
-        /// </summary>
-        public void StopTimer()
-        {
-            timerGen.Stop();
-        }
-
-        //с вероятностью 50%
-        private bool GenerationNext()
-        {
-            return random.NextDouble() <= 0.5;
-        }
+            genType = new GenTypePackage();            
+        }          
 
         /// <summary>
         /// разделение пакетов на модели
@@ -95,25 +52,14 @@ namespace QoS.AppPackage
             }            
         }
 
-        private void addNew()
+        public Package New()
         {
             //создается новый рандомный пакет
             ServiceClassName newPackege = genType.NextType();
             //Задается маркером
-            DSCPName CoS = SetPHBForPackage(newPackege);
+            DSCPName CoS = SetPHBForPackage(newPackege);            
             //Создается пакет
-            Package newPackage = new Package(CoS, random.Next(5, 100));
-            //добавляется ко всем
-            allPackages.Add(newPackage);
-            result += "New package: " + newPackage.ToString();
-        }
-
-        private void Move(object sender, EventArgs e)
-        {
-            if (GenerationNext())
-            {                               
-                addNew();
-            }
+            return new Package(CoS, random.Next(5, 100));  
         }
     }
 }
