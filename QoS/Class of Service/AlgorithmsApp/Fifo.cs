@@ -12,9 +12,10 @@ namespace QoS.Class_of_Service.AlgorithmsApp
     /// </summary>
     class FIFO : IAlgorithm
     {
-        private Queuering queue;       
+        private Queuering queue;
 
         /// <summary>
+        /// First In, First Out.
         /// Пакеты уходят из очереди ровно в том порядке, в котором они туда попали
         /// </summary>
         /// <param name="allPackage">Приходящие пакеты</param>
