@@ -62,7 +62,7 @@ namespace QoS.Class_of_Service.AlgorithmsApp
                     listQueue[0].AddPackege(newPackage);
                     break;
                 default:
-                    break;
+                    throw new Exception();
             }
         }    
 

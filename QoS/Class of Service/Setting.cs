@@ -20,5 +20,12 @@ namespace QoS.Class_of_Service
             get { return maxSize; }
             set { if (value > 0) maxSize = value; }
         }
+
+        static int speed = 20;
+        public static int Speed
+        {
+            get { return speed; }
+            set { if (value > 0) speed = value; }
+        }
     }
 }

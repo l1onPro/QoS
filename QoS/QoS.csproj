@@ -72,6 +72,7 @@
     <Compile Include="RouterApp\GenerationPackage.cs" />
     <Compile Include="RouterApp\Router.cs" />
     <Compile Include="Test.cs" />
+    <Compile Include="Time\SettingTime.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

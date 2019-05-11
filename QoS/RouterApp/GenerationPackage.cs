@@ -1,4 +1,5 @@
 ﻿using QoS.AppPackage;
+using QoS.Time;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,7 +37,7 @@ namespace QoS.RouterApp
         public void StartTimer()
         {
             timerGenPack = new DispatcherTimer();
-            timerGenPack.Interval = new TimeSpan(0, 0, 0, 0, 20);
+            timerGenPack.Interval = new TimeSpan(0, 0, 0, 0, SettingTime.Millisecond);
             timerGenPack.Tick += new EventHandler(Move);
             timerGenPack.Start();
         }
