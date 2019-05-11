@@ -1,4 +1,5 @@
-﻿using System;
+﻿using QoS.AppPackage;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,43 +7,32 @@ using System.Threading.Tasks;
 
 namespace QoS.Class_of_Service.AlgorithmsApp
 {
+    /// <summary>
+    /// Трафик обрабатывается одинаково — в одной очереди
+    /// </summary>
     class FIFO : IAlgorithm
     {
-        private Queues.Queuering queue;
-        const int max = 40;
-        
-        public FIFO()
-        {
-            queue = new Queues.Queuering(max);
-        }
-        
-        public bool AddPackege(QoS.AppPackage.Package p)
-        {
-            return queue.AddPackege(p);
-        }
+        private Queuering queue;       
 
-        public void ProcessingPackege()
+        /// <summary>
+        /// Пакеты уходят из очереди ровно в том порядке, в котором они туда попали
+        /// </summary>
+        /// <param name="allPackage">Приходящие пакеты</param>
+        public FIFO(List<Package> allPackage)
         {
-            if (!IsEmpty())
+            //работа алгоритма
+            queue = new Queuering();
+            foreach (Package package in allPackage)
             {
-                QoS.AppPackage.Package p = GetPackege();
-
+                queue.AddPackege(package);
             }
-        }    
-
-        public bool IsEmpty()
+        }  
+      
+        public List<Queuering> getAllQueues()
         {
-            return (queue.GetCount() < 1);
-        }
-
-        public AppPackage.Package GetPackege()
-        {
-            return queue.GetPackege();
-        }
-
-        public void PrintQueues()
-        {
-            queue.WritePackeges();
+            List<Queuering> newList = new List<Queuering>();
+            newList.Add(queue);
+            return newList;            
         }
     }
 }

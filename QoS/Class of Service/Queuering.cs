@@ -7,7 +7,7 @@ using System.Threading;
 using QoS.AppPackage;
 using System.Windows.Threading;
 
-namespace QoS.Queues
+namespace QoS.Class_of_Service
 {
     class Queuering
     {        
@@ -17,9 +17,9 @@ namespace QoS.Queues
         private Mutex mtx = new Mutex();        
         Random random = new Random();
 
-        public Queuering(int maxn)
+        public Queuering()
         {
-            this.maxn = maxn;
+            this.maxn = Setting.MaxSize;
             packets = new Queue<AppPackage.Package>();
         }
 
@@ -140,7 +140,7 @@ namespace QoS.Queues
             mtx.WaitOne();
 
             bool good = false;
-            //в зависимости от очереди будет применяться свой отбрсыватель
+            //в зависимости от очереди будет применяться свой отбрсыватель (!!!!!Надо настроить!!!!!)
             if (!TailDrop())
             {
                 packets.Enqueue(p);

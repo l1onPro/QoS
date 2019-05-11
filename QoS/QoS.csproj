@@ -66,6 +66,7 @@
     <Compile Include="AppPackage\TypePakage.cs" />
     <Compile Include="Class of Service\AlgorithmsApp\IAlgorithm.cs" />
     <Compile Include="Class of Service\Queuering.cs" />
+    <Compile Include="Class of Service\Setting.cs" />
     <Compile Include="RouterApp\Router.cs" />
     <Compile Include="Test.cs" />
     <Page Include="MainWindow.xaml">
