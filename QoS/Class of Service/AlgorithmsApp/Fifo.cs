@@ -19,21 +19,25 @@ namespace QoS.Class_of_Service.AlgorithmsApp
         /// Пакеты уходят из очереди ровно в том порядке, в котором они туда попали
         /// </summary>
         /// <param name="allPackage">Приходящие пакеты</param>
-        public FIFO(List<Package> allPackage)
+        public FIFO()
         {
             //работа алгоритма
-            queue = new Queuering();
-            foreach (Package package in allPackage)
-            {
-                queue.AddPackege(package);
-            }
+            queue = new Queuering(); 
         }  
       
-        public List<Queuering> getAllQueues()
+        public bool NotNULL()
+        {            
+            return queue.GetCount() != 0;
+        }
+
+        public void Add(Package newPackage)
         {
-            List<Queuering> newList = new List<Queuering>();
-            newList.Add(queue);
-            return newList;            
+            queue.AddPackege(newPackage);
+        }
+
+        public Package GetPackage()
+        {
+            return queue.GetPackege();
         }
     }
 }

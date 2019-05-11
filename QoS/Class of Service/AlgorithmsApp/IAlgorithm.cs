@@ -1,4 +1,5 @@
-﻿using QoS.Class_of_Service;
+﻿using QoS.AppPackage;
+using QoS.Class_of_Service;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,9 +11,15 @@ namespace QoS.Class_of_Service.AlgorithmsApp
     interface IAlgorithm
     {
         /// <summary>
-        /// Получившиеся очереди
+        /// Добавить пакет в алгоритм
+        /// </summary>
+        /// <param name="newPackage"></param>
+        void Add(Package newPackage);
+
+        /// <summary>
+        /// получить результирующий пакет
         /// </summary>
         /// <returns></returns>
-        List<Queuering> getAllQueues();
+        Package GetPackage();
     }
 }

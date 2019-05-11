@@ -14,13 +14,13 @@ namespace QoS.Class_of_Service
         private int maxn;
       
         private Queue<Package> packets;
-        private Mutex mtx = new Mutex();        
+        //private Mutex mtx = new Mutex();        
         Random random = new Random();
 
         public Queuering()
         {
             this.maxn = Setting.MaxSize;
-            packets = new Queue<AppPackage.Package>();
+            packets = new Queue<Package>();
         }
 
         /// <summary>
@@ -137,44 +137,41 @@ namespace QoS.Class_of_Service
         /// <returns></returns>
         public bool AddPackege(Package p)
         {
-            mtx.WaitOne();
-
-            bool good = false;
-            //в зависимости от очереди будет применяться свой отбрсыватель (!!!!!Надо настроить!!!!!)
+            //mtx.WaitOne();
+            
+            //в зависимости от очереди будет применяться свой отбрсыватель
             if (!TailDrop())
             {
                 packets.Enqueue(p);
-                good = true;
+                return true;
             }
 
             HeadDrop();
 
-            mtx.ReleaseMutex();
-            return good;
+            //mtx.ReleaseMutex();
+            return false;
         }
      
         /// <summary>
-        /// Удаляет пакет их начала очереди и удаляет его
+        /// Удаляет пакет из начала очереди и возращает его
         /// </summary>
         /// <returns></returns>
-        public AppPackage.Package GetPackege()
+        public Package GetPackege()
         {
-            mtx.WaitOne();
-            AppPackage.Package p = packets.Dequeue();
-            mtx.ReleaseMutex();
-            return p;            
+            //mtx.WaitOne();
+            return packets.Dequeue();
+            //mtx.ReleaseMutex();                    
         }
 
         /// <summary>
         /// возвращает объект, находящийся в начале очереди, но не удаляет его
         /// </summary>
         /// <returns></returns>
-        public AppPackage.Package FirstPackage()
+        public Package FirstPackage()
         {
-            mtx.WaitOne();
-            AppPackage.Package p = packets.Peek();
-            mtx.ReleaseMutex();
-            return p; 
+            //mtx.WaitOne();
+            return packets.Peek();
+            //mtx.ReleaseMutex();            
         }
 
         /// <summary>
