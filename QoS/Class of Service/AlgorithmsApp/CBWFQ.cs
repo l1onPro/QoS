@@ -10,7 +10,18 @@ namespace QoS.Class_of_Service.AlgorithmsApp
     class CBWFQ : IAlgorithm
     {
         private List<Queuering> listQueue;
+        /// <summary>
+        /// массив весов
+        /// </summary>
         private int[] weight;
+        /// <summary>
+        /// текущий вес
+        /// </summary>
+        private int curWeight; 
+        /// <summary>
+        /// номер очереди
+        /// </summary>
+        private int num;
 
         /// <summary>
         /// Class-Based WFQ
@@ -19,12 +30,14 @@ namespace QoS.Class_of_Service.AlgorithmsApp
         {
             listQueue = new List<Queuering>(8);
             weight = new int[8];
+            curWeight = -1;
+            num = -1;
             SetWeight();
         }
 
         private void SetWeight()
         {
-            weight = new int[8] { 56, 48, 46, 34, 26, 18, 10, 0 };
+            weight = new int[8] { 27, 25, 21, 16, 14, 12, 10, 5 };
         }
 
         public void Add(Package newPackage)
@@ -62,12 +75,34 @@ namespace QoS.Class_of_Service.AlgorithmsApp
 
         public Package GetPackage()
         {
-            throw new NotImplementedException();
+            if (curWeight == -1)
+            {
+                //если  дошли до конца очереди, обнуляем
+                if (num == listQueue.Count - 1) num = -1;
+                num++;                                
+            }
+
+            for (int i = num; i < listQueue.Count; i++)
+            {
+                //если нет элементов в текущей очереди, обнуляем и тем самым переходим к следующей
+                if (listQueue[i].Count == 0) curWeight = -1;
+                else
+                {
+                    //если вес не достиг максимального, отправляем пакеты из текущей очереди
+                    if (curWeight != weight[i]) return listQueue[i].GetPackege();
+                    else curWeight = -1;
+                }
+            }
+            return null;
         }
 
         public bool NotNULL()
         {
-            throw new NotImplementedException();
+            foreach (Queuering queue in listQueue)
+            {
+                if (queue.Count != 0) return true;
+            }
+            return false;
         }
     }
 }
