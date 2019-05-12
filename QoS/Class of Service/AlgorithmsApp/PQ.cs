@@ -66,6 +66,10 @@ namespace QoS.Class_of_Service.AlgorithmsApp
             }
         }    
 
+        /// <summary>
+        /// Возращает пакет приоритетной очереди, если элементов нет, следующей
+        /// </summary>
+        /// <returns></returns>
         public Package GetPackage()
         {
             foreach (Queuering queue in listQueue)

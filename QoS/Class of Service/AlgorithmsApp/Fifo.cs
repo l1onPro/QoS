@@ -47,7 +47,9 @@ namespace QoS.Class_of_Service.AlgorithmsApp
         /// <returns></returns>
         public Package GetPackage()
         {
-            return queue.GetPackege();
+            if (NotNULL())
+                return queue.GetPackege();
+            else return null;
         }
     }
 }

@@ -57,6 +57,10 @@ namespace QoS.Class_of_Service.AlgorithmsApp
             return (package.Length / Setting.Speed) / (1.0 + package.IP_Precedence);
         }
 
+        /// <summary>
+        /// Рассчитывает веса пакетов и возвращает тот, у кого вес меньше
+        /// </summary>
+        /// <returns></returns>
         public Package GetPackage()
         {
             //вычисляет, пакет из какой очереди «быстрее»
@@ -78,12 +82,8 @@ namespace QoS.Class_of_Service.AlgorithmsApp
                 }
             }
 
-            for (int i = 0; i < listQueue.Count; i++)
-            {
-                if (i == num) return listQueue[i].GetPackege();
-            }
-
-            throw new Exception();
+            if (num != -1) return listQueue[num].GetPackege();
+            else return null; 
         }
 
         public bool NotNULL()

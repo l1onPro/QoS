@@ -76,6 +76,10 @@ namespace QoS.Class_of_Service.AlgorithmsApp
             }
         }
 
+        /// <summary>
+        /// Вес назначается классам. Возращает из каждой очереди пакетов = весу
+        /// </summary>
+        /// <returns></returns>
         public Package GetPackage()
         {
             if (curWeight == -1)

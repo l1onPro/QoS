@@ -7,42 +7,18 @@ using QoS.AppPackage;
 
 namespace QoS.Class_of_Service.AlgorithmsApp
 {
-    class CBWFQ_LLQ : IAlgorithm
+    class RR : IAlgorithm
     {
         private List<Queuering> listQueue;
-        /// <summary>
-        /// массив весов
-        /// </summary>
-        private int[] weight;
-        /// <summary>
-        /// текущий вес
-        /// </summary>
-        private int curWeight;
-        /// <summary>
-        /// номер очереди
-        /// </summary>
         private int num;
-
         /// <summary>
-        /// CBWFQ+LLQ — Low-Latency Queue
+        /// Round-Robin
         /// </summary>
-        public CBWFQ_LLQ()
+        public RR()
         {
             listQueue = new List<Queuering>(4);
-            weight = new int[3];
-            curWeight = 0;
             num = 0;
-            SetWeight();
         }
-
-        /// <summary>
-        /// Установка весов
-        /// </summary>
-        private void SetWeight()
-        {
-            weight = new int[3] { 12, 10, 5 };
-        }
-
         public void Add(Package newPackage)
         {
             switch (newPackage.CoS)
@@ -77,31 +53,16 @@ namespace QoS.Class_of_Service.AlgorithmsApp
         }
 
         /// <summary>
-        /// 2 типа очереди. между ними работает PQ, внутри второго CBWFQ
+        /// возвращает одинаковое кол-во пакетов каждой очереди
         /// </summary>
         /// <returns></returns>
         public Package GetPackage()
         {
-            //Если в LQ есть пакеты, отдает их (Алгоритм PQ)
-            if (listQueue[0].Count != 0) return listQueue[0].GetPackege();
-
-            //Алгоритм CBWFQ
-            if (curWeight == 0)
-            {
-                //если  дошли до конца очереди, обнуляем
-                if (num == listQueue.Count - 1) num = 0;
-                num++;
-            }
+            if (num == listQueue.Count) num = 0;
             for (int i = num; i < listQueue.Count; i++)
             {
-                //если нет элементов в текущей очереди, обнуляем и тем самым переходим к следующей
-                if (listQueue[i].Count == 0) curWeight = 0;
-                else
-                {
-                    //если вес не достиг максимального, отправляем пакеты из текущей очереди
-                    if (curWeight != weight[i]) return listQueue[i].GetPackege();
-                    else curWeight = 0;
-                }
+                num++;
+                if (listQueue[i].Count != 0) return listQueue[i].GetPackege();
             }
             return null;
         }
