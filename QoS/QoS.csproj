@@ -57,6 +57,7 @@
     </ApplicationDefinition>
     <Compile Include="Class of Service\AlgorithmsApp\CBWFQ.cs" />
     <Compile Include="Class of Service\AlgorithmsApp\CBWFQ_LLQ.cs" />
+    <Compile Include="Class of Service\AlgorithmsApp\FQ.cs" />
     <Compile Include="Class of Service\AlgorithmsApp\PQ.cs" />
     <Compile Include="Class of Service\AlgorithmsApp\RR.cs" />
     <Compile Include="Class of Service\AlgorithmsApp\WFQ.cs" />
