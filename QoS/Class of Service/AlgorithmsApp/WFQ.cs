@@ -7,8 +7,12 @@ using QoS.AppPackage;
 
 namespace QoS.Class_of_Service.AlgorithmsApp
 {
+    /// <summary>
+    /// Weighted Fair Queuing
+    /// </summary>
     class WFQ : IAlgorithm
     {
+        //Проверить правильность!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         private List<Queuering> listQueue;
 
         /// <summary>
@@ -17,6 +21,11 @@ namespace QoS.Class_of_Service.AlgorithmsApp
         public WFQ()
         {
             listQueue = new List<Queuering>(4);
+
+            for (int i = 0; i < listQueue.Count; i++)
+            {
+                listQueue[i] = new Queuering();
+            }
         }
 
         public void Add(Package newPackage)

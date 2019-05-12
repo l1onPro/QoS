@@ -7,6 +7,9 @@ using QoS.AppPackage;
 
 namespace QoS.Class_of_Service.AlgorithmsApp
 {
+    /// <summary>
+    /// Round-Robin
+    /// </summary>
     class RR : IAlgorithm
     {
         private List<Queuering> listQueue;
@@ -17,6 +20,12 @@ namespace QoS.Class_of_Service.AlgorithmsApp
         public RR()
         {
             listQueue = new List<Queuering>(4);
+
+            for (int i = 0; i < listQueue.Count; i++)
+            {
+                listQueue[i] = new Queuering();
+            }
+
             num = 0;
         }
         public void Add(Package newPackage)

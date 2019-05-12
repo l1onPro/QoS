@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace QoS.Class_of_Service.AlgorithmsApp
 {
     /// <summary>
-    /// Трафик обрабатывается одинаково — в одной очереди
+    /// First In, First Out.
     /// </summary>
     class FIFO : IAlgorithm
     {

@@ -7,8 +7,12 @@ using QoS.AppPackage;
 
 namespace QoS.Class_of_Service.AlgorithmsApp
 {
+    /// <summary>
+    /// CBWFQ+LLQ — Low-Latency Queue
+    /// </summary>
     class CBWFQ_LLQ : IAlgorithm
     {
+        //Проверить правильность!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         private List<Queuering> listQueue;
         /// <summary>
         /// массив весов
@@ -32,6 +36,12 @@ namespace QoS.Class_of_Service.AlgorithmsApp
             weight = new int[3];
             curWeight = 0;
             num = 0;
+
+            for (int i = 0; i < listQueue.Count; i++)
+            {
+                listQueue[i] = new Queuering();                
+            }
+
             SetWeight();
         }
 

@@ -12,6 +12,11 @@ namespace QoS.Class_of_Service
     class Queuering
     {        
         private int maxLength;
+        public int MaxLength
+        {
+            get { return maxLength; }
+            set { if (value > 0 && value < Setting.MaxSize) maxLength = value; }
+        }
         private int curLength;
 
         private Queue<Package> packets;
@@ -21,6 +26,12 @@ namespace QoS.Class_of_Service
         public Queuering()
         {
             this.maxLength = Setting.MaxSize;
+            packets = new Queue<Package>();
+        }
+
+        public Queuering(int maxLength)
+        {
+            this.maxLength = maxLength;
             packets = new Queue<Package>();
         }
 

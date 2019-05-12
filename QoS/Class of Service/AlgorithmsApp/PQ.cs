@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace QoS.Class_of_Service.AlgorithmsApp
 {
+    // <summary>
+    /// Priority Queuing (приоритетная очередь).
+    /// </summary>
     class PQ : IAlgorithm
     {
         private List<Queuering> listQueue;
@@ -22,6 +25,11 @@ namespace QoS.Class_of_Service.AlgorithmsApp
                 listQueue = new List<Queuering>(8);
             else
                 listQueue = new List<Queuering>(4);
+
+            for (int i = 0; i < listQueue.Count; i++)
+            {
+                listQueue[i] = new Queuering();
+            }
 
             this.expansion = expansion;
         }
