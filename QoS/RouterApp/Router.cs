@@ -1,5 +1,4 @@
-﻿using QoS.Algorithms;
-using QoS.AppPackage;
+﻿using QoS.AppPackage;
 using QoS.Class_of_Service.AlgorithmsApp;
 using System;
 using System.Collections.Generic;

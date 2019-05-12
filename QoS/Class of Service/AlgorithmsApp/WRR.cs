@@ -47,7 +47,7 @@ namespace QoS.Class_of_Service.AlgorithmsApp
         /// </summary>
         private void SetWeight()
         {
-            weight = new int[4] { 27, 25, 21, 16, 14, 12, 10, 5 };
+            //weight = new int[4] { 27, 25, 21, 16, 14, 12, 10, 5 };
         }
 
         public void Add(Package newPackage)
