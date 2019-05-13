@@ -22,16 +22,6 @@ namespace QoS.Class_of_Service.AlgorithmsApp
         /// </summary>
         private int[] weight;
 
-        /// <summary>
-        /// текущий вес
-        /// </summary>
-        private int curWeight; 
-
-        /// <summary>
-        /// номер очереди
-        /// </summary>
-        private int num;
-
         /*
          * для этих классов 
          * определяется «вес» и пакеты их очередей обслуживаются, соразмерно весу 
@@ -43,10 +33,7 @@ namespace QoS.Class_of_Service.AlgorithmsApp
         /// </summary>
         public CBWFQ()
         {
-            listQueue = new List<Queuering>(8);
-            weight = new int[8];
-            curWeight = -1;
-            num = -1;
+            listQueue = new List<Queuering>(8);           
 
             for (int i = 0; i < listQueue.Count; i++)
             {
@@ -61,7 +48,7 @@ namespace QoS.Class_of_Service.AlgorithmsApp
         /// Установка весов
         /// </summary>
         private void SetWeight()
-        {
+        {           
             //задается в %
             weight = new int[8] { 20, 20, 15, 10, 10, 10, 10, 5 };            
         }
@@ -75,60 +62,32 @@ namespace QoS.Class_of_Service.AlgorithmsApp
             switch (newPackage.CoS)
             {
                 case DSCPName.CS0:
-                    listQueue[7].AddPackege(newPackage);                    
+                    listQueue[7].AddPackage(newPackage);                    
                     break;
                 case DSCPName.AF1:
-                    listQueue[6].AddPackege(newPackage);
+                    listQueue[6].AddPackage(newPackage);
                     break;
                 case DSCPName.AF2:
-                    listQueue[5].AddPackege(newPackage);
+                    listQueue[5].AddPackage(newPackage);
                     break;
                 case DSCPName.AF3:
-                    listQueue[4].AddPackege(newPackage);
+                    listQueue[4].AddPackage(newPackage);
                     break;
                 case DSCPName.AF4:
-                    listQueue[3].AddPackege(newPackage);
+                    listQueue[3].AddPackage(newPackage);
                     break;
                 case DSCPName.EF:
-                    listQueue[2].AddPackege(newPackage);
+                    listQueue[2].AddPackage(newPackage);
                     break;
                 case DSCPName.CS6:
-                    listQueue[1].AddPackege(newPackage);
+                    listQueue[1].AddPackage(newPackage);
                     break;
                 case DSCPName.CS7:
-                    listQueue[0].AddPackege(newPackage);
+                    listQueue[0].AddPackage(newPackage);
                     break;
                 default:
                     throw new Exception();
             }
-        }
-
-        /// <summary>
-        ///  Возращает из каждой очереди пакетов = весу
-        /// </summary>
-        /// <returns></returns>
-        public Package GetPackage()
-        {
-            /////////Переписать///////////////////
-            if (curWeight == -1)
-            {
-                //если  дошли до конца очереди, обнуляем
-                if (num == listQueue.Count - 1) num = -1;
-                num++;                                
-            }
-
-            for (int i = num; i < listQueue.Count; i++)
-            {
-                //если нет элементов в текущей очереди, обнуляем и тем самым переходим к следующей
-                if (listQueue[i].Count == 0) curWeight = -1;
-                else
-                {
-                    //если вес не достиг максимального, отправляем пакеты из текущей очереди
-                    if (curWeight != weight[i]) return listQueue[i].GetPackege();
-                    else curWeight = -1;
-                }
-            }
-            return null;
         }
 
         public bool NotNULL()
@@ -138,6 +97,64 @@ namespace QoS.Class_of_Service.AlgorithmsApp
                 if (queue.Count != 0) return true;
             }
             return false;
+        }
+
+        /// <summary>
+        /// Возвращает пакет, у кого вес меньше, и удаляет из учереди
+        /// </summary>
+        /// <param name="num">Номер очереди</param>
+        /// <returns></returns>
+        private Package GetPackage(int num)
+        {
+            if (num != -1) return listQueue[num].GetPackage();
+            else return null;
+        }
+
+        /// <summary>
+        /// Возвращает пакет, у кого вес меньше, и удаляет из учереди
+        /// </summary>
+        /// <param name="num">Номер очереди</param>
+        /// <returns></returns>
+        private Package FirstPackage(int num)
+        {
+            if (num != -1) return listQueue[num].FirstPackage();
+            else return null;
+        }
+
+        /// <summary>
+        /// Вычисляем сколько доступно длины для i очереди
+        /// </summary>
+        /// <param name="i">Номер очереди</param>
+        /// <param name="speed">Скорость пропускания</param>
+        /// <returns></returns>
+        private int FindLengthForQueue(int i, int speed)
+        {
+            /*
+             * speed - 100%
+             * ? - weight[i] %
+             */
+            return speed * weight[i] / 100;
+        }
+
+        public Queue<Package> GetPackages(int speed)
+        {
+            Queue<Package> packages = new Queue<Package>();
+
+            for (int i = 0; i < listQueue.Count; i++)
+            {
+                int MaxLength = FindLengthForQueue(i, speed);
+                int sum = 0;
+
+                while(listQueue[i].NOTNULL())
+                {
+                    Package pack = FirstPackage(i);
+                    sum += pack.Length;
+                    if (sum <= speed) packages.Enqueue(GetPackage(i));
+                    else break;
+                }
+            }
+
+            return packages;
         }
     }
 }
