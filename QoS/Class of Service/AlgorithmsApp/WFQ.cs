@@ -105,7 +105,7 @@ namespace QoS.Class_of_Service.AlgorithmsApp
         /// </summary>
         /// <param name="num">Номер очереди</param>
         /// <returns></returns>
-        public Package GetPackage(int num)
+        private Package GetPackage(int num)
         {            
             if (num != -1) return listQueue[num].GetPackage();
             else return null; 
@@ -116,7 +116,7 @@ namespace QoS.Class_of_Service.AlgorithmsApp
         /// </summary>
         /// <param name="num">Номер очереди</param>
         /// <returns></returns>
-        public Package FirstPackage(int num)
+        private Package FirstPackage(int num)
         {
             if (num != -1) return listQueue[num].FirstPackage();
             else return null;
