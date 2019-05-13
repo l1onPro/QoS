@@ -167,12 +167,12 @@ namespace QoS.Class_of_Service
             //применяется Tail Drop и Head Drop
             if (p.CoS == DSCPName.CS0)
             {
+                HeadDrop();
                 if (!TailDrop(p.Length))
                 {
                     packets.Enqueue(p);
                     return true;
-                }
-                HeadDrop();
+                }                
             }            
             return false;
         }
