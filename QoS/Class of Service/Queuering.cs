@@ -144,7 +144,7 @@ namespace QoS.Class_of_Service
         /// </summary>
         /// <param name="p"></param>
         /// <returns></returns>
-        public bool AddPackege(Package p)
+        public bool AddPackage(Package p)
         {
             //только Tail Drop
             if (p.CoS == DSCPName.EF || p.CoS == DSCPName.CS6 || p.CoS == DSCPName.CS7)
@@ -181,7 +181,7 @@ namespace QoS.Class_of_Service
         /// Удаляет пакет из начала очереди и возращает его
         /// </summary>
         /// <returns></returns>
-        public Package GetPackege()
+        public Package GetPackage()
         {
             if (NOTNULL())
                 return packets.Dequeue();

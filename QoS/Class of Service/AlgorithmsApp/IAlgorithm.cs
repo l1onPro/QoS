@@ -21,7 +21,7 @@ namespace QoS.Class_of_Service.AlgorithmsApp
         /// </summary>
         /// <param name="speed">Скорость</param>
         /// <returns></returns>
-        Queue<Package> GetPackage(int speed);
+        Queue<Package> GetPackages(int speed);
 
         /// <summary>
         /// Есть ли пакеты в очередях

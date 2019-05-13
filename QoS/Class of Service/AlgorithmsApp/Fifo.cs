@@ -30,10 +30,10 @@ namespace QoS.Class_of_Service.AlgorithmsApp
         
         public void Add(Package newPackage)
         {
-            queue.AddPackege(newPackage);
+            queue.AddPackage(newPackage);
         }    
 
-        public Queue<Package> GetPackage(int speed)
+        public Queue<Package> GetPackages(int speed)
         {
             Queue<Package> packages = new Queue<Package>();
 
@@ -42,7 +42,8 @@ namespace QoS.Class_of_Service.AlgorithmsApp
             while (NotNULL())
             {
                 Package pack = queue.FirstPackage();
-                if (sum + pack.Length <= speed) packages.Enqueue(queue.GetPackege());
+                sum += pack.Length;
+                if (sum <= speed) packages.Enqueue(queue.GetPackage());
                 else return packages;                
             }
 

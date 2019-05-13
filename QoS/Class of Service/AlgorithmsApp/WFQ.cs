@@ -36,28 +36,28 @@ namespace QoS.Class_of_Service.AlgorithmsApp
             switch (newPackage.CoS)
             {
                 case DSCPName.CS0:                   
-                    listQueue[3].AddPackege(newPackage);
+                    listQueue[3].AddPackage(newPackage);
                     break;
                 case DSCPName.AF1:
-                    listQueue[2].AddPackege(newPackage);
+                    listQueue[2].AddPackage(newPackage);
                     break;
                 case DSCPName.AF2:
-                    listQueue[2].AddPackege(newPackage);
+                    listQueue[2].AddPackage(newPackage);
                     break;
                 case DSCPName.AF3:
-                    listQueue[2].AddPackege(newPackage);
+                    listQueue[2].AddPackage(newPackage);
                     break;
                 case DSCPName.AF4:
-                    listQueue[2].AddPackege(newPackage);
+                    listQueue[2].AddPackage(newPackage);
                     break;
                 case DSCPName.EF:
-                    listQueue[1].AddPackege(newPackage);
+                    listQueue[1].AddPackage(newPackage);
                     break;
                 case DSCPName.CS6:
-                    listQueue[0].AddPackege(newPackage);
+                    listQueue[0].AddPackage(newPackage);
                     break;
                 case DSCPName.CS7:
-                    listQueue[0].AddPackege(newPackage);
+                    listQueue[0].AddPackage(newPackage);
                     break;
                 default:
                     throw new Exception();
@@ -103,14 +103,25 @@ namespace QoS.Class_of_Service.AlgorithmsApp
         /// <summary>
         /// Возвращает пакет, у кого вес меньше, и удаляет из учереди
         /// </summary>
+        /// <param name="num">Номер очереди</param>
         /// <returns></returns>
-        public Package GetPackage()
-        {
-            int num = FindNumMinWeight();
-            if (num != -1) return listQueue[num].GetPackege();
+        public Package GetPackage(int num)
+        {            
+            if (num != -1) return listQueue[num].GetPackage();
             else return null; 
         }
-        
+
+        /// <summary>
+        /// Возвращает пакет, у кого вес меньше, и удаляет из учереди
+        /// </summary>
+        /// <param name="num">Номер очереди</param>
+        /// <returns></returns>
+        public Package FirstPackage(int num)
+        {
+            if (num != -1) return listQueue[num].FirstPackage();
+            else return null;
+        }
+
         public bool NotNULL()
         {
             foreach (Queuering queue in listQueue)
@@ -118,6 +129,24 @@ namespace QoS.Class_of_Service.AlgorithmsApp
                 if (queue.Count != 0) return true;
             }
             return false;
+        }
+
+        public Queue<Package> GetPackages(int speed)
+        {
+            Queue<Package> packages = new Queue<Package>();
+
+            int sum = 0;
+
+            while (NotNULL())
+            {
+                int num = FindNumMinWeight();
+                Package pack = FirstPackage(num);
+                sum += pack.Length;
+                if (sum <= speed) packages.Enqueue(GetPackage(num));
+                else return packages;
+            }
+
+            return packages;
         }
     }
 }

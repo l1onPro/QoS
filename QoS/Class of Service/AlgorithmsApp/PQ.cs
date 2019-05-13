@@ -39,35 +39,35 @@ namespace QoS.Class_of_Service.AlgorithmsApp
             switch (newPackage.CoS)
             {
                 case DSCPName.CS0:
-                    if (expansion) listQueue[7].AddPackege(newPackage);
-                    else listQueue[3].AddPackege(newPackage);
+                    if (expansion) listQueue[7].AddPackage(newPackage);
+                    else listQueue[3].AddPackage(newPackage);
                     break;
                 case DSCPName.AF1:
-                    if (expansion) listQueue[6].AddPackege(newPackage);
-                    else listQueue[2].AddPackege(newPackage);
+                    if (expansion) listQueue[6].AddPackage(newPackage);
+                    else listQueue[2].AddPackage(newPackage);
                     break;
                 case DSCPName.AF2:
-                    if (expansion) listQueue[5].AddPackege(newPackage);
-                    else listQueue[2].AddPackege(newPackage);
+                    if (expansion) listQueue[5].AddPackage(newPackage);
+                    else listQueue[2].AddPackage(newPackage);
                     break;
                 case DSCPName.AF3:
-                    if (expansion) listQueue[4].AddPackege(newPackage);
-                    else listQueue[2].AddPackege(newPackage);
+                    if (expansion) listQueue[4].AddPackage(newPackage);
+                    else listQueue[2].AddPackage(newPackage);
                     break;
                 case DSCPName.AF4:
-                    if (expansion) listQueue[3].AddPackege(newPackage);
-                    else listQueue[2].AddPackege(newPackage);
+                    if (expansion) listQueue[3].AddPackage(newPackage);
+                    else listQueue[2].AddPackage(newPackage);
                     break;
                 case DSCPName.EF:
-                    if (expansion) listQueue[2].AddPackege(newPackage);
-                    else listQueue[1].AddPackege(newPackage);
+                    if (expansion) listQueue[2].AddPackage(newPackage);
+                    else listQueue[1].AddPackage(newPackage);
                     break;
                 case DSCPName.CS6:
-                    if (expansion) listQueue[1].AddPackege(newPackage);
-                    else listQueue[0].AddPackege(newPackage);
+                    if (expansion) listQueue[1].AddPackage(newPackage);
+                    else listQueue[0].AddPackage(newPackage);
                     break;
                 case DSCPName.CS7:
-                    listQueue[0].AddPackege(newPackage);
+                    listQueue[0].AddPackage(newPackage);
                     break;
                 default:
                     throw new Exception();
@@ -84,28 +84,35 @@ namespace QoS.Class_of_Service.AlgorithmsApp
         }
 
         /// <summary>
-        /// Возращает пакет приоритетной очереди, если элементов нет, следующей
+        /// Возращает пакет приоритетной очереди, удаляет его
         /// </summary>
         /// <returns></returns>
-        private Package GetPackage()
+        private Package GetPackage(int num)
         {
-            foreach (Queuering queue in listQueue)
-            {
-                if (queue.Count != 0) return queue.GetPackege();
-            }
-            return null;
-        }    
-        
-        private Package FirstPackage()
-        {
-            foreach (Queuering queue in listQueue)
-            {
-                if (queue.Count != 0) return queue.FirstPackage();
-            }
-            return null;
+            if (num != -1) return listQueue[num].GetPackage();
+            else return null;
         }
 
-        public Queue<Package> GetPackage(int speed)
+        /// <summary>
+        /// Возращает пакет приоритетной очереди, не удаляет его
+        /// </summary>
+        /// <returns></returns>
+        private Package FirstPackage(int num)
+        {
+            if (num != -1) return listQueue[num].FirstPackage();
+            else return null;
+        }
+
+        private int FindNumQueue()
+        {
+            for (int i = 0; i < listQueue.Count; i++)
+            {
+                if (listQueue[i].Count != 0) return i;
+            }
+            return -1;
+        }
+
+        public Queue<Package> GetPackages(int speed)
         {
             Queue<Package> packages = new Queue<Package>();
 
@@ -113,8 +120,10 @@ namespace QoS.Class_of_Service.AlgorithmsApp
             
             while (NotNULL())
             {
-                Package pack = FirstPackage();
-                if (sum + pack.Length <= speed) packages.Enqueue(GetPackage());
+                int num = FindNumQueue();
+                Package pack = FirstPackage(num);
+                sum += pack.Length;
+                if (sum <= speed) packages.Enqueue(GetPackage(num));
                 else return packages;                
             }
 
