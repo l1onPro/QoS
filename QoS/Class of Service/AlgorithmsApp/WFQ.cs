@@ -11,8 +11,7 @@ namespace QoS.Class_of_Service.AlgorithmsApp
     /// Weighted Fair Queuing
     /// </summary>
     class WFQ : IAlgorithm
-    {
-        //Проверить правильность!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    {        
         private List<Queuering> listQueue;
 
         /// <summary>
@@ -28,6 +27,10 @@ namespace QoS.Class_of_Service.AlgorithmsApp
             }
         }
 
+        /// <summary>
+        /// Добавить пакет в свою очередь. Всего 4 класса очереди
+        /// </summary>
+        /// <param name="newPackage"></param>
         public void Add(Package newPackage)
         {
             switch (newPackage.CoS)
@@ -61,24 +64,28 @@ namespace QoS.Class_of_Service.AlgorithmsApp
             }
         }
 
+        /// <summary>
+        /// Рассчитывает вес пакета
+        /// </summary>
+        /// <param name="package"></param>
+        /// <returns></returns>
         private double FindWeight(Package package)
         {
             return (package.Length / Setting.Speed) / (1.0 + package.IP_Precedence);
         }
 
         /// <summary>
-        /// Рассчитывает веса пакетов и возвращает тот, у кого вес меньше
+        /// Вычисляет, пакет из какой очереди «быстрее»
         /// </summary>
         /// <returns></returns>
-        public Package GetPackage()
-        {
-            //вычисляет, пакет из какой очереди «быстрее»
+        private int FindNumMinWeight()
+        {            
             //номер очереди
             int num = -1;
             //вес
             double weight = 100;
 
-            for (int i = 0; i < listQueue.Count; i++)   
+            for (int i = 0; i < listQueue.Count; i++)
             {
                 if (listQueue[0].Count != 0)
                 {
@@ -90,11 +97,20 @@ namespace QoS.Class_of_Service.AlgorithmsApp
                     }
                 }
             }
+            return num;
+        }
 
+        /// <summary>
+        /// Возвращает пакет, у кого вес меньше, и удаляет из учереди
+        /// </summary>
+        /// <returns></returns>
+        public Package GetPackage()
+        {
+            int num = FindNumMinWeight();
             if (num != -1) return listQueue[num].GetPackege();
             else return null; 
         }
-
+        
         public bool NotNULL()
         {
             foreach (Queuering queue in listQueue)
