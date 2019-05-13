@@ -37,15 +37,13 @@ namespace QoS.Class_of_Service.AlgorithmsApp
         {
             Queue<Package> packages = new Queue<Package>();
 
-            int sum = 0;
-            Package pack;
-
-            pack = queue.FirstPackage();
-            while (pack != null)
+            int sum = 0;            
+           
+            while (NotNULL())
             {
-                if (sum + pack.Length <= speed) packages.Enqueue(pack);
-                else return packages;
-                pack = queue.FirstPackage();
+                Package pack = queue.FirstPackage();
+                if (sum + pack.Length <= speed) packages.Enqueue(queue.GetPackege());
+                else return packages;                
             }
 
             return packages;

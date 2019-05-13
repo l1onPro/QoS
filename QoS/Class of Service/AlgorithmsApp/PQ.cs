@@ -72,19 +72,6 @@ namespace QoS.Class_of_Service.AlgorithmsApp
                 default:
                     throw new Exception();
             }
-        }    
-
-        /// <summary>
-        /// Возращает пакет приоритетной очереди, если элементов нет, следующей
-        /// </summary>
-        /// <returns></returns>
-        public Package GetPackage()
-        {
-            foreach (Queuering queue in listQueue)
-            {
-                if (queue.Count != 0) return queue.GetPackege();
-            }
-            return null;
         }
 
         public bool NotNULL()
@@ -94,6 +81,44 @@ namespace QoS.Class_of_Service.AlgorithmsApp
                 if (queue.Count != 0) return true;
             }
             return false;
+        }
+
+        /// <summary>
+        /// Возращает пакет приоритетной очереди, если элементов нет, следующей
+        /// </summary>
+        /// <returns></returns>
+        private Package GetPackage()
+        {
+            foreach (Queuering queue in listQueue)
+            {
+                if (queue.Count != 0) return queue.GetPackege();
+            }
+            return null;
+        }    
+        
+        private Package FirstPackage()
+        {
+            foreach (Queuering queue in listQueue)
+            {
+                if (queue.Count != 0) return queue.FirstPackage();
+            }
+            return null;
+        }
+
+        public Queue<Package> GetPackage(int speed)
+        {
+            Queue<Package> packages = new Queue<Package>();
+
+            int sum = 0;           
+            
+            while (NotNULL())
+            {
+                Package pack = FirstPackage();
+                if (sum + pack.Length <= speed) packages.Enqueue(GetPackage());
+                else return packages;                
+            }
+
+            return packages;
         }
     }
 }
