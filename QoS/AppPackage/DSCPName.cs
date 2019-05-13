@@ -15,6 +15,6 @@ namespace QoS.AppPackage
         AF4,
         EF,
         CS6,
-        CS7
-    }
+        CS7            
+    }   
 }

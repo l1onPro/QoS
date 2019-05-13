@@ -27,5 +27,19 @@ namespace QoS.Class_of_Service
             get { return speed; }
             set { if (value > 0) speed = value; }
         }
+
+        static Byte bitSet = 3;
+        public static Byte BitSet
+        {
+            get { return bitSet; }
+            set { if (value > 0) bitSet = value; }
+        }
+
+        static int waitTime = 200;  //мс
+        public static int WaitTime
+        {
+            get { return waitTime; }
+            set { if (value > 0) waitTime = value; }
+        }
     }
 }

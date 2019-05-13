@@ -126,7 +126,7 @@ namespace QoS.Class_of_Service
         /// <returns></returns>
         private bool TailDrop(int length)
         {
-            return (maxLength - curLength) >= length;           
+            return (maxLength - curLength) <= length;           
         }
 
         /// <summary>
@@ -134,9 +134,8 @@ namespace QoS.Class_of_Service
         /// </summary>
         private void HeadDrop()
         {
-            //максимальное время застоя
-            int maxWaitTiem = 40;       
-            if (FirstPackage().TimeWait > maxWaitTiem)
+            //максимальное время застоя              
+            if (FirstPackage().TimeWait > Setting.WaitTime)
                 packets.Dequeue();
         }
 
@@ -147,18 +146,34 @@ namespace QoS.Class_of_Service
         /// <returns></returns>
         public bool AddPackege(Package p)
         {
-            //mtx.WaitOne();
-            
-            //в зависимости от очереди будет применяться свой отбрсыватель
-            if (!TailDrop(p.Length))
+            //только Tail Drop
+            if (p.CoS == DSCPName.EF || p.CoS == DSCPName.CS6 || p.CoS == DSCPName.CS7)
             {
-                packets.Enqueue(p);
-                return true;
+                if (!TailDrop(p.Length))
+                {
+                    packets.Enqueue(p);
+                    return true;
+                }
             }
-
-            HeadDrop();
-
-            //mtx.ReleaseMutex();
+            //применяется WRED
+            if (p.CoS == DSCPName.AF1 || p.CoS == DSCPName.AF2 || p.CoS == DSCPName.AF3 || p.CoS == DSCPName.AF4)
+            {
+                if (!WRED(p))
+                {
+                    packets.Enqueue(p);
+                    return true;
+                }
+            }
+            //применяется Tail Drop и Head Drop
+            if (p.CoS == DSCPName.CS0)
+            {
+                if (!TailDrop(p.Length))
+                {
+                    packets.Enqueue(p);
+                    return true;
+                }
+                HeadDrop();
+            }            
             return false;
         }
      
@@ -167,10 +182,8 @@ namespace QoS.Class_of_Service
         /// </summary>
         /// <returns></returns>
         public Package GetPackege()
-        {
-            //mtx.WaitOne();
-            return packets.Dequeue();
-            //mtx.ReleaseMutex();                    
+        {            
+            return packets.Dequeue();                         
         }
 
         /// <summary>
@@ -178,10 +191,8 @@ namespace QoS.Class_of_Service
         /// </summary>
         /// <returns></returns>
         public Package FirstPackage()
-        {
-            //mtx.WaitOne();
-            return packets.Peek();
-            //mtx.ReleaseMutex();            
+        {           
+            return packets.Peek();                   
         }
 
         /// <summary>
