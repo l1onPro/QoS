@@ -10,7 +10,7 @@ using System.Windows.Threading;
 namespace QoS.Class_of_Service
 {
     class Queuering
-    {        
+    {
         private int maxLength;
         public int MaxLength
         {
@@ -20,7 +20,7 @@ namespace QoS.Class_of_Service
         private int curLength;
 
         private Queue<Package> packets;
-        //private Mutex mtx = new Mutex();        
+        private Mutex mtx = new Mutex();
         Random random = new Random();
 
         public Queuering()
@@ -114,7 +114,7 @@ namespace QoS.Class_of_Service
         /// Random Early Detection
         /// </summary>
         private bool RED()
-        {            
+        {
             int cur = CheckBuffer();
             //отправка на проверку отсечения
             return Garbage_collector_For_RED(cur);
@@ -126,7 +126,7 @@ namespace QoS.Class_of_Service
         /// <returns></returns>
         private bool TailDrop(int length)
         {
-            return (maxLength - curLength) <= length;           
+            return (maxLength - curLength) <= length;
         }
 
         /// <summary>
@@ -146,12 +146,15 @@ namespace QoS.Class_of_Service
         /// <returns></returns>
         public bool AddPackage(Package p)
         {
+            mtx.WaitOne();
             //только Tail Drop
             if (p.CoS == DSCPName.EF || p.CoS == DSCPName.CS6 || p.CoS == DSCPName.CS7)
             {
                 if (!TailDrop(p.Length))
                 {
+
                     packets.Enqueue(p);
+                    mtx.ReleaseMutex();
                     return true;
                 }
             }
@@ -161,6 +164,7 @@ namespace QoS.Class_of_Service
                 if (!WRED(p))
                 {
                     packets.Enqueue(p);
+                    mtx.ReleaseMutex();
                     return true;
                 }
             }
@@ -171,20 +175,28 @@ namespace QoS.Class_of_Service
                 if (!TailDrop(p.Length))
                 {
                     packets.Enqueue(p);
+                    mtx.ReleaseMutex();
                     return true;
-                }                
-            }            
+                }
+            }
+            mtx.ReleaseMutex();
             return false;
         }
-     
+
         /// <summary>
         /// Удаляет пакет из начала очереди и возращает его
         /// </summary>
         /// <returns></returns>
         public Package GetPackage()
         {
+            mtx.WaitOne();
             if (NOTNULL())
-                return packets.Dequeue();
+            {
+                Package p = packets.Dequeue();
+                mtx.ReleaseMutex();
+                return p;
+            }
+            mtx.ReleaseMutex();
             return null;
         }
 
@@ -193,9 +205,15 @@ namespace QoS.Class_of_Service
         /// </summary>
         /// <returns></returns>
         public Package FirstPackage()
-        {     
+        {
+            mtx.WaitOne();
             if (NOTNULL())
-                return packets.Peek();
+            {
+                Package p = packets.Peek();
+                mtx.ReleaseMutex();
+                return p;
+            }
+            mtx.ReleaseMutex();
             return null;
         }
 
@@ -205,7 +223,7 @@ namespace QoS.Class_of_Service
         /// <returns></returns>
         public int Count
         {
-            get { return packets.Count; }           
+            get { mtx.WaitOne(); int count = packets.Count; mtx.ReleaseMutex(); return count; }
         }
 
         /// <summary>
@@ -219,11 +237,13 @@ namespace QoS.Class_of_Service
 
         public override string ToString()
         {
+            mtx.WaitOne();
             string txt = "";
-            foreach(AppPackage.Package p in packets)
+            foreach (AppPackage.Package p in packets)
             {
                 txt += p.ToString();
             }
+            mtx.ReleaseMutex();
             return txt;
         }
     }
