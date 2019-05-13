@@ -11,31 +11,21 @@ namespace QoS.Class_of_Service.AlgorithmsApp
     /// CBWFQ+LLQ — Low-Latency Queue
     /// </summary>
     class CBWFQ_LLQ : IAlgorithm
-    {
-        //Проверить правильность!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    {        
         private List<Queuering> listQueue;
         /// <summary>
         /// массив весов
         /// </summary>
         private int[] weight;
         /// <summary>
-        /// текущий вес
-        /// </summary>
-        private int curWeight;
-        /// <summary>
-        /// номер очереди
-        /// </summary>
-        private int num;
 
         /// <summary>
-        /// CBWFQ+LLQ — Low-Latency Queue
+        /// CBWFQ+LLQ — Low-Latency Queue. 2 типа очереди. между ними работает PQ, внутри второго CBWFQ
         /// </summary>
         public CBWFQ_LLQ()
         {
             listQueue = new List<Queuering>(4);
             weight = new int[3];
-            curWeight = 0;
-            num = 0;
 
             for (int i = 0; i < listQueue.Count; i++)
             {
@@ -50,7 +40,8 @@ namespace QoS.Class_of_Service.AlgorithmsApp
         /// </summary>
         private void SetWeight()
         {
-            weight = new int[3] { 12, 10, 5 };
+            //в процентах
+            weight = new int[3] { 50, 30, 20 };
         }
 
         public void Add(Package newPackage)
@@ -58,28 +49,28 @@ namespace QoS.Class_of_Service.AlgorithmsApp
             switch (newPackage.CoS)
             {
                 case DSCPName.CS0:
-                    listQueue[3].AddPackege(newPackage);
+                    listQueue[3].AddPackage(newPackage);
                     break;
                 case DSCPName.AF1:
-                    listQueue[2].AddPackege(newPackage);
+                    listQueue[2].AddPackage(newPackage);
                     break;
                 case DSCPName.AF2:
-                    listQueue[2].AddPackege(newPackage);
+                    listQueue[2].AddPackage(newPackage);
                     break;
                 case DSCPName.AF3:
-                    listQueue[2].AddPackege(newPackage);
+                    listQueue[2].AddPackage(newPackage);
                     break;
                 case DSCPName.AF4:
-                    listQueue[2].AddPackege(newPackage);
+                    listQueue[2].AddPackage(newPackage);
                     break;
                 case DSCPName.EF:
-                    listQueue[1].AddPackege(newPackage);
+                    listQueue[1].AddPackage(newPackage);
                     break;
                 case DSCPName.CS6:
-                    listQueue[0].AddPackege(newPackage);
+                    listQueue[0].AddPackage(newPackage);
                     break;
                 case DSCPName.CS7:
-                    listQueue[0].AddPackege(newPackage);
+                    listQueue[0].AddPackage(newPackage);
                     break;
                 default:
                     throw new Exception();
@@ -87,33 +78,73 @@ namespace QoS.Class_of_Service.AlgorithmsApp
         }
 
         /// <summary>
-        /// 2 типа очереди. между ними работает PQ, внутри второго CBWFQ
+        /// Возвращает пакет, у кого вес меньше, и удаляет из учереди
         /// </summary>
+        /// <param name="num">Номер очереди</param>
         /// <returns></returns>
-        public Package GetPackage()
+        private Package GetPackage(int num)
         {
-            //Если в LQ есть пакеты, отдает их (Алгоритм PQ)
-            if (listQueue[0].Count != 0) return listQueue[0].GetPackege();
+            if (num != -1) return listQueue[num].GetPackage();
+            else return null;
+        }
 
-            //Алгоритм CBWFQ
-            if (curWeight == 0)
-            {
-                //если  дошли до конца очереди, обнуляем
-                if (num == listQueue.Count - 1) num = 0;
-                num++;
+        /// <summary>
+        /// Возвращает пакет, у кого вес меньше, и удаляет из учереди
+        /// </summary>
+        /// <param name="num">Номер очереди</param>
+        /// <returns></returns>
+        private Package FirstPackage(int num)
+        {
+            if (num != -1) return listQueue[num].FirstPackage();
+            else return null;
+        }
+
+        /// <summary>
+        /// Вычисляем сколько доступно длины для i очереди
+        /// </summary>
+        /// <param name="i">Номер очереди</param>
+        /// <param name="speed">Скорость пропускания</param>
+        /// <returns></returns>
+        private int FindLengthForQueue(int i, int speed)
+        {
+            /*
+             * speed - 100%
+             * ? - weight[i] %
+             */
+            return speed * weight[i] / 100;
+        }
+
+        public Queue<Package> GetPackages(int speed)
+        {
+            Queue<Package> packages = new Queue<Package>();
+
+            //LQ
+            int curSpeed = 0;
+
+            while (listQueue[0].NOTNULL())
+            {                
+                Package pack = FirstPackage(0);
+                curSpeed += pack.Length;
+                if (curSpeed <= speed) packages.Enqueue(GetPackage(0));
+                else break;
             }
-            for (int i = num; i < listQueue.Count; i++)
+
+            //CBWFQ
+            for (int i = 1; i < listQueue.Count; i++)
             {
-                //если нет элементов в текущей очереди, обнуляем и тем самым переходим к следующей
-                if (listQueue[i].Count == 0) curWeight = 0;
-                else
+                int MaxLength = FindLengthForQueue(i - 1, curSpeed);
+                int sum = 0;
+
+                while (listQueue[i].NOTNULL())
                 {
-                    //если вес не достиг максимального, отправляем пакеты из текущей очереди
-                    if (curWeight != weight[i]) return listQueue[i].GetPackege();
-                    else curWeight = 0;
+                    Package pack = FirstPackage(i);
+                    sum += pack.Length;
+                    if (sum <= speed) packages.Enqueue(GetPackage(i));
+                    else break;
                 }
             }
-            return null;
+
+            return packages;
         }
 
         public bool NotNULL()
