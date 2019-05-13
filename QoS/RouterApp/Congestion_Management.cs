@@ -21,6 +21,9 @@ namespace QoS.RouterApp
 
         DispatcherTimer timer;
 
+        //Трафик за цикл
+        Queue<Package> resultPackage;
+
         public Congestion_Management()
         {
 

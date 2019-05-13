@@ -21,35 +21,34 @@ namespace QoS.Class_of_Service.AlgorithmsApp
         public FIFO()
         {            
             queue = new Queuering(); 
-        }  
+        }        
       
-        /// <summary>
-        /// Проверяет, есть ли пакеты в очереди
-        /// </summary>
-        /// <returns></returns>
         public bool NotNULL()
         {            
             return queue.Count != 0;
         }
-
-        /// <summary>
-        /// Добавляет новый пакет в конеч очереди
-        /// </summary>
-        /// <param name="newPackage"></param>
+        
         public void Add(Package newPackage)
         {
             queue.AddPackege(newPackage);
-        }
+        }    
 
-        /// <summary>
-        /// Удаляет пакет из начала очереди и возращает его
-        /// </summary>
-        /// <returns></returns>
-        public Package GetPackage()
+        public Queue<Package> GetPackage(int speed)
         {
-            if (NotNULL())
-                return queue.GetPackege();
-            else return null;
+            Queue<Package> packages = new Queue<Package>();
+
+            int sum = 0;
+            Package pack;
+
+            pack = queue.FirstPackage();
+            while (pack != null)
+            {
+                if (sum + pack.Length <= speed) packages.Enqueue(pack);
+                else return packages;
+                pack = queue.FirstPackage();
+            }
+
+            return packages;
         }
     }
 }

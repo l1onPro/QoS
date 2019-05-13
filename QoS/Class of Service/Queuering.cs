@@ -182,8 +182,10 @@ namespace QoS.Class_of_Service
         /// </summary>
         /// <returns></returns>
         public Package GetPackege()
-        {            
-            return packets.Dequeue();                         
+        {
+            if (NOTNULL())
+                return packets.Dequeue();
+            return null;
         }
 
         /// <summary>
@@ -191,8 +193,10 @@ namespace QoS.Class_of_Service
         /// </summary>
         /// <returns></returns>
         public Package FirstPackage()
-        {           
-            return packets.Peek();                   
+        {     
+            if (NOTNULL())
+                return packets.Peek();
+            return null;
         }
 
         /// <summary>
@@ -202,6 +206,15 @@ namespace QoS.Class_of_Service
         public int Count
         {
             get { return packets.Count; }           
+        }
+
+        /// <summary>
+        /// Есть ли элементы в очереди
+        /// </summary>
+        /// <returns></returns>
+        public bool NOTNULL()
+        {
+            return Count != 0;
         }
 
         public override string ToString()

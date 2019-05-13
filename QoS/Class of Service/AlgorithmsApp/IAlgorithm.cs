@@ -11,16 +11,17 @@ namespace QoS.Class_of_Service.AlgorithmsApp
     interface IAlgorithm
     {
         /// <summary>
-        /// Добавить пакет в алгоритм
+        /// Добавляет новый пакет в конец очереди
         /// </summary>
-        /// <param name="newPackage"></param>
+        /// <param name="newPackage">Новый пакет</param>
         void Add(Package newPackage);
 
         /// <summary>
-        /// получить результирующий пакет
+        ///  Получить результирующую очередь за 1 цикл
         /// </summary>
+        /// <param name="speed">Скорость</param>
         /// <returns></returns>
-        Package GetPackage();
+        Queue<Package> GetPackage(int speed);
 
         /// <summary>
         /// Есть ли пакеты в очередях
