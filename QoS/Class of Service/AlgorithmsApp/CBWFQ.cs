@@ -12,20 +12,31 @@ namespace QoS.Class_of_Service.AlgorithmsApp
     /// </summary>
     class CBWFQ : IAlgorithm
     {
-        //Проверить правильность!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        /// <summary>
+        /// Список очередей
+        /// </summary>
         private List<Queuering> listQueue;
+
         /// <summary>
         /// массив весов
         /// </summary>
         private int[] weight;
+
         /// <summary>
         /// текущий вес
         /// </summary>
         private int curWeight; 
+
         /// <summary>
         /// номер очереди
         /// </summary>
         private int num;
+
+        /*
+         * для этих классов 
+         * определяется «вес» и пакеты их очередей обслуживаются, соразмерно весу 
+         * (больше вес — больше пакетов из этой очереди уйдёт в единицу времени)
+         */
 
         /// <summary>
         /// Class-Based WFQ
@@ -42,6 +53,7 @@ namespace QoS.Class_of_Service.AlgorithmsApp
                 listQueue[i] = new Queuering();
             }
 
+            //Назначается классам вес.
             SetWeight();
         }
 
@@ -50,9 +62,14 @@ namespace QoS.Class_of_Service.AlgorithmsApp
         /// </summary>
         private void SetWeight()
         {
-            weight = new int[8] { 27, 25, 21, 16, 14, 12, 10, 5 };            
+            //задается в %
+            weight = new int[8] { 20, 20, 15, 10, 10, 10, 10, 5 };            
         }
 
+        /// <summary>
+        /// Добавить пакет в соответствующую очередь
+        /// </summary>
+        /// <param name="newPackage"></param>
         public void Add(Package newPackage)
         {
             switch (newPackage.CoS)
@@ -87,11 +104,12 @@ namespace QoS.Class_of_Service.AlgorithmsApp
         }
 
         /// <summary>
-        /// Вес назначается классам. Возращает из каждой очереди пакетов = весу
+        ///  Возращает из каждой очереди пакетов = весу
         /// </summary>
         /// <returns></returns>
         public Package GetPackage()
         {
+            /////////Переписать///////////////////
             if (curWeight == -1)
             {
                 //если  дошли до конца очереди, обнуляем
