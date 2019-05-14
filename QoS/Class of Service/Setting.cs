@@ -29,6 +29,10 @@ namespace QoS.Class_of_Service
         }
 
         static Byte bitSet = 3;
+
+        /// <summary>
+        /// Bit
+        /// </summary>
         public static Byte BitSet
         {
             get { return bitSet; }
