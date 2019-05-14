@@ -27,7 +27,7 @@ namespace QoS.AppPackage
         /// <summary>
         /// Class of Service
         /// </summary>
-        public PHB CoS { get; set; }          
+        public PHB CoS { get; set; }
 
         /// <summary>
         /// Время ожидания пакета
@@ -103,6 +103,8 @@ namespace QoS.AppPackage
         {
             this.ID = NexID();
             this.DSCP = DSCP;
+
+            TimeWait = 0;
             StartTimerGenPackage();
         }
 
@@ -111,6 +113,8 @@ namespace QoS.AppPackage
             this.ID = NexID();
             this.DSCP = DSCP;
             Length = length;
+
+            TimeWait = 0;
             StartTimerGenPackage();
         }
 

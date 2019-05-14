@@ -14,15 +14,26 @@ namespace QoS.RouterApp
     class Router
     {
         String filename = @"GenerationPackage.txt";
+        String fileNameForResultQueue = @"ResultQueue.txt";
         /// <summary>
         /// Генератор пакета
         /// </summary>
         GenPackage genPackage;
 
         /// <summary>
+        /// Алготимы диспетчера
+        /// </summary>
+        IAlgorithm algorithm;
+
+        /// <summary>
         /// Таймер генератора пакетов
         /// </summary>
         DispatcherTimer timerGenPack;
+        
+        /// <summary>
+        /// Таймер алгоритма
+        /// </summary>
+        DispatcherTimer timerAlg;       
 
         Random random = new Random();
 
@@ -31,61 +42,64 @@ namespace QoS.RouterApp
         /// </summary>
         Classification classification;
 
-        public Router()
-        {
-            DeleteDirectory();
-            CreateDirectory();
+        /// <summary>
+        /// Результирующий трафик 
+        /// </summary>
+        Queue<Package> resultPackage;
 
+
+        SettingFile settingFile;
+        public Router()
+        {       
             genPackage = new GenPackage();
             classification = new Classification();
+            settingFile = new SettingFile();
+
+            settingFile.DeleteDirectory();
+            settingFile.CreateDirectory();
+
+            algorithm = new FIFO();
+            resultPackage = new Queue<Package>();
 
             StartTimerGenPackage();
-        }
-
-        private void DeleteDirectory()
-        {
-            string dirName = Setting.Path + "\\" + Setting.Directory;
-
-            try
-            {
-                DirectoryInfo dirInfo = new DirectoryInfo(dirName);
-                dirInfo.Delete(true);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
-        }
-
-        private void CreateDirectory()
-        {
-            DirectoryInfo dirInfo = new DirectoryInfo(Setting.Path);
-            if (!dirInfo.Exists)
-            {
-                dirInfo.Create();
-            }
-            dirInfo.CreateSubdirectory(Setting.Directory);
-
-            //FileInfo fileInf = new FileInfo(Setting.Path + Setting.Directory + filename);
-            //fileInf.Create();
-        }
+            StartTimerAlg();
+        }    
 
         /// <summary>
         /// Запуск генератора, обновление : 1 мс
         /// </summary>
-        public void StartTimerGenPackage()
+        private void StartTimerGenPackage()
         {
             timerGenPack = new DispatcherTimer();
             timerGenPack.Interval = new TimeSpan(0, 0, 0, 0, Setting.Millisecond);
-            timerGenPack.Tick += new EventHandler(WorkTime);
             timerGenPack.Tick += new EventHandler(Addpackage);
+            timerGenPack.Tick += new EventHandler(WorkTime);            
             timerGenPack.Start();
         }
 
         /// <summary>
         /// остановка генератора
         /// </summary>
-        public void StopTimerGenPackage()
+        private void StopTimerAlg()
+        {
+            timerAlg.Stop();
+        }
+
+        /// <summary>
+        /// Запуск генератора, обновление : 1 мс
+        /// </summary>
+        private void StartTimerAlg()
+        {
+            timerAlg = new DispatcherTimer();
+            timerAlg.Interval = new TimeSpan(0, 0, 0, 0, Setting.Millisecond);
+            timerAlg.Tick += new EventHandler(Congestion_Management);           
+            timerAlg.Start();
+        }
+
+        /// <summary>
+        /// остановка генератора
+        /// </summary>
+        private void StopTimerGenPackage()
         {
             timerGenPack.Stop();
         }
@@ -113,6 +127,39 @@ namespace QoS.RouterApp
 
                 String path = Setting.Path + "\\" + Setting.Directory + "\\" + filename;
                 //вывели в файл инфу
+                File.AppendAllText(path, package.ToString() + Environment.NewLine);
+
+                //добавить пакет в алгоритм
+                algorithm.Add(package);
+            }
+        }
+
+        /// <summary>
+        /// Управление перегрузками
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public void Congestion_Management(object sender, EventArgs e)
+        {
+            Queue<Package> packages = algorithm.GetPackages(Setting.Speed * 1000000);
+
+            foreach (Package pack in packages)
+            {
+                resultPackage.Enqueue(pack);
+            }
+
+            PrintToFile();
+            resultPackage.Clear();
+        }
+
+        /// <summary>
+        /// Вывод результирующей очереди в файл
+        /// </summary>
+        private void PrintToFile()
+        {
+            String path = Setting.Path + "\\" + Setting.Directory + "\\" + fileNameForResultQueue;
+            foreach (Package package in resultPackage)
+            {
                 File.AppendAllText(path, package.ToString() + Environment.NewLine);
             }
         }

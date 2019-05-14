@@ -13,7 +13,7 @@ namespace QoS.Class_of_Service
     public static class Setting
     {
         /// <summary>
-        /// Цикл обновления потоков (0.001 мс)
+        /// Цикл обновления потоков (1 мс)
         /// </summary>
         public static int Millisecond { get; } = 100;
 
@@ -38,8 +38,8 @@ namespace QoS.Class_of_Service
         {
             get { return maxSizeQueuering; }
             set { if (value > 0) maxSizeQueuering = value; }
-        }
-
+        }       
+               
         static int speed = 100;
         /// <summary>
         /// Скорость интерфейса (мегабит в секунду)

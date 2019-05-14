@@ -134,9 +134,12 @@ namespace QoS.Class_of_Service
         /// </summary>
         private void HeadDrop()
         {
-            //максимальное время застоя              
-            if (FirstPackage().TimeWait > Setting.WaitTime)
-                packets.Dequeue();
+            //максимальное время застоя 
+            if (NOTNULL())
+            {
+                if (FirstPackage().TimeWait > Setting.WaitTime)
+                    packets.Dequeue();
+            }            
         }
 
         /// <summary>
