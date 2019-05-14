@@ -84,8 +84,9 @@ namespace QoS.Class_of_Service.AlgorithmsApp
         }
 
         /// <summary>
-        /// Возращает пакет приоритетной очереди, удаляет его
+        /// Возвращает первый пакет выбранной очереди и удаляет из учереди
         /// </summary>
+        /// <param name="num">Номер очереди</param>
         /// <returns></returns>
         private Package GetPackage(int num)
         {
@@ -93,9 +94,10 @@ namespace QoS.Class_of_Service.AlgorithmsApp
             else return null;
         }
 
-        /// <summary>
-        /// Возращает пакет приоритетной очереди, не удаляет его
+        /// <summary>       
+        /// Возвращает первый пакет выбранной очереди и не удаляет из очереди
         /// </summary>
+        /// <param name="num">Номер очереди</param>
         /// <returns></returns>
         private Package FirstPackage(int num)
         {

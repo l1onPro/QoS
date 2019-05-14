@@ -100,7 +100,7 @@ namespace QoS.Class_of_Service.AlgorithmsApp
         }
 
         /// <summary>
-        /// Возвращает пакет, у кого вес меньше, и удаляет из учереди
+        /// Возвращает первый пакет выбранной очереди и удаляет из учереди
         /// </summary>
         /// <param name="num">Номер очереди</param>
         /// <returns></returns>
@@ -111,7 +111,7 @@ namespace QoS.Class_of_Service.AlgorithmsApp
         }
 
         /// <summary>
-        /// Возвращает пакет, у кого вес меньше, и удаляет из учереди
+        /// Возвращает первый пакет выбранной очереди и не удаляет из очереди
         /// </summary>
         /// <param name="num">Номер очереди</param>
         /// <returns></returns>
