@@ -35,6 +35,9 @@ namespace QoS.Class_of_Service.AlgorithmsApp
             PrintToFile();
         }    
 
+        /// <summary>
+        /// Вывод в файл
+        /// </summary>
         private void PrintToFile()
         {
             String path = Setting.Path + "\\" + Setting.Directory + "\\" + Setting.FileNameQueuering;

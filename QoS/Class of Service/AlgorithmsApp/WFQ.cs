@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -61,6 +62,20 @@ namespace QoS.Class_of_Service.AlgorithmsApp
                     break;
                 default:
                     throw new Exception();
+            }
+            PrintToFile();
+        }
+
+        /// <summary>
+        /// Вывод в файл
+        /// </summary>
+        private void PrintToFile()
+        {
+            String path = Setting.Path + "\\" + Setting.Directory + "\\" + Setting.FileNameQueuering;
+
+            foreach (Queuering queue in listQueue)
+            {
+                File.AppendAllText(path, queue.PrintToFile() + Environment.NewLine);
             }
         }
 
