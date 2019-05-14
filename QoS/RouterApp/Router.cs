@@ -58,7 +58,7 @@ namespace QoS.RouterApp
             settingFile.DeleteDirectory();
             settingFile.CreateDirectory();
 
-            algorithm = new FIFO();
+            algorithm = new PQ(false);
             resultPackage = new Queue<Package>();
 
             StartTimerGenPackage();

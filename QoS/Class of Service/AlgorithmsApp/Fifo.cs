@@ -42,7 +42,7 @@ namespace QoS.Class_of_Service.AlgorithmsApp
         {
             String path = Setting.Path + "\\" + Setting.Directory + "\\" + Setting.FileNameQueuering;
 
-            File.AppendAllText(path, queue.PrintToFile() + Environment.NewLine);           
+            File.AppendAllText(path, queue.ID + " " + queue.PrintToFile() + Environment.NewLine);           
         }
 
         public Queue<Package> GetPackages(int speed)

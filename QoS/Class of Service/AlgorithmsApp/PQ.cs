@@ -22,14 +22,18 @@ namespace QoS.Class_of_Service.AlgorithmsApp
         /// <param name="expansion">1 (true) - Улучшенная очередь</param>
         public PQ(bool expansion)
         {
-            if (expansion) 
-                listQueue = new List<Queuering>(8);
-            else
-                listQueue = new List<Queuering>(4);
-
-            for (int i = 0; i < listQueue.Count; i++)
+            int count = 4;
+            if (expansion)
             {
-                listQueue[i] = new Queuering();
+                listQueue = new List<Queuering>();
+                count = 8;
+            }                
+            else            
+                listQueue = new List<Queuering>();                          
+
+            for (int i = 0; i < count; i++)
+            {
+                listQueue.Add(new Queuering());
             }
 
             this.expansion = expansion;
@@ -72,8 +76,7 @@ namespace QoS.Class_of_Service.AlgorithmsApp
                     break;
                 default:
                     throw new Exception();
-            }
-            PrintToFile();
+            }           
         }
 
         /// <summary>
@@ -85,8 +88,13 @@ namespace QoS.Class_of_Service.AlgorithmsApp
 
             foreach (Queuering queue in listQueue)
             {
-                File.AppendAllText(path, queue.PrintToFile() + Environment.NewLine);
-            }            
+                if (queue.NOTNULL())
+                    File.AppendAllText(path, queue.ID + " " + queue.PrintToFile());
+            }
+            
+            File.AppendAllText(path, Environment.NewLine);
+            File.AppendAllText(path, "------------------------");
+            File.AppendAllText(path, Environment.NewLine);
         }
 
         public bool NotNULL()
@@ -131,6 +139,7 @@ namespace QoS.Class_of_Service.AlgorithmsApp
 
         public Queue<Package> GetPackages(int speed)
         {
+            PrintToFile();
             Queue<Package> packages = new Queue<Package>();
 
             int sum = 0;           

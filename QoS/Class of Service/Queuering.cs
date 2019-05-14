@@ -10,7 +10,14 @@ using System.Windows.Threading;
 namespace QoS.Class_of_Service
 {
     class Queuering
-    {        
+    {
+        public int ID { get; }
+
+        private static int nextID = 0;
+
+        private static int NexID() { return nextID++; }
+
+
         private int maxLength;
         public int MaxLength
         {
@@ -25,12 +32,14 @@ namespace QoS.Class_of_Service
 
         public Queuering()
         {
+            this.ID = NexID();
             this.maxLength = Setting.MaxSizeQueuering;
             packets = new Queue<Package>();
         }
 
         public Queuering(int maxLength)
         {
+            this.ID = NexID();
             this.maxLength = maxLength;
             packets = new Queue<Package>();
         }
@@ -255,7 +264,7 @@ namespace QoS.Class_of_Service
             string txt = "";
             foreach (AppPackage.Package p in packets)
             {
-                txt += p.ToString() + Environment.NewLine;
+                txt += p.ToString();
             }
             mtx.ReleaseMutex();
             return txt;
