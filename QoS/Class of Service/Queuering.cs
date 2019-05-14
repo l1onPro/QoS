@@ -248,5 +248,17 @@ namespace QoS.Class_of_Service
             mtx.ReleaseMutex();
             return txt;
         }
+
+        public string PrintToFile()
+        {
+            mtx.WaitOne();
+            string txt = "";
+            foreach (AppPackage.Package p in packets)
+            {
+                txt += p.ToString() + Environment.NewLine;
+            }
+            mtx.ReleaseMutex();
+            return txt;
+        }
     }
 }

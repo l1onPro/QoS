@@ -1,6 +1,7 @@
 ﻿using QoS.AppPackage;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,7 +14,7 @@ namespace QoS.Class_of_Service.AlgorithmsApp
     class FIFO : IAlgorithm
     {
         private Queuering queue;
-
+         
         /// <summary>
         /// First In, First Out.
         /// Пакеты уходят из очереди ровно в том порядке, в котором они туда попали
@@ -31,7 +32,15 @@ namespace QoS.Class_of_Service.AlgorithmsApp
         public void Add(Package newPackage)
         {
             queue.AddPackage(newPackage);
+            PrintToFile();
         }    
+
+        private void PrintToFile()
+        {
+            String path = Setting.Path + "\\" + Setting.Directory + "\\" + Setting.FileNameQueuering;
+
+            File.AppendAllText(path, queue.PrintToFile() + Environment.NewLine);           
+        }
 
         public Queue<Package> GetPackages(int speed)
         {

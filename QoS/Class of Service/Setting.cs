@@ -72,5 +72,6 @@ namespace QoS.Class_of_Service
 
         public static String Path { get; } = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
         public static String Directory { get; } = @"QoS info";
+        public static String FileNameQueuering { get; } = @"Queuering.txt";
     }
 }
