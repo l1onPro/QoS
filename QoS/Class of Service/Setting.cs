@@ -22,6 +22,10 @@ namespace QoS.Class_of_Service
         }
 
         static int speed = 20;
+        
+        /// <summary>
+        /// Я лох
+        /// </summary>
         public static int Speed
         {
             get { return speed; }
