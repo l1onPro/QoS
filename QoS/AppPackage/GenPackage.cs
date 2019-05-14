@@ -1,4 +1,5 @@
-﻿using System;
+﻿using QoS.Class_of_Service;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,46 +21,23 @@ namespace QoS.AppPackage
         {            
             random = new Random();
             genType = new GenTypePackage();            
-        }          
+        }     
 
-        /// <summary>
-        /// разделение пакетов на модели
-        /// </summary>
-        /// <param name="type">Тип пакета</param>
-        /// <returns></returns>
-        private DSCPName SetPHBForPackage(ServiceClassName type)
+        private int GetDSCP()
         {
-            switch (type)
-            {
-                case ServiceClassName.Network_Control_2:
-                    return DSCPName.CS7;
-                case ServiceClassName.Network_Control_1:
-                    return DSCPName.CS6;
-                case ServiceClassName.Telephony:
-                    return DSCPName.EF;
-                case ServiceClassName.Multemedia_Conferencing:
-                    return DSCPName.AF4;
-                case ServiceClassName.Multemedia_Streaming:
-                    return DSCPName.AF3;
-                case ServiceClassName.LowLatency_Data:
-                    return DSCPName.AF2;
-                case ServiceClassName.HightThroughput_Data:
-                    return DSCPName.AF1;
-                case ServiceClassName.Standart:
-                    return DSCPName.CS0;                    
-                default:
-                    throw new Exception();
-            }            
-        }       
+            return random.Next(64);
+        }        
 
         public Package New()
         {
             //создается новый рандомный пакет
-            ServiceClassName newPackege = genType.NextType();
-            //Задается маркером
-            DSCPName CoS = SetPHBForPackage(newPackege);            
+            //ServiceClassName newPackege = genType.NextType();   
+            
+            int DSCP = GetDSCP();
+            int length = random.Next(Setting.MinSizePackage, Setting.MaxSizePackage);
+
             //Создается пакет
-            return new Package(CoS, random.Next(5, 100));  
+            return new Package(DSCP);  
         }
     }
 }

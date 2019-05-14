@@ -1,4 +1,5 @@
 ﻿using QoS.AppPackage;
+using QoS.RouterApp;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,16 +11,16 @@ namespace QoS
     class Test
     {
         //Отсюда запускать все свои тесты
-        GenPackage package;
+        Router router;
 
         public Test()
         {
-            package = new GenPackage();
+            router = new Router();
         }
 
         public string getResult()
         {
-            return package.result;
+            return "1";
         }
     }
 }

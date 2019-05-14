@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace QoS.AppPackage
 {
-    enum DSCPName
+    enum PHB
     {
-        CS0,
+        DF,     //или BE, или CS0
         AF1,
         AF2,
         AF3,

@@ -60,20 +60,19 @@
     <Compile Include="Class of Service\AlgorithmsApp\DWRR.cs" />
     <Compile Include="Class of Service\AlgorithmsApp\PQ.cs" />
     <Compile Include="Class of Service\AlgorithmsApp\WFQ.cs" />
+    <Compile Include="RouterApp\Classification.cs" />
     <Compile Include="RouterApp\Congestion_Management.cs" />
     <Compile Include="AppPackage\DSCPName.cs" />
     <Compile Include="AppPackage\GenPackage.cs" />
     <Compile Include="AppPackage\GenTypePackage.cs" />
     <Compile Include="AppPackage\GradColor.cs" />
-    <Compile Include="AppPackage\Priority.cs" />
     <Compile Include="AppPackage\TypePakage.cs" />
     <Compile Include="Class of Service\AlgorithmsApp\IAlgorithm.cs" />
     <Compile Include="Class of Service\Queuering.cs" />
     <Compile Include="Class of Service\Setting.cs" />
-    <Compile Include="RouterApp\GenerationPackage.cs" />
+    <Compile Include="RouterApp\Huawei.cs" />
     <Compile Include="RouterApp\Router.cs" />
     <Compile Include="Test.cs" />
-    <Compile Include="Time\SettingTime.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

@@ -48,28 +48,28 @@ namespace QoS.Class_of_Service.AlgorithmsApp
         {
             switch (newPackage.CoS)
             {
-                case DSCPName.CS0:
+                case PHB.DF:
                     listQueue[3].AddPackage(newPackage);
                     break;
-                case DSCPName.AF1:
+                case PHB.AF1:
                     listQueue[2].AddPackage(newPackage);
                     break;
-                case DSCPName.AF2:
+                case PHB.AF2:
                     listQueue[2].AddPackage(newPackage);
                     break;
-                case DSCPName.AF3:
+                case PHB.AF3:
                     listQueue[2].AddPackage(newPackage);
                     break;
-                case DSCPName.AF4:
+                case PHB.AF4:
                     listQueue[2].AddPackage(newPackage);
                     break;
-                case DSCPName.EF:
+                case PHB.EF:
                     listQueue[1].AddPackage(newPackage);
                     break;
-                case DSCPName.CS6:
+                case PHB.CS6:
                     listQueue[0].AddPackage(newPackage);
                     break;
-                case DSCPName.CS7:
+                case PHB.CS7:
                     listQueue[0].AddPackage(newPackage);
                     break;
                 default:

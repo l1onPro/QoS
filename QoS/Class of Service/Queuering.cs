@@ -15,7 +15,7 @@ namespace QoS.Class_of_Service
         public int MaxLength
         {
             get { return maxLength; }
-            set { if (value > 0 && value < Setting.MaxSize) maxLength = value; }
+            set { if (value > 0 && value < Setting.MaxSizePackage) maxLength = value; }
         }
         private int curLength;
 
@@ -25,7 +25,7 @@ namespace QoS.Class_of_Service
 
         public Queuering()
         {
-            this.maxLength = Setting.MaxSize;
+            this.maxLength = Setting.MaxSizeQueuering;
             packets = new Queue<Package>();
         }
 
@@ -53,7 +53,7 @@ namespace QoS.Class_of_Service
         private bool WRED(Package package)
         {
             int occupancy = CheckBuffer();
-            switch (package.color)
+            switch (package.Color)
             {
                 case GradColor.red:
                     if (occupancy <= 20) return false;                                          //ничего не отрбрасывается
@@ -148,7 +148,7 @@ namespace QoS.Class_of_Service
         {
             mtx.WaitOne();
             //только Tail Drop
-            if (p.CoS == DSCPName.EF || p.CoS == DSCPName.CS6 || p.CoS == DSCPName.CS7)
+            if (p.CoS == PHB.EF || p.CoS == PHB.CS6 || p.CoS == PHB.CS7)
             {
                 if (!TailDrop(p.Length))
                 {
@@ -158,7 +158,7 @@ namespace QoS.Class_of_Service
                 }
             }
             //применяется WRED
-            if (p.CoS == DSCPName.AF1 || p.CoS == DSCPName.AF2 || p.CoS == DSCPName.AF3 || p.CoS == DSCPName.AF4)
+            if (p.CoS == PHB.AF1 || p.CoS == PHB.AF2 || p.CoS == PHB.AF3 || p.CoS == PHB.AF4)
             {
                 if (!WRED(p))
                 {
@@ -168,7 +168,7 @@ namespace QoS.Class_of_Service
                 }
             }
             //применяется Tail Drop и Head Drop
-            if (p.CoS == DSCPName.CS0)
+            if (p.CoS == PHB.DF)
             {
                 HeadDrop();
                 if (!TailDrop(p.Length))
