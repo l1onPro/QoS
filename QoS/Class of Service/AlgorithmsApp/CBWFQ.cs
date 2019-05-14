@@ -101,11 +101,13 @@ namespace QoS.Class_of_Service.AlgorithmsApp
 
             foreach (Queuering queue in listQueue)
             {
+                File.AppendAllText(path, queue.ID + ":" + Environment.NewLine);
                 if (queue.NOTNULL())
-                    File.AppendAllText(path, queue.ID + " " + queue.PrintToFile());
+                {
+                    File.AppendAllText(path, queue.PrintToFile() + Environment.NewLine);
+                }
             }
 
-            File.AppendAllText(path, Environment.NewLine);
             File.AppendAllText(path, "------------------------");
             File.AppendAllText(path, Environment.NewLine);
         }

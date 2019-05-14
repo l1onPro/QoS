@@ -71,7 +71,8 @@ namespace QoS.RouterApp
         private void StartTimerGenPackage()
         {
             timerGenPack = new DispatcherTimer();
-            timerGenPack.Interval = new TimeSpan(0, 0, 0, 0, Setting.Millisecond);
+            //timerGenPack.Interval = new TimeSpan(0, 0, 0, 0, Setting.Millisecond);
+            timerGenPack.Interval = new TimeSpan();
             timerGenPack.Tick += new EventHandler(Addpackage);
             timerGenPack.Tick += new EventHandler(WorkTime);            
             timerGenPack.Start();

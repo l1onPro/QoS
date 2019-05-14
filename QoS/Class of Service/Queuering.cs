@@ -264,7 +264,7 @@ namespace QoS.Class_of_Service
             string txt = "";
             foreach (AppPackage.Package p in packets)
             {
-                txt += p.ToString();
+                txt += p.ToString() + Environment.NewLine;
             }
             mtx.ReleaseMutex();
             return txt;
