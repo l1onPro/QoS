@@ -20,11 +20,12 @@ namespace QoS.Class_of_Service.AlgorithmsApp
         /// </summary>
         public WFQ()
         {
-            listQueue = new List<Queuering>(4);
+            int Count = 4;
+            listQueue = new List<Queuering>();
 
-            for (int i = 0; i < listQueue.Count; i++)
+            for (int i = 0; i < Count; i++)
             {
-                listQueue[i] = new Queuering();
+                listQueue.Add(new Queuering());
             }
         }
 
@@ -109,7 +110,7 @@ namespace QoS.Class_of_Service.AlgorithmsApp
 
             for (int i = 0; i < listQueue.Count; i++)
             {
-                if (listQueue[0].Count != 0)
+                if (listQueue[i].Count != 0)
                 {
                     double newWeight = FindWeight(listQueue[i].FirstPackage());
                     if (newWeight < weight)
@@ -155,6 +156,7 @@ namespace QoS.Class_of_Service.AlgorithmsApp
 
         public Queue<Package> GetPackages(int speed)
         {
+            PrintToFile();
             Queue<Package> packages = new Queue<Package>();
 
             int sum = 0;
@@ -162,10 +164,13 @@ namespace QoS.Class_of_Service.AlgorithmsApp
             while (NotNULL())
             {
                 int num = FindNumMinWeight();
-                Package pack = FirstPackage(num);
-                sum += pack.Length;
-                if (sum <= speed) packages.Enqueue(GetPackage(num));
-                else return packages;
+                if (num != -1)
+                {
+                    Package pack = FirstPackage(num);
+                    sum += pack.Length;
+                    if (sum <= speed) packages.Enqueue(GetPackage(num));
+                    else return packages;
+                }               
             }
 
             return packages;
