@@ -12,7 +12,8 @@ namespace QoS.RouterApp
     {
         public SettingFile()
         {
-
+            DeleteDirectory();
+            CreateDirectory();
         }
 
         public void DeleteDirectory()

@@ -53,10 +53,8 @@ namespace QoS.RouterApp
         {       
             genPackage = new GenPackage();
             classification = new Classification();
-            settingFile = new SettingFile(); 
 
-            settingFile.DeleteDirectory();
-            settingFile.CreateDirectory();
+            settingFile = new SettingFile();            
 
             algorithm = new DWRR();
             resultPackage = new Queue<Package>();
