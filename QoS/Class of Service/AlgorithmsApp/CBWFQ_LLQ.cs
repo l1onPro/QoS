@@ -24,13 +24,15 @@ namespace QoS.Class_of_Service.AlgorithmsApp
         /// CBWFQ+LLQ — Low-Latency Queue. 2 типа очереди. между ними работает PQ, внутри второго CBWFQ
         /// </summary>
         public CBWFQ_LLQ()
-        {
-            listQueue = new List<Queuering>(4);
+        {            
             weight = new int[3];
 
-            for (int i = 0; i < listQueue.Count; i++)
+            int Count = 4;
+            listQueue = new List<Queuering>();
+
+            for (int i = 0; i < Count; i++)
             {
-                listQueue[i] = new Queuering();                
+                listQueue.Add(new Queuering());
             }
 
             SetWeight();
@@ -137,6 +139,7 @@ namespace QoS.Class_of_Service.AlgorithmsApp
 
         public Queue<Package> GetPackages(int speed)
         {
+            PrintToFile();
             Queue<Package> packages = new Queue<Package>();
 
             //LQ

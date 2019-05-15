@@ -30,11 +30,12 @@ namespace QoS.Class_of_Service.AlgorithmsApp
         /// </summary>
         public DWRR()
         {
-            listQueue = new List<Queuering>(4);
+            int Count = 4;
+            listQueue = new List<Queuering>();
 
-            for (int i = 0; i < listQueue.Count; i++)
+            for (int i = 0; i < Count; i++)
             {
-                listQueue[i] = new Queuering();
+                listQueue.Add(new Queuering());
             }
 
             SetKvantForAllQueue();
@@ -146,6 +147,7 @@ namespace QoS.Class_of_Service.AlgorithmsApp
 
         public Queue<Package> GetPackages(int speed)
         {
+            PrintToFile();
             Queue<Package> packages = new Queue<Package>();
 
             AddKvantForKreditLine();

@@ -34,11 +34,12 @@ namespace QoS.Class_of_Service.AlgorithmsApp
         /// </summary>
         public CBWFQ()
         {
-            listQueue = new List<Queuering>(8);           
+            int Count = 8;
+            listQueue = new List<Queuering>();           
 
-            for (int i = 0; i < listQueue.Count; i++)
+            for (int i = 0; i < Count; i++)
             {
-                listQueue[i] = new Queuering();
+                listQueue.Add(new Queuering());
             }
 
             //Назначается классам вес.
@@ -160,7 +161,7 @@ namespace QoS.Class_of_Service.AlgorithmsApp
 
         public Queue<Package> GetPackages(int speed)
         {
-            
+            PrintToFile();
             Queue<Package> packages = new Queue<Package>();
 
             for (int i = 0; i < listQueue.Count; i++)

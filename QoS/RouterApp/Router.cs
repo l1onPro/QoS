@@ -58,7 +58,7 @@ namespace QoS.RouterApp
             settingFile.DeleteDirectory();
             settingFile.CreateDirectory();
 
-            algorithm = new WFQ();
+            algorithm = new DWRR();
             resultPackage = new Queue<Package>();
 
             StartTimerGenPackage();
