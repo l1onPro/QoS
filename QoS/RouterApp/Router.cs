@@ -53,7 +53,7 @@ namespace QoS.RouterApp
         {       
             genPackage = new GenPackage();
             classification = new Classification();
-            settingFile = new SettingFile();
+            settingFile = new SettingFile(); 
 
             settingFile.DeleteDirectory();
             settingFile.CreateDirectory();

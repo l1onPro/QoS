@@ -24,7 +24,8 @@ namespace QoS.Class_of_Service
             get { return maxLength; }
             set { if (value > 0 && value < Setting.MaxSizePackage) maxLength = value; }
         }
-        private int curLength;
+        public int CurLength { get; set; }
+
 
         private Queue<Package> packets;
         private Mutex mtx = new Mutex();        
@@ -34,12 +35,14 @@ namespace QoS.Class_of_Service
         {
             this.ID = NexID();
             this.maxLength = Setting.MaxSizeQueuering;
+            CurLength = 0;
             packets = new Queue<Package>();
         }
 
         public Queuering(int maxLength)
         {
             this.ID = NexID();
+            CurLength = 0;
             this.maxLength = maxLength;
             packets = new Queue<Package>();
         }
@@ -52,7 +55,7 @@ namespace QoS.Class_of_Service
         {
             //maxLength - 100%
             //curLength - ?%
-            return curLength * 100 / maxLength;
+            return CurLength * 100 / maxLength;
         }
 
         /// <summary>
@@ -135,7 +138,7 @@ namespace QoS.Class_of_Service
         /// <returns></returns>
         private bool TailDrop(int length)
         {
-            return (maxLength - curLength) <= length;           
+            return (maxLength - CurLength) <= length;           
         }
 
         /// <summary>
@@ -165,6 +168,7 @@ namespace QoS.Class_of_Service
                 if (!TailDrop(p.Length))
                 {
                     packets.Enqueue(p);
+                    CurLength += p.Length;
                     mtx.ReleaseMutex();
                     return true;
                 }
@@ -175,6 +179,7 @@ namespace QoS.Class_of_Service
                 if (!WRED(p))
                 {
                     packets.Enqueue(p);
+                    CurLength += p.Length;
                     mtx.ReleaseMutex();
                     return true;
                 }
@@ -186,6 +191,7 @@ namespace QoS.Class_of_Service
                 if (!TailDrop(p.Length))
                 {
                     packets.Enqueue(p);
+                    CurLength += p.Length;
                     mtx.ReleaseMutex();
                     return true;
                 }                
@@ -204,6 +210,7 @@ namespace QoS.Class_of_Service
             if (NOTNULL())
             {
                 Package p = packets.Dequeue();
+                CurLength -= p.Length;
                 mtx.ReleaseMutex();
                 return p;
             }
@@ -249,10 +256,10 @@ namespace QoS.Class_of_Service
         public override string ToString()
         {
             mtx.WaitOne();
-            string txt = "";
-            foreach(AppPackage.Package p in packets)
+            string txt = info() + "\n";
+            foreach (AppPackage.Package p in packets)
             {
-                txt += p.ToString();
+                txt += p.ToString() + "\n";
             }
             mtx.ReleaseMutex();
             return txt;
@@ -261,13 +268,18 @@ namespace QoS.Class_of_Service
         public string PrintToFile()
         {
             mtx.WaitOne();
-            string txt = "";
+            string txt = info() + Environment.NewLine;
             foreach (AppPackage.Package p in packets)
             {
                 txt += p.ToString() + Environment.NewLine;
             }
             mtx.ReleaseMutex();
             return txt;
+        }
+
+        public string info()
+        {
+            return "Queuering id: " + ID + "  length: " + CurLength + "  max length: " + maxLength;            
         }
     }
 }
