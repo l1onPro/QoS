@@ -138,7 +138,7 @@ namespace QoS.Class_of_Service
         /// <returns></returns>
         private bool TailDrop(int length)
         {
-            return (maxLength - CurLength) <= length;           
+            return CurLength + length > maxLength;           
         }
 
         /// <summary>
@@ -176,7 +176,7 @@ namespace QoS.Class_of_Service
             //применяется WRED
             if (p.CoS == PHB.AF1 || p.CoS == PHB.AF2 || p.CoS == PHB.AF3 || p.CoS == PHB.AF4)
             {
-                if (!WRED(p))
+                if (!WRED(p) && !TailDrop(p.Length))
                 {
                     packets.Enqueue(p);
                     CurLength += p.Length;

@@ -13,6 +13,7 @@ namespace QoS.RouterApp
 {
     class Router
     {
+        readonly int move = 10;
         String filename = @"GenerationPackage.txt";
         String fileNameForResultQueue = @"ResultQueue.txt";
         /// <summary>
@@ -47,7 +48,6 @@ namespace QoS.RouterApp
         /// </summary>
         Queue<Package> resultPackage;
 
-
         SettingFile settingFile;
         public Router()
         {       
@@ -56,7 +56,7 @@ namespace QoS.RouterApp
 
             settingFile = new SettingFile();            
 
-            algorithm = new DWRR();
+            algorithm = new PQ(false);
             resultPackage = new Queue<Package>();
 
             StartTimerGenPackage();
@@ -64,12 +64,12 @@ namespace QoS.RouterApp
         }    
 
         /// <summary>
-        /// Запуск генератора, обновление : 1 мс
+        /// Запуск генератора пакетов, обновление : 1 мс
         /// </summary>
         private void StartTimerGenPackage()
         {
             timerGenPack = new DispatcherTimer();
-            //timerGenPack.Interval = new TimeSpan(0, 0, 0, 0, Setting.Millisecond);
+            timerGenPack.Interval = new TimeSpan(0, 0, 0, 0, move * Setting.Millisecond / 2);
             timerGenPack.Interval = new TimeSpan();
             timerGenPack.Tick += new EventHandler(Addpackage);
             timerGenPack.Tick += new EventHandler(WorkTime);            
@@ -85,12 +85,12 @@ namespace QoS.RouterApp
         }
 
         /// <summary>
-        /// Запуск генератора, обновление : 1 мс
+        /// Запуск алгоритма, обновление : 1 мс
         /// </summary>
         private void StartTimerAlg()
         {
             timerAlg = new DispatcherTimer();
-            timerAlg.Interval = new TimeSpan(0, 0, 0, 0, Setting.Millisecond);
+            timerAlg.Interval = new TimeSpan(0, 0, 0, 0, move * Setting.Millisecond);
             timerAlg.Tick += new EventHandler(Congestion_Management);           
             timerAlg.Start();
         }
