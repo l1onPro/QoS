@@ -47,6 +47,11 @@ namespace QoS.Class_of_Service
             packets = new Queue<Package>();
         }
 
+        public Queue<Package> GetAllPackages()
+        {
+            return packets;
+        }
+
         /// <summary>
         /// Процент заполненности очереди
         /// </summary>
@@ -187,7 +192,7 @@ namespace QoS.Class_of_Service
             //применяется Tail Drop и Head Drop
             if (p.CoS == PHB.DF)
             {
-                HeadDrop();
+                //HeadDrop();
                 if (!TailDrop(p.Length))
                 {
                     packets.Enqueue(p);

@@ -70,9 +70,9 @@
     <Compile Include="Class of Service\Queuering.cs" />
     <Compile Include="Class of Service\Setting.cs" />
     <Compile Include="RouterApp\Huawei.cs" />
+    <Compile Include="RouterApp\MyGraphica.cs" />
     <Compile Include="RouterApp\Router.cs" />
     <Compile Include="RouterApp\SettingFile.cs" />
-    <Compile Include="Test.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

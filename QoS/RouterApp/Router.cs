@@ -6,16 +6,35 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 using System.Windows.Threading;
 
 namespace QoS.RouterApp
 {
     class Router
-    {
-        readonly int move = 10;
+    {        
         String filename = @"GenerationPackage.txt";
         String fileNameForResultQueue = @"ResultQueue.txt";
+
+        MyGraphica Graphica;
+        Mutex mtx = new Mutex();
+        /// <summary>
+        /// частота обновление сек
+        /// </summary>
+        readonly int frequencyUpdate = 1;
+
+        /// <summary>
+        /// Таймер генератора пакетов
+        /// </summary>
+        DispatcherTimer timerGenPack;
+
+        /// <summary>
+        /// Таймер алгоритма
+        /// </summary>
+        DispatcherTimer timerAlg;       
+
         /// <summary>
         /// Генератор пакета
         /// </summary>
@@ -24,17 +43,7 @@ namespace QoS.RouterApp
         /// <summary>
         /// Алготимы диспетчера
         /// </summary>
-        IAlgorithm algorithm;
-
-        /// <summary>
-        /// Таймер генератора пакетов
-        /// </summary>
-        DispatcherTimer timerGenPack;
-        
-        /// <summary>
-        /// Таймер алгоритма
-        /// </summary>
-        DispatcherTimer timerAlg;       
+        IAlgorithm algorithm;    
 
         Random random = new Random();
 
@@ -49,58 +58,40 @@ namespace QoS.RouterApp
         Queue<Package> resultPackage;
 
         SettingFile settingFile;
-        public Router()
-        {       
+
+        public Router(int numAlgorithm, Canvas paint)
+        {
             genPackage = new GenPackage();
             classification = new Classification();
 
-            settingFile = new SettingFile();            
+            settingFile = new SettingFile();
+            Graphica = new MyGraphica(paint);
 
-            algorithm = new PQ(false);
             resultPackage = new Queue<Package>();
-
-            StartTimerGenPackage();
-            StartTimerAlg();
-        }    
-
-        /// <summary>
-        /// Запуск генератора пакетов, обновление : 1 мс
-        /// </summary>
-        private void StartTimerGenPackage()
-        {
-            timerGenPack = new DispatcherTimer();
-            timerGenPack.Interval = new TimeSpan(0, 0, 0, 0, move * Setting.Millisecond / 2);
-            timerGenPack.Interval = new TimeSpan();
-            timerGenPack.Tick += new EventHandler(Addpackage);
-            timerGenPack.Tick += new EventHandler(WorkTime);            
-            timerGenPack.Start();
+            SetAlg(numAlgorithm);
         }
 
-        /// <summary>
-        /// остановка генератора
-        /// </summary>
-        private void StopTimerAlg()
+        public Router()
         {
-            timerAlg.Stop();
+            genPackage = new GenPackage();
+            classification = new Classification();
+
+            settingFile = new SettingFile();
+
+            resultPackage = new Queue<Package>();
+            algorithm = new PQ(false);            
         }
 
-        /// <summary>
-        /// Запуск алгоритма, обновление : 1 мс
-        /// </summary>
-        private void StartTimerAlg()
+        private void SetAlg(int num)
         {
-            timerAlg = new DispatcherTimer();
-            timerAlg.Interval = new TimeSpan(0, 0, 0, 0, move * Setting.Millisecond);
-            timerAlg.Tick += new EventHandler(Congestion_Management);           
-            timerAlg.Start();
-        }
-
-        /// <summary>
-        /// остановка генератора
-        /// </summary>
-        private void StopTimerGenPackage()
-        {
-            timerGenPack.Stop();
+            if (num == 0) algorithm = new FIFO();
+            else if (num == 1) algorithm = new PQ(false);
+            else if (num == 2) algorithm = new PQ(true);
+            else if (num == 3) algorithm = new WFQ();
+            else if (num == 4) algorithm = new CBWFQ();
+            else if (num == 5) algorithm = new CBWFQ_LLQ();
+            else if (num == 6) algorithm = new DWRR();
+            else throw new Exception();            
         }
 
         //с вероятностью 50%
@@ -114,7 +105,7 @@ namespace QoS.RouterApp
             Setting.TimeWork += 1;
         }
 
-        private void Addpackage(object sender, EventArgs e)
+        public void Addpackage(object sender, EventArgs e)
         {
             if (GenerationNext())
             {
@@ -125,8 +116,10 @@ namespace QoS.RouterApp
                 classification.ClassificationPackage(package);
 
                 String path = Setting.Path + "\\" + Setting.Directory + "\\" + filename;
+
                 //вывели в файл инфу
                 File.AppendAllText(path, package.ToString() + Environment.NewLine);
+                //Нарисовали
 
                 //добавить пакет в алгоритм
                 algorithm.Add(package);
@@ -161,6 +154,99 @@ namespace QoS.RouterApp
             {
                 File.AppendAllText(path, package.ToString() + Environment.NewLine);
             }
+        }       
+
+        public List<Queuering> GetQueueringPackages()
+        {
+            List<Queuering> queuerings = algorithm.GetQueueringPackages();
+            if (queuerings != null)
+            {
+                return queuerings;
+            }
+            return null;
         }
+
+        /// <summary>
+        /// Запуск генератора пакетов, обновление : 1 мс
+        /// </summary>
+        private void StartTimerGenPackage()
+        {
+            timerGenPack = new DispatcherTimer();
+            //за 1 сек - 3 пакета
+            timerGenPack.Interval = new TimeSpan(0, 0, 0, 0, frequencyUpdate * 1000 / 3);
+            timerGenPack.Tick += new EventHandler(Addpackage);
+            timerGenPack.Tick += new EventHandler(UpdatePicter);
+            timerGenPack.Start();
+        }
+
+        /// <summary>
+        /// остановка генератора
+        /// </summary>
+        private void StopTimerAlg()
+        {
+            timerAlg.Stop();
+        }
+
+        /// <summary>
+        /// Запуск алгоритма, обновление : 1 мс
+        /// </summary>
+        private void StartTimerAlg()
+        {
+            timerAlg = new DispatcherTimer();
+            timerAlg.Interval = new TimeSpan(0, 0, 0, frequencyUpdate);
+            timerAlg.Tick += new EventHandler(Congestion_Management);
+            timerAlg.Tick += new EventHandler(UpdatePicter);
+            //timerAlg.Tick += new EventHandler(WorkTime);
+            timerAlg.Start();
+        }
+
+        /// <summary>
+        /// остановка генератора
+        /// </summary>
+        private void StopTimerGenPackage()
+        {
+            timerGenPack.Stop();
+        }
+
+        /// <summary>
+        /// Запуск таймеров
+        /// </summary>
+        public void Start()
+        {          
+            StartTimerGenPackage();
+            StartTimerAlg();
+        }
+
+        /// <summary>
+        /// Остановка таймеров
+        /// </summary>
+        public void Stop()
+        {
+            StopTimerGenPackage();
+            StopTimerAlg();
+        }
+
+        /// <summary>
+        /// Обновление экрана отрисовки
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public void UpdatePicter(object sender, EventArgs e)
+        {
+            mtx.WaitOne();
+
+            Graphica.Clear();
+
+            //Начертить очереди
+            int count = algorithm.CountQueuering();
+            Graphica.PaintLineQueues(count);
+
+            //Начертить содержимое очередей
+            List<Queuering> list = algorithm.GetQueueringPackages();
+            if (list != null)
+                Graphica.PaintQueues(list);
+
+            mtx.ReleaseMutex();
+        }                
     }
 }

@@ -28,5 +28,17 @@ namespace QoS.Class_of_Service.AlgorithmsApp
         /// </summary>
         /// <returns></returns>
         bool NotNULL();
+
+        /// <summary>
+        /// Получить очереди
+        /// </summary>
+        /// <returns></returns>
+        List<Queuering> GetQueueringPackages();
+
+        /// <summary>
+        /// Кол-во очередей
+        /// </summary>
+        /// <returns></returns>
+        int CountQueuering();
     }
 }

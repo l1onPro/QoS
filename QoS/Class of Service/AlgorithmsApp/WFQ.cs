@@ -175,5 +175,18 @@ namespace QoS.Class_of_Service.AlgorithmsApp
 
             return packages;
         }
+
+        public List<Queuering> GetQueueringPackages()
+        {
+            if (NotNULL())
+            {
+                return listQueue;
+            }
+            return null;
+        }
+        public int CountQueuering()
+        {
+            return listQueue.Count;
+        }
     }
 }

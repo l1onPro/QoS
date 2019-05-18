@@ -112,7 +112,14 @@ namespace QoS.Class_of_Service.AlgorithmsApp
             File.AppendAllText(path, "------------------------");
             File.AppendAllText(path, Environment.NewLine);
         }
-
+        public List<Queuering> GetQueueringPackages()
+        {
+            if (NotNULL())
+            {
+                return listQueue;
+            }
+            return null;
+        }
         public bool NotNULL()
         {
             foreach (Queuering queue in listQueue)
@@ -179,6 +186,11 @@ namespace QoS.Class_of_Service.AlgorithmsApp
             }
 
             return packages;
+        }
+
+        public int CountQueuering()
+        {
+            return listQueue.Count;
         }
     }
 }

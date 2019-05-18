@@ -5,9 +5,44 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:QoS"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="800" Width="1200">
     <Grid>
-        <TextBox x:Name="Testtxt" HorizontalAlignment="Left" Height="266" Margin="116,29,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="495" MouseMove="Testtxt_MouseMove" Text="Обновяется результат при движении мышки"/>
+        <Grid.Background>
+            <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}"/>
+        </Grid.Background>
+        <Canvas x:Name="Info" HorizontalAlignment="Left" Height="77" VerticalAlignment="Top" Width="236" Margin="946,10,0,0">
+            <Canvas.Background>
+                <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlLightLightColorKey}}"/>
+            </Canvas.Background>
+            <ComboBox x:Name="cmbNumAlgorithm" Width="216" Canvas.Left="10" Canvas.Top="10" SelectedIndex="0">
+                <ComboBoxItem Content="FIFO — First In, First Out" HorizontalAlignment="Left" Width="214"/>
+                <ComboBoxItem Content="PQ — Priority Queuing (4)" HorizontalAlignment="Left" Width="214"/>
+                <ComboBoxItem Content="PQ — Priority Queuing (8)" HorizontalAlignment="Left" Width="214"/>
+                <ComboBoxItem Content="WFQ — Weighted Fair Queuing" HorizontalAlignment="Left" Width="214"/>
+                <ComboBoxItem Content="CBWFQ — Class-Based WFQ" HorizontalAlignment="Left" Width="214"/>
+                <ComboBoxItem Content="CBWFQ+LLQ — Low-Latency Queue" HorizontalAlignment="Left" Width="214"/>
+                <ComboBoxItem Content="DWRR — Deficit Weighted Round Robin" HorizontalAlignment="Left" Width="214"/>
+            </ComboBox>
+            <Button x:Name="btnStart" Content="Start" Width="90" Canvas.Left="10" Canvas.Top="37" Height="25" Click="BtnStart_Click"/>
+            <Button x:Name="btnStop" Content="Stop" Width="90" Canvas.Left="136" Canvas.Top="37" Height="25" Click="BtnStop_Click"/>
+        </Canvas>
+        <Canvas x:Name="paint" HorizontalAlignment="Left" Height="749" VerticalAlignment="Top" Width="1172" Margin="10,10,0,0">
+            <Line X1="1100" Y1="150" X2="10" Y2="150" Stroke="Red" />
+            <Line X1="1100" Y1="210" X2="10" Y2="210" Stroke="Red" />
+            <Line X1="1100" Y1="270" X2="10" Y2="270" Stroke="Red" />
+            <Line X1="1100" Y1="330" X2="10" Y2="330" Stroke="Red" />
+            <Line X1="1100" Y1="390" X2="10" Y2="390" Stroke="Red" />
+            <Line X1="1100" Y1="450" X2="10" Y2="450" Stroke="Red" />
+            <Line X1="1100" Y1="510" X2="10" Y2="510" Stroke="Red" />
+            <Line X1="1100" Y1="570" X2="10" Y2="570" Stroke="Red" />
 
+            <Ellipse Fill="LightBlue" Width="300" Height="50" Canvas.Left="800" Canvas.Top="100" Stroke ="Black"/>
+            <Rectangle Fill="LightBlue" Width="400" Height="50" Canvas.Left="700" Canvas.Top="400" Stroke ="Black"/>
+            <Polygon Fill="LightPink" Points="50, 150, 150, 50, 250, 150" Stroke ="Black" Canvas.Top="120" Canvas.Left="849"/>
+            <Rectangle Fill="LightBlue" Width="400" Height="50" Canvas.Left="300" Canvas.Top="400" Stroke ="Black"/>
+            <Rectangle Fill="LightBlue" Width="400" Height="50" Canvas.Left="300" Canvas.Top="280" Stroke ="Black"/>
+            <Rectangle Fill="LightBlue" Stroke ="Black" Height="50" Canvas.Left="700" Canvas.Top="280" Width="400"/>
+            <Rectangle Fill="LightBlue" Width="400" Height="50" Canvas.Left="700" Canvas.Top="340" Stroke ="Black"/>
+        </Canvas>
     </Grid>
 </Window>

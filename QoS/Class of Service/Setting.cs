@@ -12,6 +12,10 @@ namespace QoS.Class_of_Service
     /// </summary>
     public static class Setting
     {
+        public static int numAlg { get; set; }
+
+        public static int Move { get; } = 60;
+
         /// <summary>
         /// Цикл обновления потоков (1 мс)
         /// </summary>

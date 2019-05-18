@@ -14,7 +14,14 @@ namespace QoS.Class_of_Service.AlgorithmsApp
     class FIFO : IAlgorithm
     {
         private Queuering queue;
-         
+
+        public List<Queuering> GetQueueringPackages()
+        {
+            List<Queuering> queuerings = new List<Queuering>();
+            queuerings.Add(queue);
+            return queuerings;
+        }
+
         /// <summary>
         /// First In, First Out.
         /// Пакеты уходят из очереди ровно в том порядке, в котором они туда попали
@@ -60,6 +67,11 @@ namespace QoS.Class_of_Service.AlgorithmsApp
             }
 
             return packages;
+        }
+
+        public int CountQueuering()
+        {
+            return 1;
         }
     }
 }

@@ -1,7 +1,9 @@
-﻿using System;
+﻿using QoS.RouterApp;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -12,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace QoS
 {
@@ -20,19 +23,53 @@ namespace QoS
     /// </summary>
     public partial class MainWindow : Window
     {
-        Test test = new Test();
+        
+        Router router;
 
         public MainWindow()
         {
             InitializeComponent();
-
-            Testtxt.VerticalScrollBarVisibility = ScrollBarVisibility.Auto;
+            
+            btnStart.IsEnabled = true;
+            btnStop.IsEnabled = false;
+            cmbNumAlgorithm.IsEnabled = true;
         }
-              
-
-        private void Testtxt_MouseMove(object sender, MouseEventArgs e)
+       
+        /// <summary>
+        /// Запуск таймеров
+        /// </summary>
+        public void Start()
         {
-            Testtxt.Text = test.getResult();
+            int numAlg = cmbNumAlgorithm.SelectedIndex;
+            router = new Router(numAlg, paint);
+
+            router.Start();
         }
+
+        /// <summary>
+        /// Остановка таймеров
+        /// </summary>
+        public void Stop()
+        {
+            router.Stop();
+        }        
+
+        private void BtnStart_Click(object sender, RoutedEventArgs e)
+        {
+            btnStart.IsEnabled = false;
+            btnStop.IsEnabled = true;
+            cmbNumAlgorithm.IsEnabled = false;
+
+            Start();
+        }
+
+        private void BtnStop_Click(object sender, RoutedEventArgs e)
+        {
+            btnStart.IsEnabled = true;
+            btnStop.IsEnabled = false;
+            cmbNumAlgorithm.IsEnabled = true;
+
+            Stop();
+        }           
     }
 }
