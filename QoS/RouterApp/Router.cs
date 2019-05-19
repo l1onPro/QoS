@@ -273,7 +273,7 @@ namespace QoS.RouterApp
                 Graphica.PaintQueues(list);
 
             //Начертить содержимое результирующей очереди
-            if (resultPackage != null)
+            if (resultPackage.NOTNULL())
                 Graphica.PaintResultQueue(resultPackage.GetAllPackages());
             
             mtx.ReleaseMutex();
