@@ -174,7 +174,7 @@ namespace QoS.Class_of_Service.AlgorithmsApp
                 {
                     Package pack = FirstPackage(i);
                     sum += pack.Length;
-                    if (sum <= curSpeed) packages.Enqueue(GetPackage(i));
+                    if (sum <= speed) packages.Enqueue(GetPackage(i));
                     else break;
                 }
             }
