@@ -31,7 +31,7 @@ namespace QoS.RouterApp
             Ellipse ellipse = new Ellipse();
             ellipse.Height = 50;
             ellipse.Width = length;
-            ellipse.Fill = Brushes.Blue;
+            ellipse.Fill = Brushes.LightBlue;
             ellipse.Stroke = Brushes.Black;
 
             Canvas.SetLeft(ellipse, x);
@@ -57,6 +57,7 @@ namespace QoS.RouterApp
         private void AddPolygonTriangle(int x, int y, int length)
         {
             Polygon polygon = new Polygon();
+            polygon.Fill = Brushes.LightPink;
             polygon.Stroke = Brushes.Black;
 
             List<Point> points = new List<Point>();
@@ -76,7 +77,7 @@ namespace QoS.RouterApp
             Rectangle rectangle = new Rectangle();
             rectangle.Height = 50;
             rectangle.Width = length;
-            rectangle.Fill = Brushes.Blue;
+            rectangle.Fill = Brushes.LightBlue;
             rectangle.Stroke = Brushes.Black;            
 
             Canvas.SetLeft(rectangle, x);
