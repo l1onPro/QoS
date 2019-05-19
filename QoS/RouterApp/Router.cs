@@ -199,7 +199,7 @@ namespace QoS.RouterApp
         {
             timerGenPack = new DispatcherTimer();
             //за 1 сек - 3 пакета
-            timerGenPack.Interval = new TimeSpan(0, 0, 0, 0, frequencyUpdate * 1000 / 5);
+            timerGenPack.Interval = new TimeSpan(0, 0, 0, 0, frequencyUpdate * 1000 / 10);
             timerGenPack.Tick += new EventHandler(Addpackage);
             timerGenPack.Tick += new EventHandler(UpdatePicter);
             timerGenPack.Start();
