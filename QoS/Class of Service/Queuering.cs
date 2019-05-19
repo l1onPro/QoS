@@ -141,7 +141,7 @@ namespace QoS.Class_of_Service
         /// Отбрасывает прибывший пакет, если нет места. Если True - отбрасывает
         /// </summary>
         /// <returns></returns>
-        private bool TailDrop(int length)
+        public bool TailDrop(int length)
         {
             return CurLength + length > maxLength;           
         }
@@ -204,7 +204,17 @@ namespace QoS.Class_of_Service
             mtx.ReleaseMutex();
             return false;
         }
-     
+        public bool AddPackage(Package p, bool type)
+        {
+            if (!TailDrop(p.Length))
+            {
+                packets.Enqueue(p);
+                CurLength += p.Length;                
+                return true;
+            }
+            return false;
+        }
+
         /// <summary>
         /// Удаляет пакет из начала очереди и возращает его
         /// </summary>

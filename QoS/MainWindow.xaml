@@ -35,6 +35,7 @@
             <Line X1="1100" Y1="450" X2="10" Y2="450" Stroke="Red" />
             <Line X1="1100" Y1="510" X2="10" Y2="510" Stroke="Red" />
             <Line X1="1100" Y1="570" X2="10" Y2="570" Stroke="Red" />
+            <Line X1="1100" Y1="670" X2="10" Y2="670" Stroke="Red" />
 
             <Ellipse Fill="LightBlue" Width="300" Height="50" Canvas.Left="800" Canvas.Top="100" Stroke ="Black"/>
             <Rectangle Fill="LightBlue" Width="400" Height="50" Canvas.Left="700" Canvas.Top="400" Stroke ="Black"/>

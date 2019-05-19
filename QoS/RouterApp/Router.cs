@@ -55,7 +55,7 @@ namespace QoS.RouterApp
         /// <summary>
         /// Результирующий трафик 
         /// </summary>
-        Queue<Package> resultPackage;
+        Queuering resultPackage;
 
         SettingFile settingFile;
 
@@ -67,7 +67,7 @@ namespace QoS.RouterApp
             settingFile = new SettingFile();
             Graphica = new MyGraphica(paint);
 
-            resultPackage = new Queue<Package>();
+            resultPackage = new Queuering();
             SetAlg(numAlgorithm);
         }
 
@@ -78,7 +78,7 @@ namespace QoS.RouterApp
 
             settingFile = new SettingFile();
 
-            resultPackage = new Queue<Package>();
+            resultPackage = new Queuering();
             algorithm = new PQ(false);            
         }
 
@@ -135,19 +135,45 @@ namespace QoS.RouterApp
         {
             Queue<Package> packages = algorithm.GetPackages(Setting.Speed * 1000000);
 
-            foreach (Package pack in packages)
-            {
-                resultPackage.Enqueue(pack);
-            }
+            PrintToFile(packages);
 
-            PrintToFile();
-            resultPackage.Clear();
+            SetResultQueue(packages);
         }
 
         /// <summary>
-        /// Вывод результирующей очереди в файл
+        /// Сформировать последнюю часть результирующей очереди
         /// </summary>
-        private void PrintToFile()
+        /// <param name="packages">Пакеты, полученные из алгоритма</param>
+        private void SetResultQueue(Queue<Package> packages)
+        {
+            foreach (Package pack in packages)
+            {
+                //если нет места
+                GetPlace(pack.Length);
+
+                //добавить пакет
+                resultPackage.AddPackage(pack, true);
+            }
+        }
+
+        /// <summary>
+        /// Очищает очередь для пакета
+        /// </summary>
+        /// <returns></returns>
+        private bool GetPlace(int length)
+        {            
+            while (resultPackage.TailDrop(length))
+            {
+                //очистить нужное место
+                resultPackage.GetPackage();
+            }
+            return true;
+        }
+
+        /// <summary>
+        /// Вывод получившей очереди из алгоритма в файл
+        /// </summary>
+        private void PrintToFile(Queue<Package> resultPackage)
         {
             String path = Setting.Path + "\\" + Setting.Directory + "\\" + fileNameForResultQueue;
             foreach (Package package in resultPackage)
@@ -173,7 +199,7 @@ namespace QoS.RouterApp
         {
             timerGenPack = new DispatcherTimer();
             //за 1 сек - 3 пакета
-            timerGenPack.Interval = new TimeSpan(0, 0, 0, 0, frequencyUpdate * 1000 / 3);
+            timerGenPack.Interval = new TimeSpan(0, 0, 0, 0, frequencyUpdate * 1000 / 5);
             timerGenPack.Tick += new EventHandler(Addpackage);
             timerGenPack.Tick += new EventHandler(UpdatePicter);
             timerGenPack.Start();
@@ -246,7 +272,11 @@ namespace QoS.RouterApp
             if (list != null)
                 Graphica.PaintQueues(list);
 
+            //Начертить содержимое результирующей очереди
+            if (resultPackage != null)
+                Graphica.PaintResultQueue(resultPackage.GetAllPackages());
+            
             mtx.ReleaseMutex();
-        }                
+        }      
     }
 }

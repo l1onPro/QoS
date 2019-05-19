@@ -18,16 +18,19 @@ namespace QoS.RouterApp
         /// поле отрисовки
         /// </summary>
         Canvas paint;     
-        int[] listTop = new int[8] { 150, 210, 270, 330, 390, 450, 510, 570 };
+        int[] listTop = new int[9] { 150, 210, 270, 330, 390, 450, 510, 570, 670 };
         int x0 = 1100;
         int xn = 10;
+
+        int lengthStandart = 10;
+
         public MyGraphica(Canvas paint)
         {            
             this.paint = paint;
         }
 
         private void AddEllipse(int x, int y, int length)
-        {
+        {            
             Ellipse ellipse = new Ellipse();
             ellipse.Height = 50;
             ellipse.Width = length;
@@ -119,7 +122,7 @@ namespace QoS.RouterApp
 
             foreach (Package item in packets)
             {
-                int length = item.Length;
+                int length = item.Length / lengthStandart;
                 x -= length;
 
                 SolidColorBrush colorBrush = new SolidColorBrush();
@@ -168,6 +171,11 @@ namespace QoS.RouterApp
                 PaintQueue(i, item.GetAllPackages());
                 i++;
             }
+        }
+
+        public void PaintResultQueue(Queue<Package> packets)
+        {
+            PaintQueue(8, packets);
         }
 
         public void Clear()

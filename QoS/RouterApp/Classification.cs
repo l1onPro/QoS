@@ -46,11 +46,11 @@ namespace QoS.RouterApp
             switch (color)
             {
                 case GradColor.red:
-                    return random.Next(501, 1500);
+                    return random.Next(1001, 1500);
                 case GradColor.yellow:
-                    return random.Next(151, 500);
+                    return random.Next(501, 1000);
                 case GradColor.green:
-                    return random.Next(150);
+                    return random.Next(100, 500);
                 default:
                     throw new Exception();
             }
