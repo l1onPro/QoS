@@ -42,7 +42,7 @@ namespace QoS.RouterApp
         private void AddRestangle(int x, int y, int length, SolidColorBrush colorBrush )
         {
             Rectangle rectangle = new Rectangle();
-            rectangle.Height = 20;
+            rectangle.Height = 50;
             rectangle.Width = length;
             rectangle.Fill = colorBrush;
             rectangle.Stroke = Brushes.Black;
@@ -74,7 +74,7 @@ namespace QoS.RouterApp
         private void AddRestangle(int x, int y, int length)
         {
             Rectangle rectangle = new Rectangle();
-            rectangle.Height = 20;
+            rectangle.Height = 50;
             rectangle.Width = length;
             rectangle.Fill = Brushes.Blue;
             rectangle.Stroke = Brushes.Black;            
