@@ -11,12 +11,11 @@ namespace QoS.AppPackage
     class Package
     {
         public int ID { get; }
-
         private static int nextID = 1;
                 
         int dscp;
         /// <summary>
-        /// значение DSCP
+        /// значение DSCP (Per-Hop Behavior)
         /// </summary>
         public int DSCP
         {
@@ -38,22 +37,7 @@ namespace QoS.AppPackage
         /// Цвет
         /// </summary>
         public GradColor Color { get; set; }
-
-        int lengthInBit;
-        /// <summary>
-        /// Размер пакета в битах
-        /// </summary>
-        public int LengthInBit
-        {
-            get { return lengthInBit; }
-            set { if (value >= 0) lengthInBit = value; else throw new ArgumentException(); }
-        }
-
-        private void SetBit(int Byte)
-        {
-            LengthInBit = Byte * 8;
-        }
-
+        
         int length;
         /// <summary>
         /// Размер пакета в байтах
@@ -61,7 +45,7 @@ namespace QoS.AppPackage
         public int Length
         {
             get { return length; }
-            set { if (value >= 0) { length = value; SetBit(length); } else throw new ArgumentException(); }
+            set { if (value >= 0) { length = value; } else throw new ArgumentException(); }
         }
 
         public int IP_Precedence { get; set; }
@@ -77,7 +61,7 @@ namespace QoS.AppPackage
         private void StartTimerGenPackage()
         {
             timer = new DispatcherTimer();
-            timer.Interval = new TimeSpan(0, 0, 0, 0, Setting.Millisecond);
+            timer.Interval = new TimeSpan(0, 0, 0, Setting.frequencyUpdate);
             timer.Tick += new EventHandler(TimeWork);
             timer.Start();
         }
@@ -93,36 +77,23 @@ namespace QoS.AppPackage
         private void TimeWork(object sender, EventArgs e)
         {
             TimeWait += 1; //в мс
-        }
-
-        /// <summary>
-        /// Создание пакета
-        /// </summary>
-        /// <param name="DSCP"></param>
-        public Package(int DSCP)
-        {
-            this.ID = NexID();
-            this.DSCP = DSCP;
-
-            TimeWait = 0;
-            StartTimerGenPackage();
-        }
+        }   
 
         public Package(int DSCP, int length)
         {
             this.ID = NexID();
             this.DSCP = DSCP;
-            Length = length;
+            this.Length = length;
 
             TimeWait = 0;
             StartTimerGenPackage();
         }
 
-        private static int NexID() { return nextID++; }
+        private static int NexID() { return nextID++; }  
 
         public override string ToString()
         {
-            return "id: " + ID + "  DSCP: " + DSCP + "  CoS: " + CoS + "  Color: " + Color + "  Length: " + Length + " байт" + "  Length: " + LengthInBit + " Бит" + "  IP_Precedence: " + IP_Precedence;   
-        }        
+            return "id: " + ID + "  DSCP: " + DSCP + "  CoS: " + CoS + "  Color: " + Color + "  Length: " + Length + " байт" + " IP_Precedence: " + IP_Precedence;   
+        } 
     }
 }

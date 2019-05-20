@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using QoS.AppPackage;
+using QoS.RouterApp;
 
 namespace QoS.Class_of_Service.AlgorithmsApp
 {
@@ -86,19 +87,7 @@ namespace QoS.Class_of_Service.AlgorithmsApp
         /// </summary>
         private void PrintToFile()
         {
-            String path = Setting.Path + "\\" + Setting.Directory + "\\" + Setting.FileNameQueuering;
-
-            foreach (Queuering queue in listQueue)
-            {
-                File.AppendAllText(path, queue.ID + ":" + Environment.NewLine);
-                if (queue.NOTNULL())
-                {
-                    File.AppendAllText(path, queue.PrintToFile() + Environment.NewLine);
-                }
-            }
-
-            File.AppendAllText(path, "------------------------");
-            File.AppendAllText(path, Environment.NewLine);
+            SettingFile.PrintToFileListQueuering(listQueue);
         }
         /// <summary>
         /// Возвращает первый пакет выбранной очереди и удаляет из учереди

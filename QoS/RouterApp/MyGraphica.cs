@@ -49,8 +49,8 @@ namespace QoS.RouterApp
             rectangle.Width = length;
             rectangle.Fill = colorBrush;
             rectangle.Stroke = Brushes.Black;
-            rectangle.RadiusX = 15;
-            rectangle.RadiusY= 15;            
+            rectangle.RadiusX = 5;
+            rectangle.RadiusY= 5;            
 
             Canvas.SetLeft(rectangle, x);
             Canvas.SetTop(rectangle, y);
@@ -64,9 +64,9 @@ namespace QoS.RouterApp
             polygon.Stroke = Brushes.Black;
 
             List<Point> points = new List<Point>();
-            points.Add(new Point(x, y));
-            points.Add(new Point((x + x + length) / 2, y + 25));
-            points.Add(new Point(x + length, y));
+            points.Add(new Point(0, 50));
+            points.Add(new Point(length / 2, 0));
+            points.Add(new Point(length, 50));
             
             polygon.Points = new PointCollection(points);
 
@@ -122,6 +122,8 @@ namespace QoS.RouterApp
 
             foreach (Package item in packets)
             {
+                if (item == null) break;
+
                 int length = item.Length / lengthStandart;
                 x -= length;
 
@@ -168,7 +170,8 @@ namespace QoS.RouterApp
             int i = 0;
             foreach (Queuering item in list)
             {
-                PaintQueue(i, item.GetAllPackages());
+                if (item.NOTNULL())
+                    PaintQueue(i, item.GetAllPackages());
                 i++;
             }
         }

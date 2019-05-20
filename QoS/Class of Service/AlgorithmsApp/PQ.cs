@@ -1,4 +1,5 @@
 ﻿using QoS.AppPackage;
+using QoS.RouterApp;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -84,19 +85,7 @@ namespace QoS.Class_of_Service.AlgorithmsApp
         /// </summary>
         private void PrintToFile()
         {
-            String path = Setting.Path + "\\" + Setting.Directory + "\\" + Setting.FileNameQueuering;
-
-            foreach (Queuering queue in listQueue)
-            {
-                File.AppendAllText(path, queue.ID + ":" + Environment.NewLine);
-                if (queue.NOTNULL())
-                {
-                    File.AppendAllText(path, queue.PrintToFile() + Environment.NewLine);                    
-                }                    
-            }            
-            
-            File.AppendAllText(path, "------------------------");
-            File.AppendAllText(path, Environment.NewLine);
+            SettingFile.PrintToFileListQueuering(listQueue);
         }
 
         public bool NotNULL()

@@ -1,4 +1,5 @@
 ﻿using QoS.AppPackage;
+using QoS.RouterApp;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -47,9 +48,7 @@ namespace QoS.Class_of_Service.AlgorithmsApp
         /// </summary>
         private void PrintToFile()
         {
-            String path = Setting.Path + "\\" + Setting.Directory + "\\" + Setting.FileNameQueuering;
-
-            File.AppendAllText(path, queue.ID + " " + queue.PrintToFile() + Environment.NewLine);           
+            SettingFile.PrintToFileQueuering(queue);                 
         }
 
         public Queue<Package> GetPackages(int speed)

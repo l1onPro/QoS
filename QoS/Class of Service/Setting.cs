@@ -12,6 +12,11 @@ namespace QoS.Class_of_Service
     /// </summary>
     public static class Setting
     {
+        /// <summary>
+        /// частота обновление сек
+        /// </summary>
+        public static int frequencyUpdate { get; }  = 1;
+
         public static int numAlg { get; set; }
 
         public static int Move { get; } = 60;
@@ -74,8 +79,6 @@ namespace QoS.Class_of_Service
             set { if (value > 0) waitTime = value; }
         }
 
-        public static String Path { get; } = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-        public static String Directory { get; } = @"QoS info";
-        public static String FileNameQueuering { get; } = @"Queuering.txt";
+        
     }
 }

@@ -21,7 +21,7 @@ namespace QoS.RouterApp
         /// значения DSCP будут транслироваться в соответствующие им значения Service-Class
         /// </summary>
         /// <param name="DSCP"></param>
-        public PHB GetServiceClass(int DSCP)
+        public static PHB GetServiceClass(int DSCP)
         {
             if (DSCP >= 0 && DSCP <= 8) return PHB.DF;
             if (DSCP == 8) return PHB.AF1;
@@ -72,7 +72,7 @@ namespace QoS.RouterApp
         /// значения DSCP будут транслироваться в соответствующие им Color
         /// </summary>
         /// <param name="DSCP"></param>
-        public GradColor GetColor(int DSCP)
+        public static GradColor GetColor(int DSCP)
         {
             if (DSCP >= 0 && DSCP <= 11) return GradColor.green;
             if (DSCP == 12) return GradColor.yellow;
@@ -95,7 +95,13 @@ namespace QoS.RouterApp
             throw new Exception();
         }
 
-        public int getDSCP(PHB secviceClass, GradColor color)
+        /// <summary>
+        /// Маркировка пакетов на выходе
+        /// </summary>
+        /// <param name="secviceClass"></param>
+        /// <param name="color"></param>
+        /// <returns></returns>
+        public static int getDSCP(PHB secviceClass, GradColor color)
         {
             switch (secviceClass)
             {
@@ -160,7 +166,12 @@ namespace QoS.RouterApp
             }
         }
 
-        public int GetIPPrecedence(PHB secviceClass)
+        /// <summary>
+        /// Маркировка пакетов
+        /// </summary>
+        /// <param name="secviceClass"></param>
+        /// <returns></returns>
+        public static int GetIPPrecedence(PHB secviceClass)
         {
             switch (secviceClass)
             {
@@ -185,7 +196,12 @@ namespace QoS.RouterApp
             }
         }
 
-        public PHB GetServiceClassByIp(int Ip)
+        /// <summary>
+        /// Маркировка пакета на входе по ip
+        /// </summary>
+        /// <param name="Ip"></param>
+        /// <returns></returns>
+        public static PHB GetServiceClassByIp(int Ip)
         {
             if (Ip == 0) return PHB.DF;
             if (Ip == 1) return PHB.AF1;
@@ -199,7 +215,12 @@ namespace QoS.RouterApp
             throw new Exception();
         }
 
-        public GradColor GetColorByIp(int Ip)
+        /// <summary>
+        /// Маркировка пакетов по цвету по ip
+        /// </summary>
+        /// <param name="Ip"></param>
+        /// <returns></returns>
+        public static GradColor GetColorByIp(int Ip)
         {
             return GradColor.green;
         }

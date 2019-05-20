@@ -14,16 +14,9 @@ using System.Windows.Threading;
 namespace QoS.RouterApp
 {
     class Router
-    {        
-        String filename = @"GenerationPackage.txt";
-        String fileNameForResultQueue = @"ResultQueue.txt";
-
+    { 
         MyGraphica Graphica;
-        Mutex mtx = new Mutex();
-        /// <summary>
-        /// частота обновление сек
-        /// </summary>
-        readonly int frequencyUpdate = 1;
+        Mutex mtx = new Mutex();      
 
         /// <summary>
         /// Таймер генератора пакетов
@@ -45,12 +38,7 @@ namespace QoS.RouterApp
         /// </summary>
         IAlgorithm algorithm;    
 
-        Random random = new Random();
-
-        /// <summary>
-        /// Маркировка пакетов
-        /// </summary>
-        Classification classification;
+        Random random = new Random();       
 
         /// <summary>
         /// Результирующий трафик 
@@ -59,11 +47,19 @@ namespace QoS.RouterApp
 
         SettingFile settingFile;
 
+        /// <summary>
+        /// Указывает, что запускаем пример
+        /// </summary>
+        public bool ItExample { get; set; } = false;
+
+        /// <summary>
+        /// Имитация роутера
+        /// </summary>
+        /// <param name="numAlgorithm">Номер алгоритма</param>
+        /// <param name="paint">Место отрисовки</param>
         public Router(int numAlgorithm, Canvas paint)
         {
-            genPackage = new GenPackage();
-            classification = new Classification();
-
+            genPackage = new GenPackage(); 
             settingFile = new SettingFile();
             Graphica = new MyGraphica(paint);
 
@@ -71,17 +67,24 @@ namespace QoS.RouterApp
             SetAlg(numAlgorithm);
         }
 
-        public Router()
+        /// <summary>
+        /// Имитация роутера
+        /// </summary>
+        /// <param name="paint">Место отрисовки</param>
+        public Router(Canvas paint)
         {
-            genPackage = new GenPackage();
-            classification = new Classification();
-
+            genPackage = new GenPackage(); 
             settingFile = new SettingFile();
+            Graphica = new MyGraphica(paint);
 
             resultPackage = new Queuering();
             algorithm = new PQ(false);            
         }
 
+        /// <summary>
+        /// Установить алгоритм
+        /// </summary>
+        /// <param name="num"></param>
         private void SetAlg(int num)
         {
             if (num == 0) algorithm = new FIFO();
@@ -94,12 +97,17 @@ namespace QoS.RouterApp
             else throw new Exception();            
         }
 
-        //с вероятностью 50%
+        //с вероятностью 50% 
         private bool GenerationNext()
         {
             return random.NextDouble() <= 0.5;
         }
 
+        /// <summary>
+        /// Имитация работы программы
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void WorkTime(object sender, EventArgs e)
         {
             Setting.TimeWork += 1;
@@ -107,20 +115,22 @@ namespace QoS.RouterApp
 
         public void Addpackage(object sender, EventArgs e)
         {
-            if (GenerationNext())
+            //если тест, то заполнять готовыми пакетами
+            if (ItExample)
+            {
+
+            }
+            else if (GenerationNext())
             {
                 //получили пакет
                 Package package = genPackage.New();
 
                 //отправили на маркировку
-                classification.ClassificationPackage(package);
-
-                String path = Setting.Path + "\\" + Setting.Directory + "\\" + filename;
+                Classification.ClassificationPackage(package);
 
                 //вывели в файл инфу
-                File.AppendAllText(path, package.ToString() + Environment.NewLine);
-                //Нарисовали
-
+                SettingFile.PrintToFile(SettingFile.pathForGenerationPackage, package.ToString());                
+               
                 //добавить пакет в алгоритм
                 algorithm.Add(package);
             }
@@ -174,11 +184,10 @@ namespace QoS.RouterApp
         /// Вывод получившей очереди из алгоритма в файл
         /// </summary>
         private void PrintToFile(Queue<Package> resultPackage)
-        {
-            String path = Setting.Path + "\\" + Setting.Directory + "\\" + fileNameForResultQueue;
+        {           
             foreach (Package package in resultPackage)
             {
-                File.AppendAllText(path, package.ToString() + Environment.NewLine);
+                SettingFile.PrintToFile(SettingFile.pathForQueuerings, package.ToString());               
             }
         }       
 
@@ -199,7 +208,7 @@ namespace QoS.RouterApp
         {
             timerGenPack = new DispatcherTimer();
             //за 1 сек - 3 пакета
-            timerGenPack.Interval = new TimeSpan(0, 0, 0, 0, frequencyUpdate * 1000 / 10);
+            timerGenPack.Interval = new TimeSpan(0, 0, 0, 0, Setting.frequencyUpdate * 1000 / 10);
             timerGenPack.Tick += new EventHandler(Addpackage);
             timerGenPack.Tick += new EventHandler(UpdatePicter);
             timerGenPack.Start();
@@ -219,7 +228,7 @@ namespace QoS.RouterApp
         private void StartTimerAlg()
         {
             timerAlg = new DispatcherTimer();
-            timerAlg.Interval = new TimeSpan(0, 0, 0, frequencyUpdate);
+            timerAlg.Interval = new TimeSpan(0, 0, 0, Setting.frequencyUpdate);
             timerAlg.Tick += new EventHandler(Congestion_Management);
             timerAlg.Tick += new EventHandler(UpdatePicter);
             //timerAlg.Tick += new EventHandler(WorkTime);
@@ -263,7 +272,7 @@ namespace QoS.RouterApp
 
             Graphica.Clear();
 
-            //Начертить очереди
+            //Начертить границы очередей
             int count = algorithm.CountQueuering();
             Graphica.PaintLineQueues(count);
 

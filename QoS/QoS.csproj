@@ -63,9 +63,7 @@
     <Compile Include="RouterApp\Classification.cs" />
     <Compile Include="AppPackage\DSCPName.cs" />
     <Compile Include="AppPackage\GenPackage.cs" />
-    <Compile Include="AppPackage\GenTypePackage.cs" />
     <Compile Include="AppPackage\GradColor.cs" />
-    <Compile Include="AppPackage\TypePakage.cs" />
     <Compile Include="Class of Service\AlgorithmsApp\IAlgorithm.cs" />
     <Compile Include="Class of Service\Queuering.cs" />
     <Compile Include="Class of Service\Setting.cs" />

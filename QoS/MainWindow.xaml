@@ -39,7 +39,7 @@
 
             <Ellipse Fill="LightBlue" Width="300" Height="50" Canvas.Left="800" Canvas.Top="100" Stroke ="Black"/>
             <Rectangle Fill="LightBlue" Width="400" Height="50" Canvas.Left="700" Canvas.Top="400" Stroke ="Black"/>
-            <Polygon Fill="LightPink" Points="50, 150, 150, 50, 250, 150" Stroke ="Black" Canvas.Top="120" Canvas.Left="849"/>
+            <Polygon Fill="LightPink" Points="0, 50, 100, 0, 200, 50" Stroke ="Black" Canvas.Top="215" Canvas.Left="897"/>
             <Rectangle Fill="LightBlue" Width="400" Height="50" Canvas.Left="300" Canvas.Top="400" Stroke ="Black"/>
             <Rectangle Fill="LightBlue" Width="400" Height="50" Canvas.Left="300" Canvas.Top="280" Stroke ="Black"/>
             <Rectangle Fill="LightBlue" Stroke ="Black" Height="50" Canvas.Left="700" Canvas.Top="280" Width="400"/>
