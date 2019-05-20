@@ -48,7 +48,7 @@ namespace QoS.Class_of_Service.AlgorithmsApp
         /// </summary>
         private void SetKvantForAllQueue()
         {
-            kvant = new int[4] { 1600, 1400, 1200, 1000 };           
+            kvant = new int[4] { 1600, 1400, 1200, 1200 };           
         }
 
         /// <summary>
