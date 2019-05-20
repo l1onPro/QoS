@@ -22,7 +22,7 @@ namespace QoS.Class_of_Service
         public int MaxLength
         {
             get { return maxLength; }
-            set { if (value > 0 && value < Setting.MaxSizePackage) maxLength = value; }
+            set { if (value >= Setting.MinConstSizeQueuering && value <= Setting.MaxConstSizeQueuering) maxLength = value; else throw new Exception(); }
         }
         public int CurLength { get; set; }
 
@@ -34,7 +34,7 @@ namespace QoS.Class_of_Service
         public Queuering()
         {
             this.ID = NexID();
-            this.maxLength = Setting.MaxSizeQueuering;
+            this.maxLength = Setting.CurSizeQueuering;
             CurLength = 0;
             packets = new Queue<Package>();
         }

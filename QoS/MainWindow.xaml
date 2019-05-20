@@ -5,12 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:QoS"
         mc:Ignorable="d"
-        Title="MainWindow" Height="800" Width="1200">
+        Title="MainWindow" Height="800" Width="1300">
     <Grid>
         <Grid.Background>
             <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}"/>
         </Grid.Background>
-        <Canvas x:Name="Info" HorizontalAlignment="Left" Height="77" VerticalAlignment="Top" Width="236" Margin="946,10,0,0">
+        <Canvas x:Name="Info" HorizontalAlignment="Left" Height="337" VerticalAlignment="Top" Width="236" Margin="1046,10,0,0">
             <Canvas.Background>
                 <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlLightLightColorKey}}"/>
             </Canvas.Background>
@@ -25,25 +25,25 @@
             </ComboBox>
             <Button x:Name="btnStart" Content="Start" Width="90" Canvas.Left="10" Canvas.Top="37" Height="25" Click="BtnStart_Click"/>
             <Button x:Name="btnStop" Content="Stop" Width="90" Canvas.Left="136" Canvas.Top="37" Height="25" Click="BtnStop_Click"/>
+            <StackPanel x:Name="stackPanelSetting" Height="150" Canvas.Left="10" Canvas.Top="67" Width="216">
+                <Label>Размер отображения пакетов:</Label>
+                <RadioButton x:Name="rdbSizeBig" GroupName="sizePackage" Content="Большой размер" IsChecked="True" />
+                <RadioButton x:Name="rdbSizeAverage" GroupName="sizePackage" Content="Средний размер" />
+                <RadioButton x:Name="rdbSizeSmall" GroupName="sizePackage" Content="Маленький размер" />
+                <Label>Нагруженность сети:</Label>
+                <RadioButton x:Name="rdbLoadingBig" GroupName="networkLoad" Content="Большая"  />
+                <RadioButton x:Name="rdbLoadingAvarage" GroupName="networkLoad" Content="Средняя" />
+                <RadioButton x:Name="rdbLoadingSmall" GroupName="networkLoad" Content="Маленькая" IsChecked="True"/>                
+            </StackPanel>
+            <Label Content="Максимальная длина очереди (байт):" Canvas.Left="10" Canvas.Top="222"/>
+            <TextBox x:Name="txtSizeQueue" Height="23" Canvas.Left="10" TextWrapping="Wrap" Text="10000" Canvas.Top="248" Width="120"/>
+            <Label Content="Скорость пропускания (байт/мс):" Canvas.Left="10" Canvas.Top="276"/>
+            <TextBox x:Name="txtSpeed" Height="23" Canvas.Left="10" TextWrapping="Wrap" Text="3000" Canvas.Top="302" Width="120"/>
+            <Button x:Name="btnChangeForSizeQueue" Content="Change" Width="90" Canvas.Left="136" Canvas.Top="246" Height="25" Click="BtnChangeForSizeQueue_Click"/>
+            <Button x:Name="btnChangeForSpeed" Content="Change" Width="90" Canvas.Left="136" Canvas.Top="300" Height="25" Click="BtnChangeForSpeed_Click"/>
         </Canvas>
-        <Canvas x:Name="paint" HorizontalAlignment="Left" Height="749" VerticalAlignment="Top" Width="1172" Margin="10,10,0,0">
-            <Line X1="1100" Y1="150" X2="10" Y2="150" Stroke="Red" />
-            <Line X1="1100" Y1="210" X2="10" Y2="210" Stroke="Red" />
-            <Line X1="1100" Y1="270" X2="10" Y2="270" Stroke="Red" />
-            <Line X1="1100" Y1="330" X2="10" Y2="330" Stroke="Red" />
-            <Line X1="1100" Y1="390" X2="10" Y2="390" Stroke="Red" />
-            <Line X1="1100" Y1="450" X2="10" Y2="450" Stroke="Red" />
-            <Line X1="1100" Y1="510" X2="10" Y2="510" Stroke="Red" />
-            <Line X1="1100" Y1="570" X2="10" Y2="570" Stroke="Red" />
-            <Line X1="1100" Y1="670" X2="10" Y2="670" Stroke="Red" />
+        <Canvas x:Name="paint" HorizontalAlignment="Left" Height="749" VerticalAlignment="Top" Width="1272" Margin="10,10,0,0">
 
-            <Ellipse Fill="LightBlue" Width="300" Height="50" Canvas.Left="800" Canvas.Top="100" Stroke ="Black"/>
-            <Rectangle Fill="LightBlue" Width="400" Height="50" Canvas.Left="700" Canvas.Top="400" Stroke ="Black"/>
-            <Polygon Fill="LightPink" Points="0, 50, 100, 0, 200, 50" Stroke ="Black" Canvas.Top="215" Canvas.Left="897"/>
-            <Rectangle Fill="LightBlue" Width="400" Height="50" Canvas.Left="300" Canvas.Top="400" Stroke ="Black"/>
-            <Rectangle Fill="LightBlue" Width="400" Height="50" Canvas.Left="300" Canvas.Top="280" Stroke ="Black"/>
-            <Rectangle Fill="LightBlue" Stroke ="Black" Height="50" Canvas.Left="700" Canvas.Top="280" Width="400"/>
-            <Rectangle Fill="LightBlue" Width="400" Height="50" Canvas.Left="700" Canvas.Top="340" Stroke ="Black"/>
         </Canvas>
     </Grid>
 </Window>

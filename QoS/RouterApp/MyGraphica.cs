@@ -17,22 +17,47 @@ namespace QoS.RouterApp
         /// <summary>
         /// поле отрисовки
         /// </summary>
-        Canvas paint;     
-        int[] listTop = new int[9] { 150, 210, 270, 330, 390, 450, 510, 570, 670 };
-        int x0 = 1100;
-        int xn = 10;
+        Canvas paint;
+        int[] listTop; //{ 150, 210, 270, 330, 390, 450, 510, 570, 670 };
+        int x0 = 1010;
+        int xn = 1010 - Setting.CurSizeQueuering / 10;
+
+        int Height = Setting.SizePaint;
 
         int lengthStandart = 10;
 
         public MyGraphica(Canvas paint)
         {            
             this.paint = paint;
+            SetTop();
+        }
+
+        private void SetTop()
+        {
+            listTop = new int[10];
+
+            int start = 150;
+            int lineIndent = 10;
+
+            //для 8 очередей
+            for (int i = 0; i < 8; i++)
+            {
+                listTop[i] = start;
+                start += Height + lineIndent;
+            }
+
+            //для генератора пакетов
+            listTop[8] = 150 - Height - 10;
+
+            //для результирующей
+            start += Height - lineIndent;
+            listTop[9] = start;
         }
 
         private void AddEllipse(int x, int y, int length)
         {            
             Ellipse ellipse = new Ellipse();
-            ellipse.Height = 50;
+            ellipse.Height = Height;
             ellipse.Width = length;
             ellipse.Fill = Brushes.LightBlue;
             ellipse.Stroke = Brushes.Black;
@@ -45,7 +70,7 @@ namespace QoS.RouterApp
         private void AddRestangle(int x, int y, int length, SolidColorBrush colorBrush )
         {
             Rectangle rectangle = new Rectangle();
-            rectangle.Height = 50;
+            rectangle.Height = Height;
             rectangle.Width = length;
             rectangle.Fill = colorBrush;
             rectangle.Stroke = Brushes.Black;
@@ -64,9 +89,9 @@ namespace QoS.RouterApp
             polygon.Stroke = Brushes.Black;
 
             List<Point> points = new List<Point>();
-            points.Add(new Point(0, 50));
+            points.Add(new Point(0, Height));
             points.Add(new Point(length / 2, 0));
-            points.Add(new Point(length, 50));
+            points.Add(new Point(length, Height));
             
             polygon.Points = new PointCollection(points);
 
@@ -78,7 +103,7 @@ namespace QoS.RouterApp
         private void AddRestangle(int x, int y, int length)
         {
             Rectangle rectangle = new Rectangle();
-            rectangle.Height = 50;
+            rectangle.Height = Height;
             rectangle.Width = length;
             rectangle.Fill = Brushes.LightBlue;
             rectangle.Stroke = Brushes.Black;            
@@ -118,7 +143,7 @@ namespace QoS.RouterApp
         private void PaintQueue(int i, Queue<Package> packets)
         {
             int x = x0;
-            int y = listTop[i] - 50;
+            int y = listTop[i] - Height;
 
             foreach (Package item in packets)
             {
@@ -178,7 +203,7 @@ namespace QoS.RouterApp
 
         public void PaintResultQueue(Queue<Package> packets)
         {
-            PaintQueue(8, packets);
+            PaintQueue(9, packets);
         }
 
         public void Clear()

@@ -83,7 +83,7 @@ namespace QoS.Class_of_Service.AlgorithmsApp
         /// <returns></returns>
         private double FindWeight(Package package)
         {
-            return (package.Length / Setting.Speed) / (1.0 + package.IP_Precedence);
+            return (package.Length / Setting.CurSpeed) / (1.0 + package.IP_Precedence);
         }
 
         /// <summary>

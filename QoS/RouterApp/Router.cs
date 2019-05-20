@@ -63,7 +63,7 @@ namespace QoS.RouterApp
             settingFile = new SettingFile();
             Graphica = new MyGraphica(paint);
 
-            resultPackage = new Queuering();
+            resultPackage = new Queuering(Setting.MaxConstSizeQueuering);
             SetAlg(numAlgorithm);
         }
 
@@ -143,7 +143,7 @@ namespace QoS.RouterApp
         /// <param name="e"></param>
         public void Congestion_Management(object sender, EventArgs e)
         {
-            Queue<Package> packages = algorithm.GetPackages(Setting.Speed * 1000000);
+            Queue<Package> packages = algorithm.GetPackages(Setting.CurSpeed);
 
             PrintToFile(packages);
 
@@ -208,7 +208,7 @@ namespace QoS.RouterApp
         {
             timerGenPack = new DispatcherTimer();
             //за 1 сек - 3 пакета
-            timerGenPack.Interval = new TimeSpan(0, 0, 0, 0, Setting.frequencyUpdate * 1000 / 10);
+            timerGenPack.Interval = new TimeSpan(0, 0, 0, 0, Setting.frequencyUpdate * 1000 / Setting.TypeFrequencyGenPack);
             timerGenPack.Tick += new EventHandler(Addpackage);
             timerGenPack.Tick += new EventHandler(UpdatePicter);
             timerGenPack.Start();

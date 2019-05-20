@@ -45,7 +45,7 @@ namespace QoS.AppPackage
         public int Length
         {
             get { return length; }
-            set { if (value >= 0) { length = value; } else throw new ArgumentException(); }
+            set { if (value >= Setting.MinSizePackage && value <= Setting.MaxSizePackage) { length = value; } else throw new ArgumentException(); }
         }
 
         public int IP_Precedence { get; set; }

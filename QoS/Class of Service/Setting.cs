@@ -17,14 +17,23 @@ namespace QoS.Class_of_Service
         /// </summary>
         public static int frequencyUpdate { get; }  = 1;
 
-        public static int numAlg { get; set; }
-
-        public static int Move { get; } = 60;
+        static int typeFrequencyGenPack = 10;
+        public static int TypeFrequencyGenPack
+        {
+            get { return typeFrequencyGenPack; }
+            set
+            {
+                if (value == 0) typeFrequencyGenPack = 30;
+                else if (value == 1) typeFrequencyGenPack = 20;
+                else if (value == 2) typeFrequencyGenPack = 10;
+                else throw new Exception();
+            }
+        }
 
         /// <summary>
-        /// Цикл обновления потоков (1 мс)
+        /// Номер алгоритма
         /// </summary>
-        public static int Millisecond { get; } = 100;
+        public static int numAlg { get; set; }       
 
         /// <summary>
         /// Максимальный размер пакета в байтах
@@ -34,30 +43,60 @@ namespace QoS.Class_of_Service
         /// <summary>
         /// Минимальный размер пакета в байтах
         /// </summary>
-        public static int MinSizePackage { get; } = 46;
+        public static int MinSizePackage { get; } = 100;
 
         /// <summary>
-        /// в байтах
+        /// Максимальный размер очереди (в байтах)
         /// </summary>
-        static int maxSizeQueuering = 10000;
+        public static int MaxConstSizeQueuering { get; } = 10000;
         /// <summary>
-        /// Максимальный размер очереди
+        /// Минимальный размер очереди (в байтах)
         /// </summary>
-        public static int MaxSizeQueuering
-        {
-            get { return maxSizeQueuering; }
-            set { if (value > 0) maxSizeQueuering = value; }
-        }       
-               
-        static int speed = 100;
+        public static int MinConstSizeQueuering { get; } = 3000;
+
+        //по умолчанию 10000 (в байтах)
+        static int curSizeQueuering = MaxConstSizeQueuering;
         /// <summary>
-        /// Скорость интерфейса (мегабит в секунду)
+        /// Текущий максимальный размер очереди (в байтах)
         /// </summary>
-        public static int Speed
+        public static int CurSizeQueuering
         {
-            get { return speed; }
-            set { if (value > 0) speed = value; }
-        }     
+            get { return curSizeQueuering; }
+            set { if (value >= MinConstSizeQueuering && value <= MaxConstSizeQueuering) curSizeQueuering = value; else throw new Exception(); }
+        }
+
+        /// <summary>
+        /// Максимально допустимая скорость пропуская (в байтах)
+        /// </summary>
+        public static int MaxConstSpeed { get; } = 15000;
+        /// <summary>
+        /// Минимально допустимая скорость пропускаие (в байтах)
+        /// </summary>
+        public static int MinConstSpeed { get; } = 3000;
+
+        //по умолчанию 10000
+        static int curSpeed = MaxConstSpeed;
+        /// <summary>
+        /// Текущий максимальный размер очереди
+        /// </summary>
+        public static int CurSpeed
+        {
+            get { return curSpeed; }
+            set { if (value >= MinConstSpeed && value <= MaxConstSpeed) curSpeed = value; else throw new Exception(); }
+        }
+
+        static int sizePaint = 50;
+        public static int SizePaint
+        {
+            get { return sizePaint; }
+            set
+            {
+                if (value == 0) sizePaint = 50;
+                else if (value == 1) sizePaint = 40;
+                else if(value == 2) sizePaint = 30;
+                else throw new Exception();
+            }
+        }
 
         /// <summary>
         /// Максимальная задержка пакета
@@ -70,7 +109,7 @@ namespace QoS.Class_of_Service
         }
 
         /// <summary>
-        /// Текущее время работы
+        /// Текущее время работы моделирования
         /// </summary>
         static int timeWork;
         public static int TimeWork
@@ -78,7 +117,5 @@ namespace QoS.Class_of_Service
             get { return waitTime; }
             set { if (value > 0) waitTime = value; }
         }
-
-        
     }
 }
