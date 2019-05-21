@@ -61,11 +61,11 @@ namespace QoS.RouterApp
         /// </summary>
         /// <param name="numAlgorithm">Номер алгоритма</param>
         /// <param name="paint">Место отрисовки</param>
-        public Router(int numAlgorithm, Canvas paint)
+        public Router(int numAlgorithm, Canvas paint, Canvas info)
         {
             genPackage = new GenPackage(); 
             settingFile = new SettingFile();
-            Graphica = new MyGraphica(paint);
+            Graphica = new MyGraphica(paint, info);
 
             resultPackage = new Queuering(Setting.MaxConstSizeQueuering);
             StartPackage = new Queuering(Setting.MaxConstSizeQueuering);
@@ -76,11 +76,11 @@ namespace QoS.RouterApp
         /// Имитация роутера
         /// </summary>
         /// <param name="paint">Место отрисовки</param>
-        public Router(Canvas paint)
+        public Router(Canvas paint, Canvas info)
         {
             genPackage = new GenPackage(); 
             settingFile = new SettingFile();
-            Graphica = new MyGraphica(paint);
+            Graphica = new MyGraphica(paint, info);
 
             resultPackage = new Queuering(Setting.MaxConstSizeQueuering);
             StartPackage = new Queuering(Setting.MaxConstSizeQueuering);

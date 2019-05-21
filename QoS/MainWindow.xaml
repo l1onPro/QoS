@@ -33,7 +33,7 @@
                 <Label>Нагруженность сети:</Label>
                 <RadioButton x:Name="rdbLoadingBig" GroupName="networkLoad" Content="Большая"  />
                 <RadioButton x:Name="rdbLoadingAvarage" GroupName="networkLoad" Content="Средняя" />
-                <RadioButton x:Name="rdbLoadingSmall" GroupName="networkLoad" Content="Маленькая" IsChecked="True"/>                
+                <RadioButton x:Name="rdbLoadingSmall" GroupName="networkLoad" Content="Маленькая" IsChecked="True"/>
             </StackPanel>
             <Label Content="Максимальная длина очереди (байт):" Canvas.Left="10" Canvas.Top="222"/>
             <TextBox x:Name="txtSizeQueue" Height="23" Canvas.Left="10" TextWrapping="Wrap" Text="10000" Canvas.Top="248" Width="120"/>
@@ -42,8 +42,8 @@
             <Button x:Name="btnChangeForSizeQueue" Content="Change" Width="90" Canvas.Left="136" Canvas.Top="246" Height="25" Click="BtnChangeForSizeQueue_Click"/>
             <Button x:Name="btnChangeForSpeed" Content="Change" Width="90" Canvas.Left="136" Canvas.Top="300" Height="25" Click="BtnChangeForSpeed_Click"/>
         </Canvas>
+        <Canvas x:Name="paintInfo" Height="404" Canvas.Left="1037" Canvas.Top="345" Margin="1046,355,10,10"/>
         <Canvas x:Name="paint" HorizontalAlignment="Left" Height="749" VerticalAlignment="Top" Width="1272" Margin="10,10,0,0">
-
         </Canvas>
     </Grid>
 </Window>

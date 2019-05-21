@@ -41,8 +41,7 @@ namespace QoS
         public void Start()
         {
             int numAlg = cmbNumAlgorithm.SelectedIndex;
-            router = new Router(numAlg, paint);
-
+            router = new Router(numAlg, paint, paintInfo);
             router.Start();
         }
 
