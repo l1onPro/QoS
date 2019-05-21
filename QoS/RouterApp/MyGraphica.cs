@@ -206,6 +206,11 @@ namespace QoS.RouterApp
             PaintQueue(9, packets);
         }
 
+        public void PaintStartQueue(Queue<Package> packets)
+        {
+            PaintQueue(8, packets);
+        }
+
         public void Clear()
         {
             paint.Children.Clear();

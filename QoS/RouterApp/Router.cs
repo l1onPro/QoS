@@ -44,6 +44,10 @@ namespace QoS.RouterApp
         /// Результирующий трафик 
         /// </summary>
         Queuering resultPackage;
+        /// <summary>
+        /// Генерирующийся трафик 
+        /// </summary>
+        Queuering StartPackage;
 
         SettingFile settingFile;
 
@@ -64,6 +68,7 @@ namespace QoS.RouterApp
             Graphica = new MyGraphica(paint);
 
             resultPackage = new Queuering(Setting.MaxConstSizeQueuering);
+            StartPackage = new Queuering(Setting.MaxConstSizeQueuering);
             SetAlg(numAlgorithm);
         }
 
@@ -77,7 +82,8 @@ namespace QoS.RouterApp
             settingFile = new SettingFile();
             Graphica = new MyGraphica(paint);
 
-            resultPackage = new Queuering();
+            resultPackage = new Queuering(Setting.MaxConstSizeQueuering);
+            StartPackage = new Queuering(Setting.MaxConstSizeQueuering);
             algorithm = new PQ(false);            
         }
 
@@ -113,6 +119,19 @@ namespace QoS.RouterApp
             Setting.TimeWork += 1;
         }
 
+        /// <summary>
+        /// Сформировать стартовую очередь
+        /// </summary>
+        /// <param name="packages">Сгенерированные пакеты</param>
+        private void SetStartQueue(Package package)
+        {
+            //если нет места
+            GetPlace(package.Length, StartPackage);
+
+            //добавить пакет
+            StartPackage.AddPackage(package, true);
+        }
+
         public void Addpackage(object sender, EventArgs e)
         {
             //если тест, то заполнять готовыми пакетами
@@ -129,8 +148,10 @@ namespace QoS.RouterApp
                 Classification.ClassificationPackage(package);
 
                 //вывели в файл инфу
-                SettingFile.PrintToFile(SettingFile.pathForGenerationPackage, package.ToString());                
-               
+                SettingFile.PrintToFile(SettingFile.pathForGenerationPackage, package.ToString());
+
+                SetStartQueue(package);
+
                 //добавить пакет в алгоритм
                 algorithm.Add(package);
             }
@@ -159,7 +180,7 @@ namespace QoS.RouterApp
             foreach (Package pack in packages)
             {
                 //если нет места
-                GetPlace(pack.Length);
+                GetPlace(pack.Length, resultPackage);
 
                 //добавить пакет
                 resultPackage.AddPackage(pack, true);
@@ -170,12 +191,12 @@ namespace QoS.RouterApp
         /// Очищает очередь для пакета
         /// </summary>
         /// <returns></returns>
-        private bool GetPlace(int length)
+        private bool GetPlace(int length, Queuering Packages)
         {            
-            while (resultPackage.TailDrop(length))
+            while (Packages.TailDrop(length))
             {
                 //очистить нужное место
-                resultPackage.GetPackage();
+                Packages.GetPackage();
             }
             return true;
         }
@@ -275,6 +296,10 @@ namespace QoS.RouterApp
             //Начертить границы очередей
             int count = algorithm.CountQueuering();
             Graphica.PaintLineQueues(count);
+
+            //начертить начальную очередь
+            if (StartPackage.NOTNULL())
+                Graphica.PaintStartQueue(StartPackage.GetAllPackages());
 
             //Начертить содержимое очередей
             List<Queuering> list = algorithm.GetQueueringPackages();
