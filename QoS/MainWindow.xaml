@@ -5,12 +5,16 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:QoS"
         mc:Ignorable="d"
-        Title="MainWindow" Height="800" Width="1300">
+        Title="MainWindow" Height="800" Width="1300" MaxHeight="800" MaxWidth="1300">
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="233*"/>
+            <ColumnDefinition Width="90*"/>
+        </Grid.ColumnDefinitions>
         <Grid.Background>
             <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}"/>
         </Grid.Background>
-        <Canvas x:Name="Info" HorizontalAlignment="Left" Height="337" VerticalAlignment="Top" Width="236" Margin="1046,10,0,0">
+        <Canvas x:Name="Info" HorizontalAlignment="Left" Height="337" VerticalAlignment="Top" Width="236" Margin="114,10,0,0" Grid.Column="1">
             <Canvas.Background>
                 <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlLightLightColorKey}}"/>
             </Canvas.Background>
@@ -42,8 +46,8 @@
             <Button x:Name="btnChangeForSizeQueue" Content="Change" Width="90" Canvas.Left="136" Canvas.Top="246" Height="25" Click="BtnChangeForSizeQueue_Click"/>
             <Button x:Name="btnChangeForSpeed" Content="Change" Width="90" Canvas.Left="136" Canvas.Top="300" Height="25" Click="BtnChangeForSpeed_Click"/>
         </Canvas>
-        <Canvas x:Name="paintInfo" Height="404" Canvas.Left="1037" Canvas.Top="345" Margin="1046,355,10,10"/>
-        <Canvas x:Name="paint" HorizontalAlignment="Left" Height="749" VerticalAlignment="Top" Width="1272" Margin="10,10,0,0">
+        <Canvas x:Name="paintInfo" Height="404" Margin="114,355,10,10" Grid.Column="1"/>
+        <Canvas x:Name="paint" HorizontalAlignment="Left" Height="749" VerticalAlignment="Top" Width="1272" Margin="10,10,0,0" Grid.ColumnSpan="2">
         </Canvas>
     </Grid>
 </Window>
