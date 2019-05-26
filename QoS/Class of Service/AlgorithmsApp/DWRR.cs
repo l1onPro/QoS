@@ -170,7 +170,9 @@ namespace QoS.Class_of_Service.AlgorithmsApp
                 }
             }
 
-            return packages;
+            if (packages.Count != 0)
+                return packages;
+            else return null;
         }
 
         public bool NotNULL()

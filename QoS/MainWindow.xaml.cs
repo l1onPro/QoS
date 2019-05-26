@@ -53,7 +53,7 @@ namespace QoS
             router.Stop();
         }        
 
-        private void BtnStart_Click(object sender, RoutedEventArgs e)
+        private void SetSettingForStart()
         {
             btnStart.IsEnabled = false;
             btnStop.IsEnabled = true;
@@ -65,7 +65,16 @@ namespace QoS
             txtSizeQueue.IsEnabled = false;
             txtSpeed.IsEnabled = false;
 
-            SetSetting();
+            btnExample1.IsEnabled = false;
+            btnExample2.IsEnabled = false;
+            btnExample3.IsEnabled = false;
+
+            SetSetting();           
+        }
+
+        private void BtnStart_Click(object sender, RoutedEventArgs e)
+        {
+            SetSettingForStart();
             Start();
         }
 
@@ -102,6 +111,10 @@ namespace QoS
             btnChangeForSpeed.IsEnabled = true;
             txtSizeQueue.IsEnabled = true;
             txtSpeed.IsEnabled = true;
+
+            btnExample1.IsEnabled = true;
+            btnExample2.IsEnabled = true;
+            btnExample3.IsEnabled = true;
 
             Stop();
         }
@@ -145,5 +158,24 @@ namespace QoS
                 MessageBox.Show("Не удалось выполнить: " + ex.Message, "Ошибка изменения скорости пропускания", MessageBoxButton.OK, MessageBoxImage.Error);                
             }
         }
+
+        private void BtnExample1_Click(object sender, RoutedEventArgs e)
+        {
+            SetSettingForStart();
+            router = new Router(0, paint, paintInfo, 0);
+            router.Start();
+        }
+
+        private void BtnExample2_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void BtnExample3_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+
     }
 }

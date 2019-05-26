@@ -11,7 +11,7 @@ namespace QoS.AppPackage
     class Package
     {
         public int ID { get; }
-        private static int nextID = 1;
+        public static int nextID = 1;
                 
         int dscp;
         /// <summary>
@@ -86,7 +86,12 @@ namespace QoS.AppPackage
             this.Length = length;
 
             TimeWait = 0;
-            StartTimerGenPackage();
+            //StartTimerGenPackage();
+        }
+
+        public Package()
+        {
+
         }
 
         private static int NexID() { return nextID++; }  

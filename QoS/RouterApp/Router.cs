@@ -49,44 +49,58 @@ namespace QoS.RouterApp
         /// </summary>
         Queuering StartPackage;
 
+        List<PackageTest> packageStartTests;
+        int curNumStartPackageTest;
+
+        List<Queuering> packageResultTests;
+        int curNumResultPackageTest;
+
         SettingFile settingFile;
 
         /// <summary>
         /// Указывает, что запускаем пример
         /// </summary>
-        public bool ItExample { get; set; } = false;
-
+        public bool ItExample { get; set; }
+        private int numAlgorithm;
         /// <summary>
         /// Имитация роутера
         /// </summary>
         /// <param name="numAlgorithm">Номер алгоритма</param>
         /// <param name="paint">Место отрисовки</param>
-        public Router(int numAlgorithm, Canvas paint, Canvas info)
+        /// <param name="info">Место отрисовки информации</param>
+        /// <param name="numTest">Номер теста, если -1 - не тест</param>
+        public Router(int numAlgorithm, Canvas paint, Canvas info, int numTest = -1)
         {
             genPackage = new GenPackage(); 
             settingFile = new SettingFile();
             Graphica = new MyGraphica(paint, info);
 
+            Package.nextID = 0;
+            curNumStartPackageTest = 0;
+            curNumResultPackageTest = 0;
+
+            if (numTest == -1) ItExample = false;
+            else ItExample = true;
+
+            this.numAlgorithm = numAlgorithm;
+
             resultPackage = new Queuering(Setting.MaxConstSizeQueuering);
-            StartPackage = new Queuering(Setting.MaxConstSizeQueuering);
+            StartPackage = new Queuering(Setting.MaxConstSizeQueuering); 
+
+            if (ItExample)
+            {
+                packageStartTests = SettingFile.GetExample(numTest);
+                packageResultTests = new List<Queuering>();
+
+                /*for (int i = 0; i < 7; i++)
+                {
+                    packageResultTests.Add(new Queuering(Setting.MaxConstSizeQueuering));
+                }*/
+            }
+
             SetAlg(numAlgorithm);
         }
-
-        /// <summary>
-        /// Имитация роутера
-        /// </summary>
-        /// <param name="paint">Место отрисовки</param>
-        public Router(Canvas paint, Canvas info)
-        {
-            genPackage = new GenPackage(); 
-            settingFile = new SettingFile();
-            Graphica = new MyGraphica(paint, info);
-
-            resultPackage = new Queuering(Setting.MaxConstSizeQueuering);
-            StartPackage = new Queuering(Setting.MaxConstSizeQueuering);
-            algorithm = new PQ(false);            
-        }
-
+     
         /// <summary>
         /// Установить алгоритм
         /// </summary>
@@ -134,16 +148,29 @@ namespace QoS.RouterApp
 
         public void Addpackage(object sender, EventArgs e)
         {
+            bool run = false;
+            Package package = new Package();
+
             //если тест, то заполнять готовыми пакетами
             if (ItExample)
             {
+                package = genPackage.New(packageStartTests[curNumStartPackageTest].DSCP, packageStartTests[curNumStartPackageTest].Length);                
 
+                if (packageStartTests[curNumStartPackageTest].Delay != -1)
+                    timerGenPack.Interval = new TimeSpan(0, 0, 0, 0, Setting.frequencyUpdate * 1000 / packageStartTests[curNumStartPackageTest].Delay);
+                else timerGenPack.Stop();
+                run = true;
+                curNumStartPackageTest++;
             }
             else if (GenerationNext())
             {
                 //получили пакет
-                Package package = genPackage.New();
+                package = genPackage.New();
+                run = true;                
+            }
 
+            if (run)
+            {
                 //отправили на маркировку
                 Classification.ClassificationPackage(package);
 
@@ -154,7 +181,7 @@ namespace QoS.RouterApp
 
                 //добавить пакет в алгоритм
                 algorithm.Add(package);
-            }
+            }           
         }
 
         /// <summary>
@@ -166,9 +193,32 @@ namespace QoS.RouterApp
         {
             Queue<Package> packages = algorithm.GetPackages(Setting.CurSpeed);
 
-            PrintToFile(packages);
+            if (packages == null && !timerGenPack.IsEnabled && !ItExample) timerAlg.Stop();
 
-            SetResultQueue(packages);
+            if (packages != null)
+            {
+                PrintToFile(packages);
+
+                SetResultQueue(packages);
+            }          
+
+            if (curNumStartPackageTest >= packageStartTests.Count - 1 && !timerGenPack.IsEnabled && packages == null)
+            {
+                ++numAlgorithm;
+                if (numAlgorithm < 7)
+                {
+                    timerGenPack.Start();
+                    SetAlg(numAlgorithm);
+                    curNumStartPackageTest = 0;
+                    StartPackage.Clear();
+                }    
+
+                //запоминаем окончательные очереди
+                packageResultTests.Add(resultPackage);
+                resultPackage = new Queuering(Setting.MaxConstSizeQueuering);
+
+                curNumResultPackageTest++;                
+            }           
         }
 
         /// <summary>
@@ -208,7 +258,7 @@ namespace QoS.RouterApp
         {           
             foreach (Package package in resultPackage)
             {
-                SettingFile.PrintToFile(SettingFile.pathForQueuerings, package.ToString());               
+                SettingFile.PrintToFile(SettingFile.pathForResultQueue, package.ToString());               
             }
         }       
 
@@ -228,7 +278,7 @@ namespace QoS.RouterApp
         private void StartTimerGenPackage()
         {
             timerGenPack = new DispatcherTimer();
-            //за 1 сек - 3 пакета
+            //за 1 сек - TypeFrequencyGenPack пакетов
             timerGenPack.Interval = new TimeSpan(0, 0, 0, 0, Setting.frequencyUpdate * 1000 / Setting.TypeFrequencyGenPack);
             timerGenPack.Tick += new EventHandler(Addpackage);
             timerGenPack.Tick += new EventHandler(UpdatePicter);
@@ -303,8 +353,15 @@ namespace QoS.RouterApp
 
             //Начертить содержимое очередей
             List<Queuering> list = algorithm.GetQueueringPackages();
-            if (list != null)
+            if (numAlgorithm > 6 && !timerGenPack.IsEnabled)
+            {                
+                //Вывод всех результирующих очередей на экран
+                Graphica.PaintQueues(packageResultTests);
+                timerAlg.Stop();
+            }
+            else if (list != null)
                 Graphica.PaintQueues(list);
+
 
             //Начертить содержимое результирующей очереди
             if (resultPackage.NOTNULL())

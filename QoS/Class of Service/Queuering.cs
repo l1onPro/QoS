@@ -13,7 +13,7 @@ namespace QoS.Class_of_Service
     {
         public int ID { get; }
 
-        private static int nextID = 0;
+        public static int nextID = 0;
 
         private static int NexID() { return nextID++; }
 
@@ -295,6 +295,12 @@ namespace QoS.Class_of_Service
         public string info()
         {
             return "Queuering id: " + ID + "  length: " + CurLength + "  max length: " + maxLength;            
+        }
+
+        public void Clear()
+        {
+            CurLength = 0;
+            packets = new Queue<Package>();
         }
     }
 }

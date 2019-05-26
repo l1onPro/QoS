@@ -55,6 +55,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="AppPackage\PackageTest.cs" />
     <Compile Include="Class of Service\AlgorithmsApp\CBWFQ.cs" />
     <Compile Include="Class of Service\AlgorithmsApp\CBWFQ_LLQ.cs" />
     <Compile Include="Class of Service\AlgorithmsApp\DWRR.cs" />

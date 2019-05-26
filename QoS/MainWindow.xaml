@@ -14,7 +14,7 @@
         <Grid.Background>
             <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}"/>
         </Grid.Background>
-        <Canvas x:Name="Info" HorizontalAlignment="Left" Height="337" VerticalAlignment="Top" Width="236" Margin="114,10,0,0" Grid.Column="1">
+        <Canvas x:Name="Info" HorizontalAlignment="Left" Height="362" VerticalAlignment="Top" Width="236" Margin="114,10,0,0" Grid.Column="1">
             <Canvas.Background>
                 <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlLightLightColorKey}}"/>
             </Canvas.Background>
@@ -45,8 +45,11 @@
             <TextBox x:Name="txtSpeed" Height="23" Canvas.Left="10" TextWrapping="Wrap" Text="3000" Canvas.Top="302" Width="120"/>
             <Button x:Name="btnChangeForSizeQueue" Content="Change" Width="90" Canvas.Left="136" Canvas.Top="246" Height="25" Click="BtnChangeForSizeQueue_Click"/>
             <Button x:Name="btnChangeForSpeed" Content="Change" Width="90" Canvas.Left="136" Canvas.Top="300" Height="25" Click="BtnChangeForSpeed_Click"/>
+            <Button x:Name="btnExample1" Content="Example 1" Width="65" Canvas.Left="10" Canvas.Top="330" Height="25" Click="BtnExample1_Click"/>
+            <Button x:Name="btnExample2" Content="Example 2" Width="65" Canvas.Left="85" Canvas.Top="330" Height="25" Click="BtnExample2_Click"/>
+            <Button x:Name="btnExample3" Content="Example 3" Width="65" Canvas.Left="161" Canvas.Top="330" Height="25" Click="BtnExample3_Click"/>
         </Canvas>
-        <Canvas x:Name="paintInfo" Height="404" Margin="114,355,10,10" Grid.Column="1"/>
+        <Canvas x:Name="paintInfo" Margin="114,372,10,10" Grid.Column="1"/>
         <Canvas x:Name="paint" HorizontalAlignment="Left" Height="749" VerticalAlignment="Top" Width="1272" Margin="10,10,0,0" Grid.ColumnSpan="2">
         </Canvas>
     </Grid>

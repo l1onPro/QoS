@@ -143,8 +143,9 @@ namespace QoS.Class_of_Service.AlgorithmsApp
                 if (sum <= speed) packages.Enqueue(GetPackage(num));
                 else return packages;                
             }
-
-            return packages;
+            if (packages.Count != 0)
+                return packages;
+            else return null; return packages;
         }
 
         public List<Queuering> GetQueueringPackages()
