@@ -191,34 +191,51 @@ namespace QoS.RouterApp
         /// <param name="e"></param>
         public void Congestion_Management(object sender, EventArgs e)
         {
-            Queue<Package> packages = algorithm.GetPackages(Setting.CurSpeed);
-
-            if (packages == null && !timerGenPack.IsEnabled && !ItExample) timerAlg.Stop();
-
-            if (packages != null)
+            Queue<Package> packages;
+            if (ItExample)
             {
-                PrintToFile(packages);
+                packages = algorithm.GetPackages(Setting.CurSpeed);
 
-                SetResultQueue(packages);
-            }          
+                //if (packages == null && !timerGenPack.IsEnabled) timerAlg.Stop();
 
-            if (curNumStartPackageTest >= packageStartTests.Count - 1 && !timerGenPack.IsEnabled && packages == null)
-            {
-                ++numAlgorithm;
-                if (numAlgorithm < 7)
+                if (packages != null)
                 {
-                    timerGenPack.Start();
-                    SetAlg(numAlgorithm);
-                    curNumStartPackageTest = 0;
-                    StartPackage.Clear();
-                }    
+                    PrintToFile(packages);
 
-                //запоминаем окончательные очереди
-                packageResultTests.Add(resultPackage);
-                resultPackage = new Queuering(Setting.MaxConstSizeQueuering);
+                    SetResultQueue(packages);
+                }
 
-                curNumResultPackageTest++;                
-            }           
+                if (curNumStartPackageTest >= packageStartTests.Count - 1 && !timerGenPack.IsEnabled && packages == null)
+                {
+                    ++numAlgorithm;
+                    if (numAlgorithm < 7)
+                    {
+                        timerGenPack.Start();
+                        SetAlg(numAlgorithm);
+                        curNumStartPackageTest = 0;
+                        StartPackage.Clear();
+                    }
+
+                    //запоминаем окончательные очереди
+                    packageResultTests.Add(resultPackage);
+                    resultPackage = new Queuering(Setting.MaxConstSizeQueuering);
+
+                    curNumResultPackageTest++;
+                }                
+            }
+            else
+            {
+                packages = algorithm.GetPackages(Setting.CurSpeed);
+
+                if (packages == null && !timerGenPack.IsEnabled) timerAlg.Stop();
+
+                if (packages != null)
+                {
+                    PrintToFile(packages);
+
+                    SetResultQueue(packages);
+                }
+            }
         }
 
         /// <summary>
